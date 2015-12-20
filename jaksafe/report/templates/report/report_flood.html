@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load i18n humanize report_filters %}
+
+{% block title %}{{ page_title }}{{ block.super }}{% endblock %}
+
+{% block extra_header %}
+<link href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% if errors %}
+<div class="alert alert-danger" role="alert">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {% for error in errors %}
+        {% trans error %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <span class="sr-only">Success:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'info' %}
+    <div class="alert alert-info" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <span class="sr-only">Info:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div id="heading" id="" class="row mb-20">
+    <div class="col-md-12">
+        <h3>{{ page_title }}</h3>
+    </div>
+</div>
+
+<div id="filter" class="row mb-20">
+    <div class="col-md-12">
+        <p><strong>{% trans "Select the date period to filter reports" %}</strong></p>
+        <form method="post" action="{% url "report_flood" %}" class="form-inline">
+            <div class="form-group">
+                <div class="input-group date datetimepicker" id="t0">
+                    <input name="t0" type="text" class="form-control" placeholder="{% trans "Report Date Start" %}">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="t1">&nbsp;&nbsp;&mdash;&nbsp;&nbsp;</label>
+                <div class="input-group date datetimepicker" id="t1">
+                    <input name="t1" type="text" class="form-control" placeholder="{% trans "Report Date End" %}">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <button type="submit" class="btn btn-default">{% trans "Filter" %}</button>
+        </form>
+    </div>
+</div>
+
+<div id="content" class="row mb-20">
+    <div class="col-md-12">
+        {% if fl_event %}
+        
+        {% if page == 0 and records_left > 0 %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}?page={{ page|add:1 }}">{% trans "Next" %} <span aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="{{ request.path }}?page={{ page_total }}">{% trans "Last" %}</a></li>
+            </ul>
+        </nav>
+        {% elif page > 0 and records_left > 0 %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}">{% trans "First" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:-1 }}"><span aria-hidden="true">&larr;</span> {% trans "Previous" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:1 }}">{% trans "Next" %} <span aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="{{ request.path }}?page={{ page_total }}">{% trans "Last" %}</a></li>
+            </ul>
+        </nav>
+        {% elif page > 0 and records_left < records_per_page %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}">{% trans "First" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:-1 }}"><span aria-hidden="true">&larr;</span> {% trans "Previous" %}</a></li>
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% if records_per_page %}
+        <p class="text-center"> {{ offset|add:1 }}-{% if records_left <= 0 %}{{ offset|add:records_per_page|add:records_left }}{% else %}{{ offset|add:records_per_page }}{% endif %} / {{ records_total }}</p>
+        {% endif %}
+        
+        <table class="table table-striped table-hover table-condensed">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>{% trans "Unit" %}</th>
+                    <th>{% trans "Village" %}</th>
+                    <th>{% trans "District" %}</th>
+                    <th>{% trans "RT" %}</th>
+                    <th>{% trans "RW" %}</th>
+                    <th>{% trans "Depth" %}</th>
+                    <th>{% trans "Report Time" %}</th>
+                    <th>{% trans "Request Time" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fl in fl_event %}
+                <tr>
+                    <td>
+                    {% if records_per_page %}
+                    {{ page|multiply:records_per_page|add:forloop.counter }}.
+                    {% else %}
+                    {{ forloop.counter }}.
+                    {% endif %}
+                    </td>
+                    <td>{{ fl.unit }}</td>
+                    <td>{{ fl.village }}</td>
+                    <td>{{ fl.district }}</td>
+                    <td>{{ fl.rt }}</td>
+                    <td>{{ fl.rw }}</td>
+                    <td>{{ fl.depth }}</td>
+                    <td>{{ fl.report_time|date:'Y-m-d H:i:s' }}</td>
+                    <td>{{ fl.request_time|date:'Y-m-d H:i:s' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% if records_per_page %}
+        <p class="text-center"> {{ offset|add:1 }}-{% if records_left <= 0 %}{{ offset|add:records_per_page|add:records_left }}{% else %}{{ offset|add:records_per_page }}{% endif %} / {{ records_total }}</p>
+        {% endif %}
+        
+        {% if page == 0 and records_left > 0 %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}?page={{ page|add:1 }}">{% trans "Next" %} <span aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="{{ request.path }}?page={{ page_total }}">{% trans "Last" %}</a></li>
+            </ul>
+        </nav>
+        {% elif page > 0 and records_left > 0 %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}">{% trans "First" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:-1 }}"><span aria-hidden="true">&larr;</span> {% trans "Previous" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:1 }}">{% trans "Next" %} <span aria-hidden="true">&rarr;</span></a></li>
+                <li><a href="{{ request.path }}?page={{ page_total }}">{% trans "Last" %}</a></li>
+            </ul>
+        </nav>
+        {% elif page > 0 and records_left < records_per_page %}
+        <nav>
+            <ul class="pager">
+                <li><a href="{{ request.path }}">{% trans "First" %}</a></li>
+                <li><a href="{{ request.path }}?page={{ page|add:-1 }}"><span aria-hidden="true">&larr;</span> {% trans "Previous" %}</a></li>
+            </ul>
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <p class="text-center">{% trans "No results found. Try again later." %}</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+<script src="{{ STATIC_URL }}js/moment.min.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-datetimepicker.min.js"></script>
+{% endblock %}

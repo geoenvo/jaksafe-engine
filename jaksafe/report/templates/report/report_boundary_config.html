@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }}{{ block.super }}{% endblock %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block content %}
+{% if errors %}
+<div class="alert alert-danger" role="alert">
+    <a href="javascript:void(0);" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {% for error in errors %}
+        {% trans error %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if successes %}
+<div class="alert alert-success" role="alert">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    <span class="sr-only">Success:</span>
+    {% for success in successes %}
+        {% trans success %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <span class="sr-only">Success:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div id="heading" id="" class="row mb-20">
+    <div class="col-md-12">
+        <h3>{{ page_title }}</h3>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" action="{% url "report_boundary_config" %}">
+
+<div class="row mb-20">
+    <div class="col-md-6">
+        <p><strong>{% trans "Upload Boundary SHP File" %}</strong>{% if shp_download_url %} <a class="btn btn-default" href="{{ shp_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ form.boundary_shp_file.label_tag }} {{ form.boundary_shp_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ form.non_field_errors }}
+            {{ form.boundary_shp_file.errors }}
+            
+            <input id="id_boundary_shp_file" name="boundary_shp_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Boundary SHX File" %}</strong>{% if shx_download_url %} <a class="btn btn-default" href="{{ shx_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ form.boundary_shx_file.label_tag }} {{ form.boundary_shx_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ form.non_field_errors }}
+            {{ form.boundary_shx_file.errors }}
+            
+            <input id="id_boundary_shx_file" name="boundary_shx_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Boundary DBF File" %}</strong>{% if dbf_download_url %} <a class="btn btn-default" href="{{ dbf_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ form.boundary_dbf_file.label_tag }} {{ form.boundary_dbf_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ form.non_field_errors }}
+            {{ form.boundary_dbf_file.errors }}
+            
+            <input id="id_boundary_dbf_file" name="boundary_dbf_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Boundary PRJ File" %}</strong>{% if prj_download_url %} <a class="btn btn-default" href="{{ prj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ form.boundary_prj_file.label_tag }} {{ form.boundary_prj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ form.non_field_errors }}
+            {{ form.boundary_prj_file.errors }}
+            
+            <input id="id_boundary_prj_file" name="boundary_prj_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Boundary QPJ File" %}</strong>{% if qpj_download_url %} <a class="btn btn-default" href="{{ qpj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ form.boundary_qpj_file.label_tag }} {{ form.boundary_qpj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ form.non_field_errors }}
+            {{ form.boundary_qpj_file.errors }}
+            
+            <input id="id_boundary_qpj_file" name="boundary_qpj_file" type="file">
+        </div>
+        
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <button type="submit" class="btn btn-default pull-right">{% trans "Upload All" %}</button>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block extra_footer %}
+{% endblock %}

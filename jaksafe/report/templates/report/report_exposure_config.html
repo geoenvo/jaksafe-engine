@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ page_title }}{{ block.super }}{% endblock %}
+
+{% block extra_header %}
+{% endblock %}
+
+{% block content %}
+{% if errors %}
+<div class="alert alert-danger" role="alert">
+    <a href="javascript:void(0);" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {% for error in errors %}
+        {% trans error %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if successes %}
+<div class="alert alert-success" role="alert">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+    <span class="sr-only">Success:</span>
+    {% for success in successes %}
+        {% trans success %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <span class="sr-only">Success:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+<div id="heading" id="" class="row mb-20">
+    <div class="col-md-12">
+        <h3>{{ page_title }}</h3>
+    </div>
+</div>
+
+<form method="post" enctype="multipart/form-data" action="{% url "report_exposure_config" %}">
+
+<div class="row mb-20">
+    <div class="col-md-6">
+        <p><strong>{% trans "Upload Building Exposure SHP File" %}</strong>{% if building_exposure_shp_download_url %} <a class="btn btn-default" href="{{ building_exposure_shp_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ building_exposure_form.building_exposure_shp_file.label_tag }} {{ building_exposure_form.building_exposure_shp_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ building_exposure_form.non_field_errors }}
+            {{ building_exposure_form.building_exposure_shp_file.errors }}
+            
+            <input id="id_building_exposure_shp_file" name="building_exposure_shp_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Building Exposure SHX File" %}</strong>{% if building_exposure_shx_download_url %} <a class="btn btn-default" href="{{ building_exposure_shx_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ building_exposure_form.building_exposure_shx_file.label_tag }} {{ building_exposure_form.building_exposure_shx_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ building_exposure_form.non_field_errors }}
+            {{ building_exposure_form.building_exposure_shx_file.errors }}
+            
+            <input id="id_building_exposure_shx_file" name="building_exposure_shx_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Building Exposure DBF File" %}</strong>{% if building_exposure_dbf_download_url %} <a class="btn btn-default" href="{{ building_exposure_dbf_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ building_exposure_form.building_exposure_dbf_file.label_tag }} {{ building_exposure_form.building_exposure_dbf_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ building_exposure_form.non_field_errors }}
+            {{ building_exposure_form.building_exposure_dbf_file.errors }}
+            
+            <input id="id_building_exposure_dbf_file" name="building_exposure_dbf_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Building Exposure PRJ File" %}</strong>{% if building_exposure_prj_download_url %} <a class="btn btn-default" href="{{ building_exposure_prj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ building_exposure_form.building_exposure_prj_file.label_tag }} {{ building_exposure_form.building_exposure_prj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ building_exposure_form.non_field_errors }}
+            {{ building_exposure_form.building_exposure_prj_file.errors }}
+            
+            <input id="id_building_exposure_prj_file" name="building_exposure_prj_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Building Exposure QPJ File" %}</strong>{% if building_exposure_qpj_download_url %} <a class="btn btn-default" href="{{ building_exposure_qpj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ building_exposure_form.building_exposure_qpj_file.label_tag }} {{ building_exposure_form.building_exposure_qpj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ building_exposure_form.non_field_errors }}
+            {{ building_exposure_form.building_exposure_qpj_file.errors }}
+            
+            <input id="id_building_exposure_qpj_file" name="building_exposure_qpj_file" type="file">
+        </div>
+        
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <button type="submit" class="btn btn-default pull-right">{% trans "Upload All" %}</button>
+    </div>
+    
+    <div class="col-md-6">
+        <p><strong>{% trans "Upload Road Exposure SHP File" %}</strong>{% if road_exposure_shp_download_url %} <a class="btn btn-default" href="{{ road_exposure_shp_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ road_exposure_form.road_exposure_shp_file.label_tag }} {{ road_exposure_form.road_exposure_shp_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ road_exposure_form.non_field_errors }}
+            {{ road_exposure_form.road_exposure_shp_file.errors }}
+            
+            <input id="id_road_exposure_shp_file" name="road_exposure_shp_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Road Exposure SHX File" %}</strong>{% if road_exposure_shx_download_url %} <a class="btn btn-default" href="{{ road_exposure_shx_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ road_exposure_form.road_exposure_shx_file.label_tag }} {{ road_exposure_form.road_exposure_shx_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ road_exposure_form.non_field_errors }}
+            {{ road_exposure_form.road_exposure_shx_file.errors }}
+            
+            <input id="id_road_exposure_shx_file" name="road_exposure_shx_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Road Exposure DBF File" %}</strong>{% if road_exposure_dbf_download_url %} <a class="btn btn-default" href="{{ road_exposure_dbf_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ road_exposure_form.road_exposure_dbf_file.label_tag }} {{ road_exposure_form.road_exposure_dbf_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ road_exposure_form.non_field_errors }}
+            {{ road_exposure_form.road_exposure_dbf_file.errors }}
+            
+            <input id="id_road_exposure_dbf_file" name="road_exposure_dbf_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Road Exposure PRJ File" %}</strong>{% if road_exposure_prj_download_url %} <a class="btn btn-default" href="{{ road_exposure_prj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ road_exposure_form.road_exposure_prj_file.label_tag }} {{ road_exposure_form.road_exposure_prj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ road_exposure_form.non_field_errors }}
+            {{ road_exposure_form.road_exposure_prj_file.errors }}
+            
+            <input id="id_road_exposure_prj_file" name="road_exposure_prj_file" type="file">
+        </div>
+        
+        <p><strong>{% trans "Upload Road Exposure QPJ File" %}</strong>{% if road_exposure_qpj_download_url %} <a class="btn btn-default" href="{{ road_exposure_qpj_download_url }}" target="_blank">{% trans "Download File" %}</a>{% endif %}</p>
+        <p>{{ road_exposure_form.road_exposure_qpj_file.label_tag }} {{ road_exposure_form.road_exposure_qpj_file.help_text }}</p>
+        <div class="form-group">
+            
+            {{ road_exposure_form.non_field_errors }}
+            {{ road_exposure_form.road_exposure_qpj_file.errors }}
+            
+            <input id="id_road_exposure_qpj_file" name="road_exposure_qpj_file" type="file">
+        </div>
+        
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <button type="submit" class="btn btn-default pull-right">{% trans "Upload All" %}</button>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block extra_footer %}
+{% endblock %}
