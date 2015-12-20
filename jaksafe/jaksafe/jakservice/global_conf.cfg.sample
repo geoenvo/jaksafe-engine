@@ -1,0 +1,51 @@
+[database_configuration]
+url_address = 127.0.0.1
+user = jaksafe
+paswd = password
+database_name = jaksafe
+port = 3306
+table_name_event = fl_event
+table_raw_name_event = fl_event_raw
+table_name_autocalc = auto_calc
+table_name_adhoc_calc = adhoc_calc
+
+[file_input]
+input_kelas = kelas_dampak.csv
+input_boundary_layer = boundary.shp
+input_building_exposure = building_exposure.shp
+input_road_exposure = road_exposure.shp
+
+[file_output]
+output_rw_report = report_RW.csv
+output_rt_report = report_RT.csv
+output_hazard = hazard.shp
+output_building_exposure = impact_building.shp
+output_road_exposure = impact_roads.shp
+
+[qgis_conf]
+qgis_install_path = /usr
+
+[dims_conf]
+url_dims = http://bpbd.jakarta.go.id/cgi-bin/flr
+
+[folder_conf]
+project_folder = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice
+auto_folder = ../uploaded/jakservice/auto
+adhoc_folder = ../uploaded/jakservice/adhoc
+
+[directory]
+resource = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/resource/
+assumption = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/input/assumptions/
+aggregate = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/input/aggregat/
+log = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/log/
+impact = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/impact/
+report = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/report/
+hazard = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/hazard/
+log_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/log/
+impact_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/impact/
+report_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/report/
+hazard_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/hazard/
+subsektor = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/config/subsektor/
+
+[subsektor]
+subsektor = PERTANIAN,PERDAGANGAN,INDUSTRI,PARIWISATA,PERUMAHAN,KESEHATAN,PENDIDIKAN,TRANSPORTASI,TELEKOMUNIKASI,ENERGI,AIR BERSIH DAN SANITASI,PEMERINTAHAN,LINGKUNGAN,FINANSIAL,AGAMA

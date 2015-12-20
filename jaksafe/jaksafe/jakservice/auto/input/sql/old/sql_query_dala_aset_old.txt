@@ -1,0 +1,41 @@
+insert into adhoc_dala_result (id_event,sector, subsector, asset, rw, kelurahan, kecamatan, kota, kelas, damage,loss)
+select id_event,sector, subsector, asset, a.rw, a.kelurahan, a.kecamatan, a.kota, kelas,
+case 
+when kelas = 'A1' then tda1
+when kelas = 'A2' then tda2
+when kelas = 'A3' then tda3
+when kelas = 'A4' then tda4
+when kelas = 'B1' then tdb1
+when kelas = 'B2' then tdb2
+when kelas = 'B3' then tdb3
+when kelas = 'B4' then tdb4
+when kelas = 'C1' then tdc1
+when kelas = 'C2' then tdc2
+when kelas = 'C3' then tdc3
+when kelas = 'C4' then tdc4
+when kelas = 'D1' then tdd1
+when kelas = 'D2' then tdd2
+when kelas = 'D3' then tdd3
+when kelas = 'D4' then tdd4 
+end as damage,
+case
+when kelas = 'A1' then tla1
+when kelas = 'A2' then tla2
+when kelas = 'A3' then tla3
+when kelas = 'A4' then tla4
+when kelas = 'B1' then tlb1
+when kelas = 'B2' then tlb2
+when kelas = 'B3' then tlb3
+when kelas = 'B4' then tlb4
+when kelas = 'C1' then tlc1
+when kelas = 'C2' then tlc2
+when kelas = 'C3' then tlc3
+when kelas = 'C4' then tlc4
+when kelas = 'D1' then tld1
+when kelas = 'D2' then tld2
+when kelas = 'D3' then tld3
+when kelas = 'D4' then tld4 
+end as loss
+from asset_rw_dal a join adhoc_hazard_summary b on(a.kelurahan = b.kelurahan and a.kecamatan=b.kecamatan and a.rw=b.rw )
+where id_event = %s and sector is not null
+order by sector, subsector, asset, a.kelurahan, a.rw
