@@ -1,0 +1,217 @@
+--Query perhitungan DALA--
+
+--1. perhitungan dala unit (unit, luasan, jalan, aggregate)
+insert into adhoc_dala_result (id_event,sector, subsector, asset, rw, kelurahan, kecamatan, kota, kelas, damage,loss)
+select id_event,sector, subsector, asset, a.rw, a.kelurahan, a.kecamatan, a.kota, kelas,
+case 
+when kelas = 'A1' then tda1
+when kelas = 'A2' then tda2
+when kelas = 'A3' then tda3
+when kelas = 'A4' then tda4
+when kelas = 'B1' then tdb1
+when kelas = 'B2' then tdb2
+when kelas = 'B3' then tdb3
+when kelas = 'B4' then tdb4
+when kelas = 'C1' then tdc1
+when kelas = 'C2' then tdc2
+when kelas = 'C3' then tdc3
+when kelas = 'C4' then tdc4
+when kelas = 'D1' then tdd1
+when kelas = 'D2' then tdd2
+when kelas = 'D3' then tdd3
+when kelas = 'D4' then tdd4 
+end as damage,
+case
+when kelas = 'A1' then tla1
+when kelas = 'A2' then tla2
+when kelas = 'A3' then tla3
+when kelas = 'A4' then tla4
+when kelas = 'B1' then tlb1
+when kelas = 'B2' then tlb2
+when kelas = 'B3' then tlb3
+when kelas = 'B4' then tlb4
+when kelas = 'C1' then tlc1
+when kelas = 'C2' then tlc2
+when kelas = 'C3' then tlc3
+when kelas = 'C4' then tlc4
+when kelas = 'D1' then tld1
+when kelas = 'D2' then tld2
+when kelas = 'D3' then tld3
+when kelas = 'D4' then tld4 
+end as loss
+from asset_rw_dal a join adhoc_hazard_summary b on(id_rw = cast(id_unit as bigint) )
+where id_event = %s and sector is not null
+order by sector, subsector, asset, a.kelurahan, a.rw;
+
+--2.perhitungan loss kendaraan
+insert into adhoc_dala_result (id_event, sector, subsector, asset, rw, kelurahan, kecamatan, kota, kelas, loss)
+select id_event,sector, subsector, asset, a.rw, a.kelurahan, a.kecamatan, a.kota, kelas,
+case 
+when kelas = 'A1' then tla1
+when kelas = 'A2' then tla2
+when kelas = 'A3' then tla3
+when kelas = 'A4' then tla4
+when kelas = 'B1' then tlb1
+when kelas = 'B2' then tlb2
+when kelas = 'B3' then tlb3
+when kelas = 'B4' then tlb4
+when kelas = 'C1' then tlc1
+when kelas = 'C2' then tlc2
+when kelas = 'C3' then tlc3
+when kelas = 'C4' then tlc4
+when kelas = 'D1' then tld1
+when kelas = 'D2' then tld2
+when kelas = 'D3' then tld3
+when kelas = 'D4' then tld4 
+end as loss
+from kendaraan_rw_loss a join adhoc_hazard_summary b on(id_rw = cast(id_unit as bigint) )
+where id_event = %s and sector is not null
+order by sector, subsector, asset, a.kelurahan, a.rw;
+
+
+--3. perhitungan dari asumsi aggregate
+--a. hitung jumlah area banjir per kota dan seluruh jakarta
+--i.luas area kota yang banjir
+insert into adhoc_kota_terdampak (id_event,provinsi,kota,luas_terdampak)
+select id_event, 'DKI JAKARTA' , kota, sum(area_m2) from boundary a 
+join adhoc_hazard_summary b
+on (id_rw = cast(id_unit as bigint)) 
+where id_event= %s and kelas not in ('A4', 'B4', 'C4', 'D4')
+group by id_event,kota;
+
+--ii.total area banjir sejakarta
+insert into adhoc_luas_banjir (id_event,luas_banjir,jumlah_rw_banjir)
+select id_event,sum(area_m2), count(id_unit) from boundary a 
+join adhoc_hazard_summary b
+on (id_rw = cast(id_unit as bigint)) 
+where id_event= %s and kelas not in ('A4', 'B4', 'C4', 'D4')
+group by id_event;
+
+--b. insert data asumsi ke tabel temp
+--i. insert data yang level agaregatenya bukan provinsi
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset, kelurahan, kecamatan, 
+kota, damage,loss
+from asumsi_aggregate 
+where kota in (select kota from adhoc_kota_terdampak where id_event=%s)
+and level_agg != 'PROVINSI' and level_agg != 'KOTA';
+
+--ii. insert data dari level aggregate provinsi yang dibagi ke dalam masing2 kota
+--jakarta utara
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset,kelurahan,kecamatan, kota, 
+(damage*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA UTARA')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage,
+(loss*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA UTARA')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) loss
+from asumsi_aggregate where ( level_agg = 'PROVINSI' or level_agg = 'KOTA' ) and kota = 'JAKARTA UTARA';
+
+--jakarta barat
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset,kelurahan,kecamatan, kota, 
+(damage*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA BARAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage,
+(loss*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA BARAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) loss
+from asumsi_aggregate where ( level_agg = 'PROVINSI' or level_agg = 'KOTA' ) and kota = 'JAKARTA BARAT';
+
+--jakarta pusat
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset,kelurahan,kecamatan, kota, 
+(damage*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA PUSAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage,
+(loss*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA PUSAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) loss
+from asumsi_aggregate where ( level_agg = 'PROVINSI' or level_agg = 'KOTA' ) and kota = 'JAKARTA PUSAT';
+
+--jakarta timur
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset,kelurahan,kecamatan, kota, 
+(damage*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA TIMUR')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage,
+(loss*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA TIMUR')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) loss
+from asumsi_aggregate where ( level_agg = 'PROVINSI' or level_agg = 'KOTA' ) and kota = 'JAKARTA TIMUR';
+
+--jakarta selatan
+insert into adhoc_dal_asumsi_temp (id_event, sector,subsector, asset, kelurahan, kecamatan, kota, damage, loss)
+select cast(%s as int) id_event, sector,subsector,asset,kelurahan,kecamatan, kota, 
+(damage*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA SELATAN')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage,
+(loss*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA SELATAN')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) loss
+from asumsi_aggregate where ( level_agg = 'PROVINSI' or level_agg = 'KOTA' ) and kota = 'JAKARTA SELATAN';
+
+--c. hitung kerusakan kendaraan (insert kedalam table adhc_kerusakan_kendaraan)
+insert into adhoc_kerusakan_kendaraan (id_event, kerusakan_kendaraan)
+select cast(%s as int) id_event,
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*1.25*0.05*109000.0)+
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*1.25*0.78*2390000.0)+
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*1.25*0.17*2390000.0)
+kerusakan_kendaraan;
+
+--d. hitung kerusakan kendaraan per kota dan insert ke asumsi temp
+--jakarta utara
+insert into adhoc_dal_asumsi_temp (id_event, sector, subsector, asset, kota, damage)
+select cast(%s as int) id_event, cast('INFRASTRUKTUR' as varchar(100)) sector,
+cast('TRANSPORTASI' as varchar(100)) subsector, 
+cast('KENDARAAN' as varchar(100))asset,
+cast('JAKARTA UTARA' as varchar(100)) kota, 
+((select kerusakan_kendaraan from adhoc_kerusakan_kendaraan where id_event=%s)*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA UTARA')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage;
+
+--jakarta barat
+insert into adhoc_dal_asumsi_temp (id_event, sector, subsector, asset, kota, damage)
+select cast(%s as int) id_event, cast('INFRASTRUKTUR' as varchar(100)) sector,
+cast('TRANSPORTASI' as varchar(100)) subsector, 
+cast('KENDARAAN' as varchar(100))asset,
+cast('JAKARTA BARAT' as varchar(100)) kota, 
+((select kerusakan_kendaraan from adhoc_kerusakan_kendaraan where id_event=%s)*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA BARAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage;
+
+--jakarta pusat
+insert into adhoc_dal_asumsi_temp (id_event, sector, subsector, asset, kota, damage)
+select cast(%s as int) id_event, cast('INFRASTRUKTUR' as varchar(100)) sector,
+cast('TRANSPORTASI' as varchar(100)) subsector, 
+cast('KENDARAAN' as varchar(100))asset,
+cast('JAKARTA PUSAT' as varchar(100)) kota, 
+((select kerusakan_kendaraan from adhoc_kerusakan_kendaraan where id_event=%s)*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA PUSAT')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage;
+
+--jakarta timur
+insert into adhoc_dal_asumsi_temp (id_event, sector, subsector, asset, kota, damage)
+select cast(%s as int) id_event, cast('INFRASTRUKTUR' as varchar(100)) sector,
+cast('TRANSPORTASI' as varchar(100)) subsector, 
+cast('KENDARAAN' as varchar(100))asset,
+cast('JAKARTA TIMUR' as varchar(100)) kota, 
+((select kerusakan_kendaraan from adhoc_kerusakan_kendaraan where id_event=%s)*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA TIMUR')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage;
+
+--jakarta selatan
+insert into adhoc_dal_asumsi_temp (id_event, sector, subsector, asset, kota, damage)
+select cast(%s as int) id_event, cast('INFRASTRUKTUR' as varchar(100)) sector,
+cast('TRANSPORTASI' as varchar(100)) subsector, 
+cast('KENDARAAN' as varchar(100))asset,
+cast('JAKARTA SELATAN' as varchar(100)) kota, 
+((select kerusakan_kendaraan from adhoc_kerusakan_kendaraan where id_event=%s)*(
+(select luas_terdampak from adhoc_kota_terdampak where id_event=%s and kota='JAKARTA SELATAN')/
+(select luas_banjir from adhoc_luas_banjir where id_event=%s))) damage;
+
+--e. insert asumsi dala aggregate ke table adhoc_dala result
+insert into adhoc_dala_result (id_event, sector, subsector, asset, kelurahan, kecamatan, kota, damage,loss)
+select id_event, sector, subsector, asset, kelurahan, kecamatan, kota, damage,loss from adhoc_dal_asumsi_temp 
+where id_event = %s and kota in (select kota from adhoc_kota_terdampak where id_event=%s);

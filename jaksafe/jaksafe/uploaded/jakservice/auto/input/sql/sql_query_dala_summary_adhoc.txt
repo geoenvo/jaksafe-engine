@@ -1,0 +1,1 @@
+select id_event, sum(damage) as total_damage, sum(loss) as total_loss from adhoc_dala_result where id_event = %s group by id_event
