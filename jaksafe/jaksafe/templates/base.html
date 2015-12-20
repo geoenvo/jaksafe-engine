@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load i18n flatpages %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% if SITE_NAME %} | {{ SITE_NAME }}{% endif %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{STATIC_URL}}img/favicon.png">
+    <!-- Bootstrap -->
+    <link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet">
+    {% block extra_header %}{% endblock %}
+    <link href="{{ STATIC_URL }}css/site.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="{{ STATIC_URL }}js/html5shiv.js"></script>
+      <script src="{{ STATIC_URL }}js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div id="main" class="container">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="javascript:void(0);">
+                        <img alt="{% if SITE_NAME %}{{ SITE_NAME }}{% endif %}" src="{{ STATIC_URL }}img/logo.png">
+                    </a>
+                </div>
+                <ul class="nav navbar-nav">
+                    {% url "report_auto" as report_auto_url %}<li {% if report_auto_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_auto" %}">{% trans "Automatic Report" %}</a></li>
+                    {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc DaLA" %}</a></li>
+                    {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li>
+                    {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "Settings" %} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <!--{% url "report_global_config" as report_global_config_url %}<li {% if request.get_full_path == report_global_config_url %}class="active"{% endif %}><a href="{% url "report_global_config" %}">{% trans "Global Config" %}</a></li>-->
+                            {% url "report_impact_config" as report_impact_config_url %}<li {% if request.get_full_path == report_impact_config_url %}class="active"{% endif %}><a href="{% url "report_impact_config" %}">{% trans "Impact Class" %}</a></li>
+                            <!--{% url "report_assumptions_config" as report_assumptions_config_url %}<li {% if request.get_full_path == report_assumptions_config_url %}class="active"{% endif %}><a href="{% url "report_assumptions_config" %}">{% trans "Assumptions" %}</a></li>-->
+                            <!--{% url "report_aggregate_config" as report_aggregate_config_url %}<li {% if request.get_full_path == report_aggregate_config_url %}class="active"{% endif %}><a href="{% url "report_aggregate_config" %}">{% trans "Aggregate" %}</a></li>-->
+                            <!--{% url "report_boundary_config" as report_boundary_config_url %}<li {% if request.get_full_path == report_boundary_config_url %}class="active"{% endif %}><a href="{% url "report_boundary_config" %}">{% trans "Boundary" %}</a></li>-->
+                            <!--{% url "report_exposure_config" as report_exposure_config_url %}<li {% if request.get_full_path == report_exposure_config_url %}class="active"{% endif %}><a href="{% url "report_exposure_config" %}">{% trans "Exposure" %}</a></li>-->
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% get_flatpages as flatpages %}
+                    {% if flatpages %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "Information" %} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                        {% for page in flatpages %}
+                        <li {% if request.get_full_path == page.url %}class="active"{% endif %}><a href="{{ page.url }}">{{ page.title }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url "report_logout" %}">{% trans "Logout" %}</a></li>
+                    {% else %}
+                    <li><a href="{% url "report_login" %}">{% trans "Login" %}</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+        <div id="footer" id="" class="row">
+            <div class="col-md-12">
+                <div class="text-center"><!--<a href="http://www.irisiko.com" target="_blank">-->JakSAFE &copy 2015<!--</a>--></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+    {% block extra_footer %}{% endblock %}
+    <script src="{{ STATIC_URL }}js/site.js"></script>
+    <!--<script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>-->
+  </body>
+</html>

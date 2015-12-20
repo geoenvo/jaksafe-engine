@@ -1,0 +1,242 @@
+"""
+Django settings for jaksafe project.
+
+For more information on this file, see
+https://docs.djangoproject.com/en/1.7/topics/settings/
+
+For the full list of settings and their values, see
+https://docs.djangoproject.com/en/1.7/ref/settings/
+"""
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '-t!%o6syuvoopz0am@(t9&4u)t74b0*3ur&j#&0)6l7fdc*yd)'
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
+TEMPLATE_DEBUG = True
+
+ALLOWED_HOSTS = []
+
+
+# Application definition
+
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'report',
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.flatpages',
+    'ckeditor',
+    #'extended_flatpages',
+)
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+)
+
+ROOT_URLCONF = 'jaksafe.urls'
+
+WSGI_APPLICATION = 'jaksafe.wsgi.application'
+
+
+# Database
+# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'jaksafe',
+        'USER': 'jaksafe',
+        'PASSWORD': 'password',
+    }
+}
+
+# Internationalization
+# https://docs.djangoproject.com/en/1.7/topics/i18n/
+
+LANGUAGE_CODE = 'en-us'
+
+TIME_ZONE = 'UTC'
+
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = True
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.7/howto/static-files/
+
+STATIC_URL = '/static/'
+
+SITE_NAME = 'JakSAFE'
+
+SITE_ID = 1
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+#STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.request',
+    'jaksafe.context_processors.resource_urls',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.messages.context_processors.messages',
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_ROOT, "templates"),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, "static"),
+    #'/var/www/static/',
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
+
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, "uploaded")
+
+MEDIA_URL = '/uploaded/'
+
+CKEDITOR_UPLOAD_PATH = MEDIA_ROOT + '/editor'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': [
+            [ 'Source','-','Save','-', 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo', '-', 'Find','Replace','-','SelectAll'],
+            [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] ,'/',
+            [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ],
+            [ 'Link','Unlink' ],
+            [ 'Image','Table','HorizontalRule','SpecialChar' ],
+            [ 'Format'],
+            [ 'TextColor','BGColor', '-', 'Styles','Format','FontSize' ],
+            [ 'Maximize', 'ShowBlocks','-','About' ],
+        ],
+        'format_tags': 'p;h1;h2;h3;h4;h5;h6;pre;address;div',
+    },
+}
+
+JAKSERVICE_ROOT = os.path.join(MEDIA_ROOT, "jakservice")
+JAKSERVICE_URL = MEDIA_URL + 'jakservice/'
+
+JAKSERVICE_AUTO_DIR = 'auto/'
+JAKSERVICE_ADHOC_DIR = 'adhoc/'
+JAKSERVICE_INPUT_DIR = 'input/'
+JAKSERVICE_OUTPUT_DIR = 'output/'
+JAKSERVICE_CONFIG_DIR = 'config/'
+JAKSERVICE_REPORT_DIR = 'report/'
+JAKSERVICE_LOG_DIR = 'log/'
+JAKSERVICE_HAZARD_DIR = 'hazard/'
+JAKSERVICE_IMPACT_DIR = 'impact/'
+JAKSERVICE_IMPACT_CLASS_DIR = 'kelas_dampak/'
+JAKSERVICE_AGGREGATE_DIR = 'aggregat/'
+JAKSERVICE_ASSUMPTIONS_DIR = 'assumptions/'
+JAKSERVICE_BOUNDARY_DIR = 'boundary/'
+JAKSERVICE_EXPOSURE_DIR = 'exposure/shapefile/'
+
+JAKSERVICE_GLOBAL_CONFIG_FILENAME = 'global_conf.cfg'
+JAKSERVICE_IMPACT_CLASS_FILENAME = 'kelas_dampak.csv'
+JAKSERVICE_AGGREGATE_FILENAME = 'aggregate.csv'
+JAKSERVICE_ASSUMPTIONS_DAMAGE_FILENAME = 'asumsi_kerusakan.csv'
+JAKSERVICE_ASSUMPTIONS_LOSS_FILENAME = 'asumsi_kerugian.csv'
+JAKSERVICE_ASSUMPTIONS_AGGREGATE_FILENAME = 'asumsi_aggregat.csv'
+JAKSERVICE_ASSUMPTIONS_INSURANCE_FILENAME = 'asumsi_asuransi.csv'
+JAKSERVICE_ASSUMPTIONS_INSURANCE_PENETRATION_FILENAME = 'asumsi_penetrasiasuransi.csv'
+JAKSERVICE_BOUNDARY_SHP_FILENAME = 'boundary.shp'
+JAKSERVICE_BOUNDARY_SHX_FILENAME = 'boundary.shx'
+JAKSERVICE_BOUNDARY_DBF_FILENAME = 'boundary.dbf'
+JAKSERVICE_BOUNDARY_PRJ_FILENAME = 'boundary.prj'
+JAKSERVICE_BOUNDARY_QPJ_FILENAME = 'boundary.qpj'
+JAKSERVICE_BUILDING_EXPOSURE_SHP_FILENAME = 'building_exposure.shp'
+JAKSERVICE_BUILDING_EXPOSURE_SHX_FILENAME = 'building_exposure.shx'
+JAKSERVICE_BUILDING_EXPOSURE_DBF_FILENAME = 'building_exposure.dbf'
+JAKSERVICE_BUILDING_EXPOSURE_PRJ_FILENAME = 'building_exposure.prj'
+JAKSERVICE_BUILDING_EXPOSURE_QPJ_FILENAME = 'building_exposure.qpj'
+JAKSERVICE_ROAD_EXPOSURE_SHP_FILENAME = 'road_exposure.shp'
+JAKSERVICE_ROAD_EXPOSURE_SHX_FILENAME = 'road_exposure.shx'
+JAKSERVICE_ROAD_EXPOSURE_DBF_FILENAME = 'road_exposure.dbf'
+JAKSERVICE_ROAD_EXPOSURE_PRJ_FILENAME = 'road_exposure.prj'
+JAKSERVICE_ROAD_EXPOSURE_QPJ_FILENAME = 'road_exposure.qpj'
+
+JAKSERVICE_IMPACT_CLASS_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_CONFIG_DIR + JAKSERVICE_IMPACT_CLASS_DIR # /uploaded/jakservice/auto/config/kelas_dampak/
+JAKSERVICE_AGGREGATE_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_INPUT_DIR + JAKSERVICE_AGGREGATE_DIR # /uploaded/jakservice/auto/input/aggregat/
+JAKSERVICE_ASSUMPTIONS_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_INPUT_DIR + JAKSERVICE_ASSUMPTIONS_DIR # /uploaded/jakservice/auto/input/assumptions/
+JAKSERVICE_BOUNDARY_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_INPUT_DIR + JAKSERVICE_BOUNDARY_DIR # /uploaded/jakservice/auto/input/boundary/
+JAKSERVICE_EXPOSURE_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_INPUT_DIR + JAKSERVICE_EXPOSURE_DIR # /uploaded/jakservice/auto/input/exposure/shapefile/
+JAKSERVICE_AUTO_OUTPUT_URL = JAKSERVICE_URL + JAKSERVICE_AUTO_DIR + JAKSERVICE_OUTPUT_DIR # /uploaded/jakservice/auto/output/
+JAKSERVICE_ADHOC_OUTPUT_URL = JAKSERVICE_URL + JAKSERVICE_ADHOC_DIR + JAKSERVICE_OUTPUT_DIR # /uploaded/jakservice/adhoc/output/
+
+JAKSERVICE_GLOBAL_CONFIG_FILEPATH = os.path.join(PROJECT_ROOT, "jakservice", JAKSERVICE_GLOBAL_CONFIG_FILENAME)
+JAKSERVICE_IMPACT_CLASS_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_CONFIG_DIR, JAKSERVICE_IMPACT_CLASS_DIR, JAKSERVICE_IMPACT_CLASS_FILENAME)
+JAKSERVICE_AGGREGATE_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_AGGREGATE_DIR, JAKSERVICE_AGGREGATE_FILENAME)
+JAKSERVICE_ASSUMPTIONS_DAMAGE_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_ASSUMPTIONS_DIR, JAKSERVICE_ASSUMPTIONS_DAMAGE_FILENAME)
+JAKSERVICE_ASSUMPTIONS_LOSS_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_ASSUMPTIONS_DIR, JAKSERVICE_ASSUMPTIONS_LOSS_FILENAME)
+JAKSERVICE_ASSUMPTIONS_AGGREGATE_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_ASSUMPTIONS_DIR, JAKSERVICE_ASSUMPTIONS_AGGREGATE_FILENAME)
+JAKSERVICE_ASSUMPTIONS_INSURANCE_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_ASSUMPTIONS_DIR, JAKSERVICE_ASSUMPTIONS_INSURANCE_FILENAME)
+JAKSERVICE_ASSUMPTIONS_INSURANCE_PENETRATION_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_ASSUMPTIONS_DIR, JAKSERVICE_ASSUMPTIONS_INSURANCE_PENETRATION_FILENAME)
+JAKSERVICE_BOUNDARY_SHP_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_BOUNDARY_DIR, JAKSERVICE_BOUNDARY_SHP_FILENAME)
+JAKSERVICE_BOUNDARY_SHX_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_BOUNDARY_DIR, JAKSERVICE_BOUNDARY_SHX_FILENAME)
+JAKSERVICE_BOUNDARY_DBF_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_BOUNDARY_DIR, JAKSERVICE_BOUNDARY_DBF_FILENAME)
+JAKSERVICE_BOUNDARY_PRJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_BOUNDARY_DIR, JAKSERVICE_BOUNDARY_PRJ_FILENAME)
+JAKSERVICE_BOUNDARY_QPJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_BOUNDARY_DIR, JAKSERVICE_BOUNDARY_QPJ_FILENAME)
+JAKSERVICE_BUILDING_EXPOSURE_SHP_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_BUILDING_EXPOSURE_SHP_FILENAME)
+JAKSERVICE_BUILDING_EXPOSURE_SHX_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_BUILDING_EXPOSURE_SHX_FILENAME)
+JAKSERVICE_BUILDING_EXPOSURE_DBF_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_BUILDING_EXPOSURE_DBF_FILENAME)
+JAKSERVICE_BUILDING_EXPOSURE_PRJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_BUILDING_EXPOSURE_PRJ_FILENAME)
+JAKSERVICE_BUILDING_EXPOSURE_QPJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_BUILDING_EXPOSURE_QPJ_FILENAME)
+JAKSERVICE_ROAD_EXPOSURE_SHP_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_ROAD_EXPOSURE_SHP_FILENAME)
+JAKSERVICE_ROAD_EXPOSURE_SHX_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_ROAD_EXPOSURE_SHX_FILENAME)
+JAKSERVICE_ROAD_EXPOSURE_DBF_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_ROAD_EXPOSURE_DBF_FILENAME)
+JAKSERVICE_ROAD_EXPOSURE_PRJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_ROAD_EXPOSURE_PRJ_FILENAME)
+JAKSERVICE_ROAD_EXPOSURE_QPJ_FILEPATH = os.path.join(JAKSERVICE_ROOT, JAKSERVICE_AUTO_DIR, JAKSERVICE_INPUT_DIR, JAKSERVICE_EXPOSURE_DIR, JAKSERVICE_ROAD_EXPOSURE_QPJ_FILENAME)
+
+CONTENT_TYPES = ['csv', 'comma-separated-values', 'x-comma-separated-values']
+
+# 1MB - 1048576
+# 2.5MB - 2621440
+# 5MB - 5242880
+# 10MB - 10485760
+# 20MB - 20971520
+# 50MB - 5242880
+# 100MB 104857600
+# 250MB - 214958080
+# 500MB - 429916160
+
+MAX_UPLOAD_SIZE = 1048576
+
+# use default python or virtualenv python
+# PYTHON_EXEC = 'python'
+PYTHON_EXEC = os.path.join(PROJECT_ROOT, "../../bin/python")
+
+RECORDS_PER_PAGE = 50
