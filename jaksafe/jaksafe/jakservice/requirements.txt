@@ -1,6 +1,0 @@
-matplotlib==1.4.3
-pandas==0.16.0
-simplejson==3.6.5
-MySQL-python==1.2.5
-SQLAlchemy==1.0.9
-psycopg2==2.4.5
