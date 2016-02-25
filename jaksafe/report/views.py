@@ -67,6 +67,12 @@ def report_logout(request):
     
     return HttpResponseRedirect(reverse('report_auto'))
 
+def home(request, template='report/home.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Home'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))	
 
 def get_delimiter(csv_file):
     with open(csv_file, 'r') as the_csv_file:
