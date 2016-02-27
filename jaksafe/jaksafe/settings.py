@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
     'ckeditor',
-    'extended_flatpages',
+    #'extended_flatpages',
 	'chartit',
 )
 
@@ -79,6 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
         'NAME': 'jaksafe_hazard',
         'USER': 'jaksafe',
+	'HOST' : 'localhost',
+	'PORT' : '5432',
         'PASSWORD': 'password',
     }
 }
