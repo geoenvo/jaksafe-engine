@@ -28,6 +28,7 @@
                     </a>
                 </div>
                 <ul class="nav navbar-nav">
+                    {% url "home" as home_url %}<li {% if home_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "home" %}">{% trans "Home" %}</a></li>
                     {% url "report_auto" as report_auto_url %}<li {% if report_auto_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_auto" %}">{% trans "Automatic Report" %}</a></li>
                     {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc DaLA" %}</a></li>
                     {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li>
@@ -66,7 +67,7 @@
         {% block content %}{% endblock %}
         <div id="footer" id="" class="row">
             <div class="col-md-12">
-                <div class="text-center"><!--<a href="http://www.irisiko.com" target="_blank">-->JakSAFE &copy 2015<!--</a>--></div>
+                <div class="text-center"><!--<a href="http://www.irisiko.com" target="_blank">-->JakSAFE &copy 2016<!--</a>--></div>
             </div>
         </div>
     </div>
