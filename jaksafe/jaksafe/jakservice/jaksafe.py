@@ -14,20 +14,38 @@ def get_database_connection(ip_address,user,paswd,database):
     con = MySQLdb.connect(ip_address,user,paswd,database)
     return con
 
-def get_pgsql_database_connection(user,paswd,database,port_number):
+
+#def get_pgsql_database_connection(user,paswd,database,port_number):
+#    psql_con = None    
+#    try:     
+#        psql_con = psycopg2.connect(database = database,\
+#                                    user = user,\
+#                                    password = paswd,\
+#                                    port = port_number)
+#
+#    except psycopg2.DatabaseError, e:
+#        print 'Error %s' % e
+#        print 'Program is terminating ....'        
+#        sys.exit(1)
+#    return psql_con
+
+
+def get_pgsql_database_connection(user,paswd,database,port_number,host):
     psql_con = None    
     try:     
         psql_con = psycopg2.connect(database = database,\
                                     user = user,\
                                     password = paswd,\
-                                    port = port_number)
+                                    port = port_number,\
+                                    host = host)
 
     except psycopg2.DatabaseError, e:
         print 'Error %s' % e
         print 'Program is terminating ....'        
         sys.exit(1)
     return psql_con
-    
+
+
 
 def get_pgsql_database_engine(ip_address,user,paswd,database,port_number):
     ## example of psql url => 'postgresql://jaksafe:password@localhost:5432/test_db')
@@ -63,7 +81,7 @@ qgis_install_path = global_conf_parser.get('qgis_conf','qgis_install_path')
 db_con = get_database_connection(database_url_address,user,paswd,database_name)
 
 ## Initialize Open Postgresql database connection with psyopg2
-psql_db_con = get_pgsql_database_connection(pgsql_user,pgsql_paswd,pgsql_database_name,pgsql_database_port)
+psql_db_con = get_pgsql_database_connection(pgsql_user,pgsql_paswd,pgsql_database_name,pgsql_database_port,pgsql_address)
 
 ## Initialize Create postgresql engine with SQLAlchemy
 psql_engine = get_pgsql_database_engine(pgsql_address,pgsql_user,pgsql_paswd,pgsql_database_name,pgsql_database_port)
