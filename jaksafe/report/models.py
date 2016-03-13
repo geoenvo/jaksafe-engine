@@ -57,3 +57,23 @@ class AutoResult(models.Model):
 
     class Meta:
         db_table = 'auto_dala_result'
+
+class AutoResultJSON(models.Model):
+    id = models.CharField(max_length=200, primary_key=True)
+    kelurahan_id = models.CharField(max_length=200)
+    kota = models.CharField(max_length=200)
+    kecamatan = models.CharField(max_length=200)
+    kelurahan = models.CharField(max_length=200)
+    rw = models.CharField(max_length=200)
+    tanggal = models.DateTimeField()
+    damage_infrastuktur = models.DecimalField(max_digits=17, decimal_places=2)
+    loss_infrastruktur = models.DecimalField(max_digits=17, decimal_places=2)
+    damage_lintas_sektor = models.DecimalField(max_digits=17, decimal_places=2)
+    loss_lintas_sektor = models.DecimalField(max_digits=17, decimal_places=2)
+    damage_produktif = models.DecimalField(max_digits=17, decimal_places=2)
+    loss_produktif = models.DecimalField(max_digits=17, decimal_places=2)
+    damage_sosial_perumahan = models.DecimalField(max_digits=17, decimal_places=2)
+    loss_sosial_perumahan = models.DecimalField(max_digits=17, decimal_places=2)
+    damage_total = models.DecimalField(max_digits=17, decimal_places=2)
+    loss_total = models.DecimalField(max_digits=17, decimal_places=2)
+    sumber = models.CharField(max_length=200)

@@ -18,5 +18,6 @@ urlpatterns = patterns('',
     url(r'^adhoc_report/(?P<id_event>[0-9]+)/$', views.report_adhoc_web, name='report_adhoc_web'),
     url(r'^auto_report/(?P<id_event>[0-9]+)/$', views.report_auto_web, name='report_auto_web'),
     url(r'^adhoc_report_xml/(?P<id_event>[0-9]+)/$', views.report_adhoc_xml, name='report_adhoc_xml'),
-    url(r'^auto_report_xml/(?P<id_event>[0-9]+)/$', views.report_auto_xml, name='report_auto_xml')
+    url(r'^auto_report_xml/(?P<id_event>[0-9]+)/$', views.report_auto_xml, name='report_auto_xml'),
+    url(r'^auto_report_json/(?P<event_date>[0-9]+)/all$', views.auto_report_json, name='auto_report_json')
 )

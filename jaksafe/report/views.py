@@ -13,10 +13,12 @@ from report.forms import ImpactClassForm, AggregateForm, AssumptionsDamageForm, 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult
+from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Sum, Avg
 from django.core import serializers
+import simplejson
+import collections
 
 '''
 def index(request):
@@ -1986,6 +1988,60 @@ def report_auto_xml(request, id_event):
 	
     report_xml = serializers.serialize("xml", event)
     return HttpResponse(report_xml, content_type="text/xml")
+
+# API damage loss kelurahan
+# event_date YYYYMMDD	
+def auto_report_json(request, event_date):
+    cursor_pg = connections['pgdala'].cursor()
+    yyyy = event_date[0:4]
+    mm   = event_date[4:6]
+    dd   = event_date[6:8]
+    t00  = yyyy + "-" + mm + "-" + dd + " 00:00:00"
+    t23  = yyyy + "-" + mm + "-" + dd + " 23:59:59"
+    #get id event
+    try:
+        id_event = AutoCalc.objects.using('pgdala').raw("SELECT id FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' order by t1 desc limit 1")
+    except AutoCalc.DoesNotExist:
+        report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
+        return HttpResponse(report_json, content_type="application/json")
+    #check id event
+    try :
+	    id_ev = id_event[0].id
+    except IndexError:
+        report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
+        return HttpResponse(report_json, content_type="application/json")
+	#query damage and loss kelurahan	
+    try:
+        events = AutoResultJSON.objects.using('pgdala').raw('SELECT * FROM auto_dala_json(%s)', [id_event[0].id])      
+    except AutoResult.DoesNotExist:
+        report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
+        return HttpResponse(report_json, content_type="application/json")
+    #build json
+    list_kel = []			
+    for event in events:
+        kel = collections.OrderedDict()
+        kel['kelurahan_id'] = event.kelurahan_id
+        kel['kota'] = event.kota
+        kel['kecamatan'] = event.kecamatan
+        kel['kelurahan'] = event.kelurahan
+        kel['rw'] = event.rw
+        kel['tanggal'] = event.tanggal
+        kel['damage_infrastruktur'] = event.damage_infrastruktur
+        kel['loss_infrastruktur'] = event.loss_infrastruktur
+        kel['damage_lintas_sektor'] = event.damage_lintas_sektor
+        kel['loss_lintas_sektor'] = event.loss_lintas_sektor
+        kel['damage_produktif'] = event.damage_produktif
+        kel['loss_produktif'] = event.loss_produktif
+        kel['damage_sosial_perumahan'] = event.damage_sosial_perumahan
+        kel['loss_sosial_perumahan'] = event.loss_sosial_perumahan
+        kel['damage_total'] = event.damage_total
+        kel['loss_total'] = event.loss_total
+        kel['sumber'] = event.sumber
+        list_kel.append(kel)
+    
+    report_json = simplejson.dumps(list_kel)	
+    return HttpResponse(report_json, content_type="application/json")
+
 	
 @login_required
 def report_impact_config(request, template='report/report_impact_config.html'):
