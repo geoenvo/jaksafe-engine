@@ -2000,20 +2000,25 @@ def auto_report_json(request, event_date):
     t23  = yyyy + "-" + mm + "-" + dd + " 23:59:59"
     #get id event
     try:
-        id_event = AutoCalc.objects.using('pgdala').raw("SELECT id FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' order by t1 desc limit 1")
-    except AutoCalc.DoesNotExist:
+        id_event = AdHocCalc.objects.raw("SELECT id, t1 FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' order by t1 desc limit 1")
+        
+    except AdHocCalc.DoesNotExist:
         report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
         return HttpResponse(report_json, content_type="application/json")
     #check id event
     try :
-	    id_ev = id_event[0].id
+        id_ev = id_event[0].id
+        print id_ev
+        t1_ev = id_event[0].t1
     except IndexError:
         report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
         return HttpResponse(report_json, content_type="application/json")
 	#query damage and loss kelurahan	
     try:
-        events = AutoResultJSON.objects.using('pgdala').raw('SELECT * FROM auto_dala_json(%s)', [id_event[0].id])      
-    except AutoResult.DoesNotExist:
+        events = AutoResultJSON.objects.using('pgdala').raw('SELECT * FROM auto_dala_json(%s, %s)',[id_ev, t1_ev])    
+       
+		
+    except AdhocResult.DoesNotExist:
         report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
         return HttpResponse(report_json, content_type="application/json")
     #build json
