@@ -2000,14 +2000,14 @@ def auto_report_json(request, event_date):
     t23  = yyyy + "-" + mm + "-" + dd + " 23:59:59"
     #get id event
     try:
-        id_event = AdHocCalc.objects.raw("SELECT id, t1 FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' order by t1 desc limit 1")
+        id_event = AutoCalc.objects.raw("SELECT id, id_event, t1 FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' and id_event is not null order by t1 desc limit 1")
         
     except AdHocCalc.DoesNotExist:
         report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
         return HttpResponse(report_json, content_type="application/json")
     #check id event
     try :
-        id_ev = id_event[0].id
+        id_ev = id_event[0].id_event
         print id_ev
         t1_ev = id_event[0].t1
     except IndexError:

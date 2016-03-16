@@ -13,7 +13,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-SELECT * FROM get_auto_rw_affected(5,'PETOGOGAN');
+--SELECT * FROM get_auto_rw_affected(5,'PETOGOGAN');
 
 
 -- GET DAMAGE PER SECTOR
@@ -80,7 +80,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION auto_dala_json(event_id int);
+DROP FUNCTION auto_dala_json(event_id int, event_date timestamp with time zone);
 CREATE OR REPLACE FUNCTION auto_dala_json(event_id int, event_date timestamp with time zone)
   RETURNS TABLE (
 	id text,
@@ -105,8 +105,8 @@ $func$
 BEGIN
    RETURN QUERY
    SELECT 
-        SUBSTR(id_unit,1,10) id,
-	SUBSTR(id_unit,1,10) kelurahan_id, 
+        substr(to_char(id_unit,'9999999999999999'),2,10) id,
+	substr(to_char(id_unit,'9999999999999999'),2,10) kelurahan_id, 
 	a.kota,
 	a.kecamatan,
 	a.kelurahan,
@@ -132,7 +132,7 @@ BEGIN
 END
 $func$  LANGUAGE plpgsql;
 
-DROP FUNCTION auto_dala_json(event_id int);
+DROP FUNCTION auto_dala_json(event_id int, event_date timestamp without time zone);
 CREATE OR REPLACE FUNCTION auto_dala_json(event_id int, event_date timestamp without time zone)
   RETURNS TABLE (
 	id text,
@@ -157,8 +157,8 @@ $func$
 BEGIN
    RETURN QUERY
    SELECT 
-        SUBSTR(id_unit,1,10) id,
-	SUBSTR(id_unit,1,10) kelurahan_id, 
+        substr(to_char(id_unit,'9999999999999999'),2,10) id,
+	substr(to_char(id_unit,'9999999999999999'),2,10) kelurahan_id, 
 	a.kota,
 	a.kecamatan,
 	a.kelurahan,
@@ -183,3 +183,6 @@ BEGIN
     ORDER BY kelurahan_id;
 END
 $func$  LANGUAGE plpgsql;
+
+
+--SELECT * FROM auto_dala_json(174, '2014-11-25T23:15:00+00:00')
