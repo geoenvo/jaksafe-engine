@@ -1,3 +1,4 @@
+
 """
 Django settings for jaksafe project.
 
@@ -41,8 +42,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
     'ckeditor',
-    #'extended_flatpages',
-	'chartit',
+    'extended_flatpages',
+    'chartit',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,7 +71,7 @@ DATABASES = {
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'jaksafe',
-        'USER': 'root',
+        'USER': 'jaksafe',
         'PASSWORD': 'password',
     },
 	'pgdala': {
