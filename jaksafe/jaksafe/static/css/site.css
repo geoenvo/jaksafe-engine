@@ -1,7 +1,11 @@
 .mb-20 { margin-bottom: 20px; }
 .mb-0 { margin-bottom: 0; }
 
-body { background-color: #f5f5f5; }
+body { 
+    background-color: #f5f5f5; 
+    font-family: 'Open Sans';
+}
+
 #main.container { background-color: #fff; height: 100%; }
 #heading { }
 #filter { }
@@ -15,6 +19,40 @@ body { background-color: #f5f5f5; }
     padding-top: 0px;
     padding-bottom: 0px;
     line-height: 60px;
+}
+
+/* Changes color of dropdown menu button once hovered */
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+    background-color: #ffcc00;
+}
+
+/* Changes color of dropdown menu button once activated */
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:focus,
+.dropdown-menu > .active > a:hover {
+    color: #262626;
+    background-color: #ffcc00;
+}
+
+/* Changes color of main menu button once hovered */
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover{
+    background-color: #ffcc00;
+}
+
+/* Changes color of main menu button once clicked/opened */
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:focus,
+.navbar-default .navbar-nav > .open > a:hover{
+    background-color: #ffcc00;
+}
+
+/* Changes color of main menu button once activated */
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover {
+    background-color: #ffcc00;
 }
 
 @media (max-width: 767px) {
@@ -34,11 +72,13 @@ form ul.errorlist li { list-style: none; }
 thead { background-color: #FF8900}
 tfoot { background-color: #FFB800}
 
+/* Footer setup */
 #footer {
     color: #FFF;
     padding: 20px 0;
 }
 
-#footer .logo {
+/* Footer -> Logo setup */
+#footer.logo {
     margin-top: 10px;
 }
