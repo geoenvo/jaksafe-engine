@@ -33,3 +33,12 @@ form ul.errorlist li { list-style: none; }
 
 thead { background-color: #FF8900}
 tfoot { background-color: #FFB800}
+
+#footer {
+    color: #FFF;
+    padding: 20px 0;
+}
+
+#footer .logo {
+    margin-top: 10px;
+}

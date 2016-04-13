@@ -65,9 +65,41 @@
             </div>
         </nav>
         {% block content %}{% endblock %}
-        <div id="footer" id="" class="row">
-            <div class="col-md-12">
-                <div class="text-center"><!--<a href="http://www.irisiko.com" target="_blank">-->JakSAFE &copy 2016<!--</a>--></div>
+        <div id="footer" id="" class="row" style="background-color: #666;">
+            <div class="col-md-12 row">
+                <div class="col-md-12 row">
+                    <div class="col-md-3">
+                        JakSAFE ver 1.2
+                        <br>
+                        Using Jakarta Exposure v1.0
+                    </div>
+                    <div class="col-md-9">
+                        <span style="color: #fb9700">Usage Disclaimer</span>
+                    </div>
+                </div>
+                <div class="col-md-12 row" style="margin-top: 20px;">
+                    <div class="col-md-8 row">
+                        <div class="col-md-12">
+                            Supported by:
+                        </div>
+                        <div class="col-md-12 row">
+                            <div class="col-md-4 row">
+                                <a href="http://www.worldbank.org/in/country/indonesia" target="_blank"><img class="logo" src="{{ STATIC_URL }}img/logo-worldbank-white.png"></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="https://www.gfdrr.org/" target="_blank"><img class="logo" src="{{ STATIC_URL }}img/logo-gfdrr-white.png"></a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="http://bpbd.jakarta.go.id/" target="_blank"><img class="logo" src="{{ STATIC_URL }}img/logo-bpbd-white.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        Developed &amp; Implemented
+                        <br>
+                        <a href="http://www.geo.co.id/" target="_blank"><img class="logo" src="{{ STATIC_URL }}img/logo-geo-white.png"></a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
