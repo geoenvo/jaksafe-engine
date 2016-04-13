@@ -6,3 +6,4 @@ jaksafe/jaksafe/uploaded/jakservice/auto/config/kelas_dampak/*_old.csv
 jaksafe/jaksafe/uploaded/jakservice/auto/input/aggregat/*.old
 jaksafe/jaksafe/uploaded/jakservice/auto/input/aggregat/*_old.csv
 jaksafe/jaksafe/uploaded/jakservice/auto/input/sql/old/*
+jaksafe/jaksafe/jakservice/global_conf.cfg
