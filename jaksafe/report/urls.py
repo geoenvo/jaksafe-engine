@@ -3,6 +3,7 @@ from report import views
 
 urlpatterns = patterns('',
     url(r'^home/$', views.home, name='home'),
+    url(r'^about/$', views.about, name='about'),
     url(r'^auto/$', views.report_auto, name='report_auto'),
     url(r'^adhoc/$', views.report_adhoc, name='report_adhoc'),
     url(r'^flood/$', views.report_flood, name='report_flood'),

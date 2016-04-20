@@ -74,6 +74,13 @@ def home(request, template='report/home.html'):
     context_dict["page_title"] = 'JakSAFE Home'
     context_dict["errors"] = []
     context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+
+def about(request, template='report/about.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE About'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
     return render_to_response(template, RequestContext(request, context_dict))	
 
 def get_delimiter(csv_file):

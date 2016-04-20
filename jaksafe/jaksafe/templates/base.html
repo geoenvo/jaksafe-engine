@@ -30,6 +30,7 @@
                 </div>
                 <ul class="nav navbar-nav">
                     {% url "home" as home_url %}<li {% if home_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "home" %}">{% trans "Home" %}</a></li>
+                    {% url "about" as about_url %}<li {% if about_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "about" %}">{% trans "About" %}</a></li>
                     {% url "report_auto" as report_auto_url %}<li {% if report_auto_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_auto" %}">{% trans "Automatic Report" %}</a></li>
                     {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc DaLA" %}</a></li>
                     {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li>
@@ -96,13 +97,20 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        Developed &amp; Implemented
+                        &emsp; Developed &amp; Implemented by:
                         <br>
                         <a href="http://www.geo.co.id/" target="_blank"><img class="logo" src="{{ STATIC_URL }}img/logo-geo-white.png"></a>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <!-- Back to top button -->
+        <span id="top-link-block" class="hidden">
+            <a href="#top" class="well well-sm" onclick="$('html,body').animate({scrollTop:0},'slow');return false;">
+                <i class="glyphicon glyphicon-chevron-up"></i> Back to Top
+            </a>
+        </span>
     </div>
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
