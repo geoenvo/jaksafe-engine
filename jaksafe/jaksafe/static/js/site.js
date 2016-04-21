@@ -30,20 +30,8 @@ $(document).ready(function() {
             sideBySide: true,
         });
     }
-      
-    /* Smooth scrolling sidebar: Activate sidebar as the menu is clicked */
-    $('a[href*=#]:not([href=#])').click(function() {
-        var target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-        if (target.length) {
-            $('html,body').animate({
-                scrollTop: target.offset().top
-            }, 1000);
-            return false;
-        }
-    });
     
-    /* Activate sidebar once the page is displayed */
+    /* Activate sidebar menu once the page is displayed */
     $(window).on('scroll', function () {
         var scrollPos = $(document).scrollTop();
         $('.sidebar-menu a').each(function () {
@@ -59,6 +47,18 @@ $(document).ready(function() {
         });
     });
     
+    /* Smooth scrolling sidebar */
+    $('a[href*=#]:not([href=#])').click(function() {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+            $('html,body').animate({
+                scrollTop: target.offset().top
+            }, 1000);
+            return false;
+        }
+    });
+    
     /* Manage sidebar position as the page is scrolled */
     if ( ($(window).height() + 100) < $(document).height() ) {
         $('#sidebar-block').affix({
@@ -72,4 +72,27 @@ $(document).ready(function() {
             offset: {top:100}
         });
     }
+    
+    /* Enable click and drag scrollable page */
+    var x,y,top,left,down;
+    $("#scrollable").mousedown(function(e){
+        e.preventDefault();
+        down=true;
+        x=e.pageX;
+        y=e.pageY;
+        top=$(this).scrollTop();
+        left=$(this).scrollLeft();
+    });
+    $("body").mousemove(function(e){
+        if(down){
+            var newX=e.pageX;
+            var newY=e.pageY;
+            
+            //console.log(y+", "+newY+", "+top+", "+(top+(newY-y)));
+            
+            $("#scrollable").scrollTop(top-newY+y);    
+            $("#scrollable").scrollLeft(left-newX+x);    
+        }
+    });
+    $("body").mouseup(function(e){down=false;});
 });

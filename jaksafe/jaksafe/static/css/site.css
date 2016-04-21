@@ -85,7 +85,7 @@ tfoot { background-color: #FFB800}
 }
 
 /* Basic display for sidebar menu */
-.sidebar-header { font-weight: bold; }
+.sidebar-header { font-weight: bold; margin-bottom:-10px }
 ul.sidebar-menu  { counter-reset: item; padding-left: 10px; }
 ul.sidebar-menu > li { position:relative; display: block; font-size: 98%; color:#777; }
 ul.sidebar-menu > li > a { position:relative; display: block; font-size: 98%; padding:5px 15px; color:#777; }
@@ -98,6 +98,20 @@ ul.sidebar-menu > li > a:hover{
     color:#333;
 }
 ul.sidebar-menu > li > a:focus{ text-decoration: none; }
+
+/* Scrollable sidebar */
+#scrollhidden {
+    max-height: 62vh;
+    width:230px; 
+    overflow: hidden;
+}
+#scrollable {
+    /*max-height: 60vh;
+    overflow: auto;*/
+    max-height: 64vh;
+    width:270px;
+    overflow: auto;
+}
 
 /* -------- Table setup -------- */
 /* Caption */
