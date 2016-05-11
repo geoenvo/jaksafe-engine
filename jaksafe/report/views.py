@@ -13,7 +13,7 @@ from report.forms import ImpactClassForm, AggregateForm, AssumptionsDamageForm, 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON
+from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Sum, Avg
 from django.core import serializers
@@ -51,7 +51,7 @@ def report_login(request, template='report/report_login.html'):
                 if next:
                     return HttpResponseRedirect(next)
                 else:
-                    return HttpResponseRedirect(reverse('report_auto'))
+                    return HttpResponseRedirect(reverse('home'))
             else:
                 messages.add_message(request, messages.ERROR, "User is not active. Please contact the Administrator.")
                 
@@ -67,7 +67,7 @@ def report_login(request, template='report/report_login.html'):
 def report_logout(request):
     logout(request)
     
-    return HttpResponseRedirect(reverse('report_auto'))
+    return HttpResponseRedirect(reverse('home'))
 
 def home(request, template='report/home.html'):
     context_dict = {}
@@ -81,7 +81,42 @@ def about(request, template='report/about.html'):
     context_dict["page_title"] = 'JakSAFE About'
     context_dict["errors"] = []
     context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+
+def map(request, template='report/map.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Map'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+
+def science(request, template='report/science.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Science'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+    
+def data(request, template='report/data.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Data'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+
+def api(request, template='report/api.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE API'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
     return render_to_response(template, RequestContext(request, context_dict))	
+    
+def contribute(request, template='report/contribute.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Contribute'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
 
 def get_delimiter(csv_file):
     with open(csv_file, 'r') as the_csv_file:
@@ -158,7 +193,7 @@ def report_flood(request, template='report/report_flood.html'):
             # invalid date range given, set flash message and redirect
             messages.add_message(request, messages.ERROR, "Please input a valid date period.")
             
-            return HttpResponseRedirect(reverse('report_auto'))
+            return HttpResponseRedirect(reverse('report_flood'))
     else:
         cursor.execute("SELECT count(id) FROM fl_event")
         row = cursor.fetchone()
@@ -201,10 +236,94 @@ def report_flood(request, template='report/report_flood.html'):
         context_dict["fl_event"] = resultset
         
     return render_to_response(template, RequestContext(request, context_dict))
+
+def report_daily(request, template='report/report_daily.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Daily Report'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    
+    records_per_page = settings.RECORDS_PER_PAGE
+    
+    cursor = connection.cursor()
+    
+    if request.method == "POST":
+        # handle form submit
+        t0 = request.POST.get('t0')
+        t1 = request.POST.get('t1')
+        
+        # check if given date is valid, start date < end date
+        date_range = valid_date(t0, t1)
+        
+        if (date_range != False):
+            # process filter
+            print "DEBUG t0 = %s, t1 = %s" % (date_range['t0'], date_range['t1'])
+            
+            cursor.execute("SELECT id, id_event, t0, t1, damage, loss, id_event FROM auto_calc WHERE t0 >= '%s' AND t1 <= '%s' ORDER BY id DESC" % (date_range['t0'], date_range['t1']))
+            
+            resultset = dictfetchall(cursor)
+            
+            context_dict["auto_calc"] = resultset
+            
+            messages.add_message(request, messages.INFO, "Showing reports for date period: %s - %s" % (date_range['t0'], date_range['t1']))
+        else:
+            # invalid date range given, set flash message and redirect
+            messages.add_message(request, messages.ERROR, "Please input a valid date period.")
+            
+            return HttpResponseRedirect(reverse('report'))
+    else:
+        cursor.execute("SELECT count(id) FROM auto_calc_daily")
+        row = cursor.fetchone()
+        
+        records_total = row[0]
+        
+        page = 0
+        offset = 0
+        
+        p = request.GET.get('page', False)
+        
+        if p != False and p.isdigit():
+            print 'DEBUG p = %s' % p
+            page = int(p)
+            offset = records_per_page * (page)
+        
+        records_left = records_total - (records_per_page * (page + 1))
+        page_total = records_total / records_per_page
+        
+        if records_total % records_per_page == 0:
+            page_total = page_total - 1
+        
+        print 'DEBUG total records = %s' % records_total
+        print 'DEBUG page = %s' % page
+        print 'DEBUG page_total = %s' % page_total
+        print 'DEBUG offset = %s' % offset
+        print 'DEBUG records_left = %s' % records_left
+        print 'DEBUG records_per_page = %s' % records_per_page
+        
+        cursor.execute("SELECT id, id_event, from_date, to_date, day, loss FROM auto_calc_daily ORDER BY id DESC LIMIT %s, %s" % (offset, records_per_page))
+        
+        resultset = dictfetchall(cursor)
+        
+        context_dict["page"] = page
+        context_dict["page_total"] = page_total
+        context_dict["offset"] = offset
+        context_dict["records_total"] = records_total
+        context_dict["records_left"] = records_left
+        context_dict["records_per_page"] = records_per_page
+        
+        context_dict["jakservice_auto_output_report_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
+        context_dict["jakservice_auto_output_log_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
+        context_dict["auto_calc_daily"] = resultset
+        
+    return render_to_response(template, RequestContext(request, context_dict))
+
+def redirect_report_auto_web(request,id):
+    autocalcdaily = AutoCalcDaily.objects.get(id=id)
+    return HttpResponseRedirect(reverse('report_auto_web', kwargs={'id_event': autocalcdaily.id_event}))
     
 def report_auto(request, template='report/report_auto.html'):
     context_dict = {}
-    context_dict["page_title"] = 'JakSAFE Automatic Report'
+    context_dict["page_title"] = 'JakSAFE Report'
     context_dict["errors"] = []
     context_dict["successes"] = []
     

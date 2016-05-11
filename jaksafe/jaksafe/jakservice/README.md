@@ -87,9 +87,9 @@
 
 * sudo crontab -e
     * \# add the following entries
-    * 59 5 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_auto.py > /dev/null 2>&1
-    * 59 11 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_auto.py > /dev/null 2>&1
-    * 59 17 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_auto.py > /dev/null 2>&1
-    * 59 23 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_auto.py > /dev/null 2>&1
+    * 59 5 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_adhoc_revision.py > /dev/null 2>&1
+    * 59 11 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_adhoc_revision.py > /dev/null 2>&1
+    * 59 17 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_adhoc_revision.py > /dev/null 2>&1
+    * 59 23 * * * /home/user/.virtualenvs/jaksafe/bin/python /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice/run_dalla_adhoc_revision.py > /dev/null 2>&1
 
 **Done!**

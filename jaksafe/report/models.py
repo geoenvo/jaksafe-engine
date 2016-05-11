@@ -1,16 +1,35 @@
 from django.db import models
+from django.db.models.fields import AutoField
+from django.db.backends.mysql.creation import DatabaseCreation
 
 # Create your models here.
+
+class UnsignedAutoField(AutoField):
+    def get_internal_type(self):
+        return 'UnsignedAutoField'
+        
+DatabaseCreation.data_types['UnsignedAutoField'] = 'integer UNSIGNED AUTO_INCREMENT'
+
+class AutoCalcDaily(models.Model):
+    id = UnsignedAutoField(primary_key=True)
+    id_event = models.PositiveIntegerField(null=True)
+    from_date = models.DateTimeField()
+    to_date = models.DateTimeField()
+    day = models.PositiveIntegerField(null=True)
+    loss = models.DecimalField(max_digits=17, decimal_places=2, null=True)
     
+    class Meta:
+        db_table = 'auto_calc_daily'
+        
 class AdHocCalc(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = UnsignedAutoField(primary_key=True)
+    id_event = models.PositiveIntegerField(null=True)
+    id_user = models.IntegerField(null=True)
+    id_user_group = models.IntegerField(null=True)
     t0 = models.DateTimeField()
     t1 = models.DateTimeField()
-    damage = models.DecimalField(max_digits=17, decimal_places=2)
-    loss = models.DecimalField(max_digits=17, decimal_places=2)
-    id_event = models.IntegerField()
-    id_user = models.IntegerField()
-    id_user_group = models.IntegerField()
+    damage = models.DecimalField(max_digits=17, decimal_places=2, null=True)
+    loss = models.DecimalField(max_digits=17, decimal_places=2, null=True)
     
     class Meta:
         db_table = 'adhoc_calc' 
@@ -32,12 +51,12 @@ class AdhocResult(models.Model):
         db_table = 'adhoc_dala_result'
 
 class AutoCalc(models.Model):
-    id = models.IntegerField(primary_key=True)
-    id_event = models.IntegerField()
+    id = UnsignedAutoField(primary_key=True)
+    id_event = models.PositiveIntegerField(null=True)
     t0 = models.DateTimeField()
     t1 = models.DateTimeField()
-    damage = models.DecimalField(max_digits=17, decimal_places=2)
-    loss = models.DecimalField(max_digits=17, decimal_places=2)
+    damage = models.DecimalField(max_digits=17, decimal_places=2, null=True)
+    loss = models.DecimalField(max_digits=17, decimal_places=2, null=True)
     
     class Meta:
         db_table = 'auto_calc' 
@@ -79,13 +98,13 @@ class AutoResultJSON(models.Model):
     sumber = models.CharField(max_length=200)
     
 class FloodEvent(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = UnsignedAutoField(primary_key=True)
     unit = models.CharField(max_length=255)
-    village = models.CharField(max_length=255)
-    district = models.CharField(max_length=255)
-    rt = models.CharField(max_length=255)
-    rw = models.CharField(max_length=255)
-    depth = models.IntegerField()
+    village = models.CharField(max_length=255, null=True)
+    district = models.CharField(max_length=255, null=True)
+    rt = models.CharField(max_length=255, null=True)
+    rw = models.CharField(max_length=255, null=True)
+    depth = models.PositiveIntegerField()
     report_time = models.DateTimeField()
     request_time = models.DateTimeField()
     
@@ -93,13 +112,13 @@ class FloodEvent(models.Model):
         db_table = 'fl_event'
 
 class FloodEventRaw(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = UnsignedAutoField(primary_key=True)
     unit = models.CharField(max_length=255)
-    village = models.CharField(max_length=255)
-    district = models.CharField(max_length=255)
-    rt = models.CharField(max_length=255)
-    rw = models.CharField(max_length=255)
-    depth = models.IntegerField()
+    village = models.CharField(max_length=255, null=True)
+    district = models.CharField(max_length=255, null=True)
+    rt = models.CharField(max_length=255, null=True)
+    rw = models.CharField(max_length=255, null=True)
+    depth = models.PositiveIntegerField()
     report_time = models.DateTimeField()
     request_time = models.DateTimeField()
     

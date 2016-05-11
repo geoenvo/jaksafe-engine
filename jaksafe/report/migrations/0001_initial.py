@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import report.models
 
 
 class Migration(migrations.Migration):
@@ -13,14 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AdHocCalc',
             fields=[
-                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('id', report.models.UnsignedAutoField(serialize=False, primary_key=True)),
+                ('id_event', models.PositiveIntegerField(null=True)),
+                ('id_user', models.IntegerField(null=True)),
+                ('id_user_group', models.IntegerField(null=True)),
                 ('t0', models.DateTimeField()),
                 ('t1', models.DateTimeField()),
-                ('damage', models.DecimalField(max_digits=17, decimal_places=2)),
-                ('loss', models.DecimalField(max_digits=17, decimal_places=2)),
-                ('id_event', models.IntegerField()),
-                ('id_user', models.IntegerField()),
-                ('id_user_group', models.IntegerField()),
+                ('damage', models.DecimalField(null=True, max_digits=17, decimal_places=2)),
+                ('loss', models.DecimalField(null=True, max_digits=17, decimal_places=2)),
             ],
             options={
                 'db_table': 'adhoc_calc',
@@ -51,12 +52,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AutoCalc',
             fields=[
-                ('id', models.IntegerField(serialize=False, primary_key=True)),
-                ('id_event', models.IntegerField()),
+                ('id', report.models.UnsignedAutoField(serialize=False, primary_key=True)),
+                ('id_event', models.PositiveIntegerField(null=True)),
                 ('t0', models.DateTimeField()),
                 ('t1', models.DateTimeField()),
-                ('damage', models.DecimalField(max_digits=17, decimal_places=2)),
-                ('loss', models.DecimalField(max_digits=17, decimal_places=2)),
+                ('damage', models.DecimalField(null=True, max_digits=17, decimal_places=2)),
+                ('loss', models.DecimalField(null=True, max_digits=17, decimal_places=2)),
             ],
             options={
                 'db_table': 'auto_calc',
@@ -107,6 +108,42 @@ class Migration(migrations.Migration):
                 ('sumber', models.CharField(max_length=200)),
             ],
             options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FloodEvent',
+            fields=[
+                ('id', report.models.UnsignedAutoField(serialize=False, primary_key=True)),
+                ('unit', models.CharField(max_length=255)),
+                ('village', models.CharField(max_length=255, null=True)),
+                ('district', models.CharField(max_length=255, null=True)),
+                ('rt', models.CharField(max_length=255, null=True)),
+                ('rw', models.CharField(max_length=255, null=True)),
+                ('depth', models.PositiveIntegerField()),
+                ('report_time', models.DateTimeField()),
+                ('request_time', models.DateTimeField()),
+            ],
+            options={
+                'db_table': 'fl_event',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='FloodEventRaw',
+            fields=[
+                ('id', report.models.UnsignedAutoField(serialize=False, primary_key=True)),
+                ('unit', models.CharField(max_length=255)),
+                ('village', models.CharField(max_length=255, null=True)),
+                ('district', models.CharField(max_length=255, null=True)),
+                ('rt', models.CharField(max_length=255, null=True)),
+                ('rw', models.CharField(max_length=255, null=True)),
+                ('depth', models.PositiveIntegerField()),
+                ('report_time', models.DateTimeField()),
+                ('request_time', models.DateTimeField()),
+            ],
+            options={
+                'db_table': 'fl_event_raw',
             },
             bases=(models.Model,),
         ),

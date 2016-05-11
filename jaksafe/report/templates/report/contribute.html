@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load i18n humanize report_filters %}
+
+{% block title %}{{ page_title }}{{ block.super }}{% endblock %}
+
+{% block extra_header %}
+<link href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+{% if errors %}
+<div class="alert alert-danger" role="alert">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {% for error in errors %}
+        {% trans error %}
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'success' %}
+    <div class="alert alert-success" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+        <span class="sr-only">Success:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'info' %}
+    <div class="alert alert-info" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        <span class="sr-only">Info:</span>
+        {{ message }}
+    </div>
+    {% elif message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <span class="sr-only">Error:</span>
+        {{ message }}
+    </div>
+    {% endif %}
+    {% endfor %}
+{% endif %}
+
+{% if flood_event %}
+<div id="event" id="" class="row mb-20">
+	<div class="col-md-12">
+        <!--<h3>{{ page_title }}</h3>-->
+        <h3>Recent Flood</h3>
+    </div>
+    <div class="col-md-8">
+        <!--insert map here-->
+        
+    </div>
+	<div class="col-md-4">
+        <!--insert chart and table here-->
+    </div>
+</div>
+{% endif %}
+
+<div id="about" class="row mb-20">
+    <div class="col-md-8">
+        <h3>What is JakSAFE?</h3>
+		<p>JakSAFE is a system designed to estimate the damage and loss due to flood event in DKI Jakarta. JakSAFE will estimate financial damage and losses due to flood generated from estimation of reported flood event via BPBD team, people's report, social media, and confirmed by field surveyor. The report then aggregated by RW's of Villages and attached to certain height of innundated and flood long (in days).</p>
+		<p>JakSAFE using the latest Jakarta Eksposure v1.0 which collected and processed during JakSAFE Data Collection activity 2015. This Exposure dataset is produced from P4T parcel data and merged with building footprint of Jakarta.</p>
+		<p>The estimation of Damage and Lossess consists of following sectors: Infrastructure, Productive, Social & Housing, and Cross-sector. The valuation of each assets on the Exposure dataset are using estimation & assumption, research documentation, papers, standard and historical flood report.</p>
+		<p>The Total covered villages are 261 villages on the mainland of Java (excl. thousand island). The total assets covered are 1.354.377 defined assets in Jakarta including housing, business, commerce, government and public assets.</p>
+		<p>JakSAFE is funded by GFDRR throught the Worldbank. Design, Developed and Implemented by Geo Enviro Omega and inspired by InaSAFE. Currently implemented in DKI Jakarta Province, capital of Indonesia.</p>
+		
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+<script src="{{ STATIC_URL }}js/moment.min.js"></script>
+<script src="{{ STATIC_URL }}js/bootstrap-datetimepicker.min.js"></script>
+{% endblock %}

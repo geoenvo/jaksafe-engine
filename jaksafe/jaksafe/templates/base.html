@@ -31,9 +31,15 @@
                 <ul class="nav navbar-nav">
                     {% url "home" as home_url %}<li {% if home_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "home" %}">{% trans "Home" %}</a></li>
                     {% url "about" as about_url %}<li {% if about_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "about" %}">{% trans "About" %}</a></li>
-                    {% url "report_auto" as report_auto_url %}<li {% if report_auto_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_auto" %}">{% trans "Automatic Report" %}</a></li>
-                    {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc DaLA" %}</a></li>
-                    {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li>
+                    {% url "map" as map_url %}<li {% if map_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "map" %}">{% trans "Map" %}</a></li>
+                    {% url "report_daily" as report_daily_url %}<li {% if report_daily_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_daily" %}">{% trans "Report" %}</a></li>
+                    {% url "science" as science_url %}<li {% if science_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "science" %}">{% trans "Science" %}</a></li>
+                    {% url "data" as data_url %}<li {% if data_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "data" %}">{% trans "Data" %}</a></li>
+                    {% url "api" as api_url %}<li {% if api_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "api" %}">{% trans "API" %}</a></li>
+                    {% url "contribute" as contribute_url %}<li {% if contribute_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "contribute" %}">{% trans "Contribute" %}</a></li>
+                    <!-- {% url "report_auto" as report_auto_url %}<li {% if report_auto_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_auto" %}">{% trans "Automatic Report" %}</a></li> -->
+                    <!-- {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc DaLA" %}</a></li> -->
+                    <!-- {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li> -->
                     {% if user.is_authenticated %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "Settings" %} <span class="caret"></span></a>

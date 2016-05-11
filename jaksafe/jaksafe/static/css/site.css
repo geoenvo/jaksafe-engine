@@ -86,28 +86,26 @@ tfoot { background-color: #FFB800}
 
 /* Basic display for sidebar menu */
 .sidebar-header { font-weight: bold; margin-bottom:-10px }
-ul.sidebar-menu  { counter-reset: item; padding-left: 10px; }
-ul.sidebar-menu > li { position:relative; display: block; font-size: 98%; color:#777; }
-ul.sidebar-menu > li > a { position:relative; display: block; font-size: 98%; padding:5px 15px; color:#777; }
+.sidebar-menu  { counter-reset: item; padding-left: 10px; }
+.sidebar-menu > li { position:relative; display: block; font-size: 97%; color:#777; }
+.sidebar-menu > li > a { position:relative; display: block; font-size: 97%; padding:5px 15px; color:#777; }
 
 /* Change color of sidebar menu once hovered & clicked */
-ul.sidebar-menu a.active,
-ul.sidebar-menu > li > a:hover{
+.sidebar-menu a.active,
+.sidebar-menu > li > a:hover{
     background-color: #ffcc00;
     text-decoration: none;
     color:#333;
 }
-ul.sidebar-menu > li > a:focus{ text-decoration: none; }
+.sidebar-menu > li > a:focus{ text-decoration: none; }
 
 /* Scrollable sidebar */
 #scrollhidden {
     max-height: 62vh;
-    width:230px; 
+    width:240px; 
     overflow: hidden;
 }
 #scrollable {
-    /*max-height: 60vh;
-    overflow: auto;*/
     max-height: 64vh;
     width:270px;
     overflow: auto;
@@ -123,7 +121,7 @@ caption{
 }
 
 /* Table */
-.table1, .table2, .table3  {
+.table1, .table2, .table3, .table4, .tableAPI  {
     border: 1px solid black;
     margin-left: auto; 
     margin-right: auto;
@@ -134,9 +132,11 @@ caption{
 .table1 { width: 600px; }
 .table2 { width: 400px; }
 .table3 { width: 550px; }
+.table4 { width: 680px; }
+.tableAPI { width: 900px; }
 
 /* Header */
-.header-table1 > th, .header-table2 > th, .header-table3 > th  {
+.header-table1 > th, .header-table2 > th, .header-table3 > th , .header-tableAPI > th {
     color: #000000;
     border: 1px solid black;
     font-size: 95%;
@@ -144,6 +144,7 @@ caption{
 .header-table1 > th { background-color: #eee; text-align: center; height: 40px;}
 .header-table2 > th { background-color: #ff8000; text-indent: 10px;  height: 25px; }
 .header-table3 > th { background-color: #eee; text-align: center; height: 40px; font-style: italic; }
+.header-tableAPI > th { background-color: #eee; text-align: center; height: 40px;}
 
 /* Content */
 .content-table1-class ,
@@ -177,6 +178,11 @@ caption{
 }
 .content-table3-sector { font-weight: bold; font-style: italic; }
 .content-table3-odd { background-color: #eee; }
+
+.content-table4-left{ font-weight: bold; background-color: #eee; width: 25%; border: 1px solid black; padding: 5px 10px; }
+.content-table4-right{ border: 1px solid black; padding: 5px 10px; }
+
+.content-tableAPI{ border: 1px solid black; padding: 5px 10px; }
 
 /* -------- Image setup -------- */
 figure {
