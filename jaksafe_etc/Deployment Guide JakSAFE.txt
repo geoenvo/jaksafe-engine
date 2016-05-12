@@ -1,0 +1,233 @@
+=========================================================================
+	Install base libraries and virtualenv (Python Virtual Environment)
+=========================================================================
+> cd ~
+> sudo apt-get update
+> sudo apt-get -y install build-essential python-pip python-dev python-software-properties git-core
+> sudo pip install virtualenv virtualenvwrapper
+> nano ~/.bashrc
+    # at the end of line
+    export WORKON_HOME=$HOME/.virtualenvs
+    source /usr/local/bin/virtualenvwrapper.sh
+> . .bashrc
+
+=========================================================================
+							Install mysql server
+=========================================================================
+> sudo apt-get -y install mysql-server libmysqlclient-dev
+  # follow MySQL configuration and set the root user password
+	(password root: password)
+  
+# create the MySQL user and database for JakSAFE from MySQL CLI
+> mysql -u root -p
+    > create database jaksafe;
+    > grant all privileges on jaksafe.* to 'jaksafe'@'localhost' identified by 'password';
+    > set password for 'jaksafe'@'localhost' = PASSWORD('password');
+    > flush privileges;
+    > exit;
+
+# to drop database: drop database jaksafe;    
+
+=========================================================================
+				Install QGIS and other library requirements
+=========================================================================
+# install the newer QGIS version from QGIS repo
+> cd ~
+> sudo nano /etc/apt/sources.list
+
+    # add to the end
+    deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main
+
+> wget -O - http://qgis.org/downloads/qgis-2015.gpg.key | gpg --import
+> gpg --fingerprint 3FF5FFCAD71472C4
+> gpg --export --armor 3FF5FFCAD71472C4 | sudo apt-key add -
+
+> sudo apt-get update
+> sudo apt-get install qgis python-qgis qgis-plugin-grass
+
+# install locale library requirements for pdf report generation
+> sudo apt-get -y install language-pack-id
+
+
+=========================================================================
+  Create a new virtualenv and pull the source code from the JakSAFE repo
+=========================================================================
+# create a new virtualenv called 'jaksafe'
+> mkvirtualenv jaksafe
+  # Restart ubuntu if failed
+
+# cd to the virtualenv home directory
+> cdvirtualenv
+
+# default virtualenv directory ~/.virtualenvs/jaksafe
+> pwd
+
+# clone from https://github.com/geoenvo/jaksafe-engine.git
+> git clone https://github.com/geoenvo/jaksafe-engine.git
+
+# go to jaksafe_engine directory
+> cd jaksafe-engine/
+
+# install requirement for matplotlib library
+> sudo apt-get install libpng-dev
+> sudo apt-get install libfreetype6-dev libxft-dev
+
+# install postgresql and devel library
+> sudo apt-get install postgresql postgresql-contrib libpq-dev
+
+# install all requirements
+> pip install -r requirements.txt
+
+# wait until installation completes
+# verify that the packages are installed
+> pip list
+
+# deactivate virtualenv
+> deactivate
+
+
+=========================================================================
+				Install postgresql user and database
+=========================================================================
+# add linux user jaksafe 
+
+# as superuser
+> sudo su
+> adduser jaksafe
+(password: password)
+
+# as superuser login as postgres
+> su - postgres
+
+# as postgres user
+> psql
+    # postgresql cli
+    postgres=# CREATE USER jaksafe WITH PASSWORD 'password';
+    postgres=# CREATE DATABASE jaksafe_hazard;
+    postgres=# GRANT ALL PRIVILEGES ON DATABASE jaksafe_hazard to jaksafe;
+    postgres=# \q
+
+=========================================================================
+					Create mysql required table
+=========================================================================
+# work on virtualenv
+> workon jaksafe
+
+# go to dir virtualenv
+> cdvirtualenv
+
+# create required table in jaksafe database
+# mysql -u jaksafe -p jaksafe < jaksafe-engine/jaksafe_etc/jaksafe.sql
+(Enter password: password)
+
+=========================================================================
+					Create postgresql required table
+=========================================================================
+# restore pg_dump
+/usr/bin/pg_restore --host localhost --port 5432 --username "jaksafe" --dbname "jaksafe_hazard" --verbose "/home/faqih/.virtualenvs/jaksafe/jaksafe-engine/jaksafe_etc/jaksafe_hazard.backup"
+
+(Enter password: password)
+
+
+=========================================================================
+							Fix chartit debug
+=========================================================================
+> workon jaksafe
+> cdvirtualenv
+> pip install django_chartit
+> nano lib/python2.7/site-packages/chartit/templatetags/chartit.py
+    # comment this part
+    from django.utils import simplejson
+
+    # add this line
+    import simplejson
+
+
+=========================================================================
+					Sync the JakSAFE webapp database
+=========================================================================
+> cd jaksafe-engine/jaksafe
+> cp jaksafe/settings.py.sample jaksafe/settings.py
+> nano jaksafe/settings.py
+    # adjust the MySQL database connection settings in DATABASES
+    # adjust the PostgreSQL database connection settings in DATABASES
+    # adjust the jakservice dirs (use the default)
+    # check PYTHON_EXEC path (default is to use the ‘JakSAFE’ virtualenv Python binary)
+> python manage.py makemigrations	
+> python manage.py migrate
+> python manage.py migrate --database=pgdala
+> nano jaksafe/settings.py
+    # uncomment extended_flatpages in INSTALLED_APPS
+> python manage.py createsuperuser
+    # create the admin account
+	user: admin
+	pass: admin123
+
+=========================================================================
+				Edit JakSERVICE configuration file
+=========================================================================
+Edit JakSERVICE configuration file
+
+cp global_conf.cfg.sample global_conf.cfg
+nano global_conf.cfg
+# set [database configuration]: url_address, user, passwd, database_name, port
+# set [dims_conf]: url_dims
+# set [folder_conf]:
+project_folder = /set/absolute/path/to/jakservice/dir (example: /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/jakservice)
+auto_folder = relative path from jakservice dir (use default: ../uploaded/jakservice/auto)
+adhoc_folder = relative path from jakservice dir (use default: ../uploaded/jakservice/adhoc)
+# set [directory]:
+# set absolute path for all, default settings below is provided for example:
+resource = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/resource/
+assumptions = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/input/assumptions/
+aggregate = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/input/aggregat/
+log = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/log/
+impact = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/impact/
+report = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/report/
+hazard = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/auto/output/hazard/
+log_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/log/
+impact_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/impact/
+report_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/report/
+hazard_adhoc = /home/user/.virtualenvs/jaksafe/jaksafe/jaksafe/uploaded/jakservice/adhoc/output/hazard/
+Copy JakSERVICE input files to JakSAFE webapp uploaded directory
+
+cp -R auto adhoc ../uploaded/jakservice/
+
+=========================================================================
+Run the script to populate fl_event table with past flood reports from DIMS flr API
+=========================================================================
+python populate_dims.py
+
+
+=========================================================================
+Optional: install phpMyAdmin for managing the MySQL database
+=========================================================================
+# install phpMyAdmin set it to listen on port 8080
+sudo apt-get -y install phpmyadmin
+# during phpMyAdmin setup select:
+# apache2
+# Yes => enter root user password => leave blank
+sudo php5enmod mcrypt
+sudo nano /etc/apache2/ports.conf
+# comment: Listen 80 (example: #Listen 80)
+# add below Listen 80: Listen 8080
+sudo service apache2 restart
+# open in browser http://SERVER_IP:8080/phpmyadmin
+
+
+=========================================================================
+Add sql script to MySQL database for trigger
+=========================================================================
+> Open phpMyAdmin in browser 
+    # http://SERVER_IP:8080/phpmyadmin
+> Open auto_calc table
+> Click Triggers
+> Click Add trigger
+> Set the Details:
+    # Trigger name: auto_calc_daily
+    # Table: auto_calc
+    # Time: AFTER
+    # Event: INSERT
+    # Definition: <copy the "auto_calc trigger.sql" code from ../jaksafe-engine/jaksafe_etc/auto_calc trigger.sql to here>
+    # Definer: jaksafe@localhost
+> Click Go
