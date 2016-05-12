@@ -31,7 +31,7 @@
                 <ul class="nav navbar-nav">
                     {% url "home" as home_url %}<li {% if home_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "home" %}">{% trans "Home" %}</a></li>
                     {% url "about" as about_url %}<li {% if about_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "about" %}">{% trans "About" %}</a></li>
-                    {% url "map" as map_url %}<li {% if map_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "map" %}">{% trans "Map" %}</a></li>
+                    <!-- {% url "map" as map_url %}<li {% if map_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "map" %}">{% trans "Map" %}</a></li> -->
                     {% url "report_daily" as report_daily_url %}<li {% if report_daily_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_daily" %}">{% trans "Report" %}</a></li>
                     {% url "science" as science_url %}<li {% if science_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "science" %}">{% trans "Science" %}</a></li>
                     {% url "data" as data_url %}<li {% if data_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "data" %}">{% trans "Data" %}</a></li>
