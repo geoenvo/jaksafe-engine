@@ -46,126 +46,81 @@
     {% endfor %}
 {% endif %}
 
-<!-- 
-<div id="science" class="row mb-20">
+<div id="about" class="row mb-20">
     <div class="col-md-8">
         <div id="section1">
-            <h3>1. General Overview</h3>
-            <p>Data is playing significant role for disaster management, it will help decision maker to analyze the situation on their decision making process. Therefore, the more detail your data, the better result you will delivered. JakSAFE is a quick estimation tools designed to estimate Damage and Loss due to Flood disaster in Jakarta. Estimating Damage and Loss is a complex process and need sufficient information and appropriate methodology.</p>
-            <p>JakSAFE Team has collected data for JakSAFE input which classified into: hazard, exposure other supporting information. With those data we build an assumption to precede the calculation.</p>
-            <p>This page will elaborate the detail of methodology and science behind the estimation of JakSAFE Application. It will describe the use, granularity, resolution, year updated, assumption and other information parameter which is needed by JakSAFE. Mostly the the data obtained from Disaster Management Agency of Jakarta, other government institutions, private institutions, associations, and other agencies.</p>
-            <p>JakSAFE deliver the damage and loss calculation value in Rupiahs. The damage and loss value also can be drilled down until RW Boundary, the smallest administrative level. JakSAFE data processing involving Economic Valuation, Geographic Information System, and also Database Management. For further detail of the whole process will be discussed on next chapter.</p>
-            <p>This page also dedicated to all researchers in the world which focus on Damage & Loss Assessment due to flood and challenge them to contribute and involve on the improvement of JakSAFE. Since the beginning of the project, JakSAFE is Free and Open Source Software (FOSS) project, and published under the GPL V3 license. Everybody are welcome to put Inputs on design, User Interfaces, architecture, data, and other this that can be obtained.</p>
+            <h3>1. Executive Summary</h3>
+            <p>JakSAFE is web based software to estimate the Damages and Losses due to Flood events in Jakarta area. The project has been running since January 2015, and the v.1.1 software has finished on November 2015.</p>
+            <p>The main activities of this project are software development and exposure data collection. Damage and loss calculation is a complex process that involving several aspects. Therefore, it needs at least exposure data, hazard data, and other assumptions as the input, for the calculation to begin. The exposure database was collected from local government, while the hazard data is gathered from command center of Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta, in the form of flooded area with RW (Rukun Warga) Boundary as the unit analysis.</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/1-jaksafe-dala-concept.png" target="_blank"><img src="{{ STATIC_URL }}img/about/1-jaksafe-dala-concept.png" width="380"></a>
+                <figcaption>Figure 1 JakSAFE Workflow</figcaption>
+            </figure>
+            
+            <p>After the database has completed, the exposure overlaid with hazard data and will producing information about assets impacted by the flood, which later will be calculated with several assumption and produce damage and loss value in Rupiahs. The sector classification is referring to Damage and Loss Assessment Guide Book published by ECLAC. The development team developed the methodology based on Jakarta condition and data availability.</p>
         </div>
         
         <div id="section2">
-            <h3>2. Basic Information</h3>
+            <h3>2. Background</h3>
+            <p>Flood is the most common and frequent disaster in Indonesia. Among area in Indonesia, Jakarta is one of the regions which have a high risk of flooding. Losses caused by flooding in early February 2007 reached 5.16 trillion rupiahs and is expected to reach 20 trillion rupiahs in flood that occurred in January 2013. High level of losses due to floods in Jakarta can inhibit the development of the city. Therefore, the local government of Jakarta specifically BPBD DKI Jakarta (regional disaster management agencies), need a tool to estimate damages and losses due to flood in rapid manner. Estimation of Jakarta flood damage and losses as one carried out by BAPPENAS (national planning agency), BPBDs (local disaster management agency), and BNPB (national disaster management agency) or other institutions such as the above is still done manually. In 2013, World Bank supports Jakarta BPBD to calculate Damage and Loss Assessment (DaLA) of flood events that occurred early in 2013. It took long time to issue the report. The methodology used at the time was post-disaster survey. It is constrained due to difficulties in obtaining completed data from each of the sectors. For sectors which data is not available, it's calculated using various assumptions. The calculation is fairly complex process because it includes the effects of direct and indirect damage and losses. Indirect impacts including impacts on business processes, micro and macro-economic, social and environmental.</p>
+            <p>After Hackathon event held in July 2014 initiated under Code for Resilience (CfR), World Bank continue to follow up the post-Hackathon event. From February to April 2015, Jakarta InaSAFE (JakSAFE) has initiated and produces the prototype of the Software. Phase 2 is focusing on completion of Exposure Data and Assumptions (finished by December 2015).</p>
+            <p>Jakarta would be the right place to perform this prototype because Flood in Jakarta is nearly occurring yearly in several Villages. Jakarta via Disaster Management Agency (BPBD) already has flood reporting system that reported every day, which area is flooded and at what depth. This data is publicly available and already published an API (Application Programming Interface) which can support as JakSAFE input periodically (Daily or Six-hourly). Worlbank has conduct RW (block) mapping activity in 2013, resulted   2685 RW and 5091 RT has been mapped. The main idea is develop tools that can estimate damages and losses value (in monetary unit) due to flood events, using GIS methodology by utilizes the Flood Events data (in the form of RW block data), Exposure Data (Buildings &amp; Land Parcels) and certain assumptions. Recent development (2016) JakSAFE is updating Hazard area using Contour Delineation model that still under development. In the future, JakSAFE will combine Hazard mapping produced by Hydrological/hydrodynamics Model, improve the physical damage model and improve losses model using more complex micro &amp; macroeconomic parameter &amp; assumptions to get more realistic output of Damage and Loss value. JakSAFE is initially developed by Inteligensi Risiko and continued by Geo Enviro Omega.</p>
         </div>
         
-        <div id="section2-1">
-            <h4>2.1. Administration Boundary</h4>
-            <p>Jakarta as a Province, has five different kind of administrative boundary described by chart and maps below, from the highest to the lowest level. The RT boundary was the lowest boundary level in Jakarta. However, the process of RT boundary mapping is not completed yet, for now it is only covering 35 Kelurahans (Villages) in Jakarta. The presence of Administration Boundary Map on damage and loss calculation in JakSAFE is very significant, because the hazard information (flood report) was reported based on its location, and then displayed using these maps. Therefore, the more detailed your map, the better the information.</p>
+        <div id="section3">
+            <h3>3. Supporting Team</h3>
+            <p><b><u>Adviser</u></b></p>
+            <ul>
+                <li>Iwan Gunawan (Worldbank)</li>
+                <li>Suryani Amin (Worldbank)</li>
+                <li>Magda Adriani (Worldbank)</li>
+            </ul>
+            
+            <p><b><u>Development Team</u></b></p>
+            <div class="row">
+                <div class="col-md-5">
+                    <ul>
+                        <li>Mohammad Fadli (GEO)</li>
+                        <li>Kezia Velda Roberta (formerly iRisiko)</li>
+                        <li>Fariza Dian Prasetyo (formerly iRisiko)</li>
+                        <li>Seno Adiwicaksono (GEO)</li>
+                        <li>Abdul Somat Budiaji (iRisiko)</li>
+                        <li>Abiram Benhard</li>
+                        <li>Rinaldi Pahlevi</li>
+                    </ul>
+                </div>
+                <div class="col-md-5">
+                    <ul>
+                        <li>Mia Renauly (GEO)</li>
+                        <li>Raden Ahnaf Faqih Shaimy (GEO)</li>
+                        <li>Syarif Hidayat (GEO)</li>
+                        <li>Novi Kesumaningtyas (GEO)</li>
+                        <li>David Hadrianus Hutapea (GEO)</li>
+                        <li>Bayu Tri Wibowo (GEO)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="section4">
+            <h3>4. Data Source</h3>
+            <p>There are three kind of input data used in JakSAFE:</p>
+        </div>
+        
+        <div id="section4-1">
+            <h4>4.1 Hazard Data</h4>
+            <p>Hazard data was gathered from Disaster Management Information System (DIMS) installed in Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta Command Center through their API. The data contains information about inudated area in Jakarta, with RW Boundary as their unit analysis. Jakarta as a Province, has five different kind of administrative boundary as described by chart and maps below, from the highest to the lowest level:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/2-jakarta-admin-level.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-jakarta-admin-level.png" width="600"></a>
-                <figcaption>Figure 1 Jakarta Administrative Boundary Level</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" width="650"></a>
+                <a href="{{ STATIC_URL }}img/about/4-geolevel.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-geolevel.png" style="margin-bottom: 0;"></a>
                 <figcaption>Figure 2 Jakarta Administrative Boundary</figcaption>
             </figure>
-        </div>
-        
-        <div id="section2-2">
-            <h4>2.2. Exposure</h4>
-            <p>Exposure data in JakSAFE are every physical asset located or has taken place in Jakarta region. The exposure data was built from various data, from parcel data, building footprints, and road data, to the aggregate data information. Therefore, we will describe each data below:</p>
-        </div>
-        
-        <div id="section2-2-1">
-            <h5>2.2.1. Parcel Data</h5>
-            <p>Parcel data is made produced based on P4T Project (Control, Ownership, Use and Utilization of Land). DKI Jakarta has 261 village (not include Kepulauan Seribu) located in five administrative city, but we only have 193 village of P4T Data, so there are 68 village not covered by P4T data. There are 966.033 record of land parcel data shapefile with information about the parcel as the attribute.</p>
             
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Date Name</td>
-                    <td class="content-table4-right">1P4T: Penguasaan, Pemilikan, Penggunaan dan Pemanfaatan Tanah (Control, Ownership, Use and Utilization of Land)</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Project</td>
-                    <td class="content-table4-right">P4T</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Official Sources</td>
-                    <td class="content-table4-right">Dinas Penataan Kota DKI Jakarta through Badan Penanggulangan Bencana Daerah DKI Jakarta</td>
-                </tr>
-            </table>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/2-example-parcel-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-parcel-data-thumb.png" width="650"></a>
-                <figcaption>Figure 3 Example of Parcel Data in shapefile format</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section2-2-2">
-            <h5>2.2.2. Building Footprint</h5>
-            <p>As mentioned before, there are still <b>68 villages</b> in DKI Jakarta that does not covered by P4T data. Therefore, to complete those <b>68 villages</b>, we use another alternative dataset from Dinas Penataan Kota (City Planning Agency) namely Peta Dasar (Basic Map). Base map are CAD Drawing that contain building footprints in Jakarta, with total 388.345 record for 68 villages. Then the drawing classified into several building category (like school, hospital, etc) that represented by the color or symbol.</p>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Date Name</td>
-                    <td class="content-table4-right">Peta Dasar</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Project</td>
-                    <td class="content-table4-right">Peta Dasar</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Official Sources</td>
-                    <td class="content-table4-right">Dinas Penataan Kota</td>
-                </tr>
-            </table>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/2-example-building-footprint.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-building-footprint.png" width="450"></a>
-                <figcaption>Figure 4 Example of Building Footprint in CAD format</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section2-2-3">
-            <h5>2.2.3. Road Data</h5>
-            <p>We are using road data from OpenstreetMap as road expossure input for JakSAFE. Road data from OpenstreetMap is in shapefile format, and already have information about road type in it. The shapefile has information about the name of the road, type of road, and also length. However, Damage and Loss estimation for "VEHICLE" asset is counted based on number of vehicle on inudated road. Therefore, we need to add vehicle volume information to road shapefile. We are using vehicle volume data obtained from Transportation Agency. The process of inputing vehicle volume information is done using database software (PostGIS and PostgreSQL) to ease database management. After those stages were done, the data from PostGIS is exported into shapefile and generate result like picture below:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/2-vehicle-volume-info.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-vehicle-volume-info-thumb.png" width="650"></a>
-                <figcaption>Figure 5 Vehicle Volume Information on Road Shapefile</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section2-2-4">
-            <h5>2.2.4. Aggregate Data</h5>
-            <p>The ideal expossure data requirements for JakSAFE are expected in the spatial features such as polygon or polyline. Data collected from related institutions comes in various formats, one of the is aggregate data. However, with some assumption and rationale, we still can make use of those data to enrich JakSAFE exposure database. The example of aggregate data was shown like table below:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/2-example-aggregate-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-aggregate-data-thumb.png" width="650"></a>
-                <figcaption>Figure 6 Example of Aggregate Data</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section2-2-5">
-            <h5>2.2.5. Challenge</h5>
-            <p>The ideal data for making exposure dataset is data in spatial format, with detail information of every building or parcel as the attribute. The existing JakSAFE exposure dataset was combined from several data sources, but if the exposure dataset was updated with more detailed spatial information in the future, it would deliver better estimation for damage and loss.</p>
-        </div>
-        
-        <div id="section2-3">
-            <h4>2.3. Hazard</h4>
-        </div>
-        
-        <div id="section2-3-1">
-            <h5>2.3.1. Flood Report</h5>
-            <p>The flood hazard information gathered using RW boundary as the unit analysis by BPBD Command Center, and stored on DIMS (Disaster Information Management System). Then those information could be consumed by public using API (Application Programming Interface). The output of DIMS API (flooded RWs) can be accessed by the link below:</p>
+            <p>As explained above, the RT boundary was the lowest boundary level in Jakarta. However, the process of RT boundary mapping is not completed yet (for now it is only covering 35 Kelurahans in Jakarta). Therefore, the flood hazard information gathered using RW boundary as the unit analysis. The output of DIMS API (flooded RWs) is can accessed by the link below:</p>
             <p align="middle"><a href="http://bpbd.jakarta.go.id/cgi-bin/flr" target="_blank"><i>http://bpbd.jakarta.go.id/cgi-bin/flr</i></a></p>
             <p>The output information of those API are:</p>
+            
             <div class="row">
                 <div class="col-md-5">
                     <ul>
@@ -181,37 +136,70 @@
                 </div>
                 <div class="col-md-3">
                     <figure>
-                        <a href="{{ STATIC_URL }}img/science/3-dims.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-dims.png" width="340"></a>
+                        <a href="{{ STATIC_URL }}img/about/4-dims.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-dims.png" width="340"></a>
                     </figure>
                 </div>
             </div>
-            <p>Hazard information will be our starting point on estimating damage and loss in JakSAFE, where the hazard data will be intersected with exposure to find where the affected exposure and then calculating the damage and loss.</p>
         </div>
         
-        <div id="section2-3-2">
-            <h5>2.3.2. Challenge</h5>
-            <p>As we discussed above, the smallest boundary in Jakarta Province are RT Boundary. However, the mapping of Jakarta RT Boundary is not completed yet, it is only covering 35 Village (excluding Keppulauan Seribu). The ideal situation is when the Jakarta RT Boundary Maps is completed, and the hazard information gathered using RT Boundary as unit analysis, rather than RW Boundary. Therefore, it would deliver better estimation for damage and loss.</p>
+        <div id="section4-2">
+            <h4>4.2 Exposure Data</h4>
+            <p>There are three kind data type of JakSAFE exposure, they are:</p>
+            <ul>
+                <li>Aggregate Exposure Data
+                    <p>Aggregate Exposure Data are asset information which didn't have exact location, so the data provided as aggregate file with administrative boundary as unit analysis.</p>
+                </li>
+                <li>Road Expossure
+                    <p>Spatial Road Expossure data was acquired from OpenstreetMap in the form of spatial data, while the vehicle volume data obtained from Transportation Agency in the form of tabular data.</p>
+                </li>
+                <li>Building Expossure
+                    <p>Spatial Building Exposure data was acquired from P4T and Base Map Data from local government. The P4T data was containing land parcel of Jakarta, and only covering 70% of Jakarta, while Base Map Data containing building footprint of Jakarta and covering 25% of Jakarta, the rest of 5% data was gathered from many sources.</p>
+                </li>
+            </ul>
+            
+            <figure>
+                 <a href="{{ STATIC_URL }}img/about/4-exposure-data.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-exposure-data.png" width="450"></a>
+                <figcaption>Figure 3 Exposure Data Type Distribution</figcaption>
+            </figure>
         </div>
         
-        <div id="section2-4">
-            <h4>2.4. Assumptions</h4>
-            <p>After processing the hazard and exposure data, we have found the number of building affected by flood, but the question is how we change those number into value in rupiahs? Therefore, there has to be assumption to converting the affected building into rupiahs. To ease the assumption, we need to classify the exposure data into different assets, subsector, and sectors first. Then the assumption is made as a damage and loss matrix in rupiahs of every asset, where every category of asset has its own rupiah damage value and loss value in rupiah. However, sometimes the unit for calculating various assets is not the same, like when calculating building we use unit number of building, however in calculating road we have to use metric unit, and when calculating lake we need to use area as unit. Therefore, we also need to define method of calculation on every category of asset. The other thing to consider when making damage and loss value is that type of flood is have different value, like the loss of building that was inundated by 50 cm of flood will be different with the other that inundated by 200 cm of flood, or the damage value of building that was inundated by flood in 1 day will be different with other that inundated in 5 days, so we also need to categorize the hazard. To summarize it all, we need to categorize the hazard and classifying the exposure data to be able make damage and loss value assumption in rupiah, we are going to dig deeper into the rationale of every assumption on the next chapter.</p>
+        <div id="section4-3">
+            <h4>4.3 Damage &amp; Loss Matrix </h4>
+            <p>Damage and Loss Matrix was obtained through valuation process. It is the process to estimating how much (in monetary value) the asset will be loss and damaged after flooded with certain depth and time. In general, the damage and loss matrix assumptions are derived from physical characteristic of the building including property inside the building. The asset valuation process consists of four following method of valuation, they are:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/4-valuation-method.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-valuation-method.png" width="150"></a>
+            </figure>
+            
+            <ul>
+                <li>Historical Flood Data collected from the related organization (SKPDs, BUMDs, Agencies, etc.). This information usually taken from the report(s) of damage and losses due to flood occurring in the certain year(s). However, not every organization have those report.</li>
+                <li>Research Literature (scientific papers, report, standard, regulation, etc.). JakSAFE team collected the informations relevant with the valuation. The information is taken from Internet and Organizations. It usually in the form of scientific report that study the quantification of damage and lossess due to flood event.</li>
+                <li>Estimation is done with certain assumptions based on the physical characteristic of the asset and the property inside the building. For example, for school valuation (pre-school, junior, and senior high school) we do valuation of the assets by detailing the assets that exist within the school such as classrooms, chairs, tables, furniture, etc. JakSAFE team estimate and put an assumption for each item(s) that contained inside the school that threatened by flood.</li>
+                <li>If there are no sufficient information to conduct Historical, Research Literature or Estimation method, the valuation is done based on the previous method conducted by World Bank in their 2013's Flood DaLA report.</li>
+            </ul>
         </div>
         
-        <div id="section3">
-            <h3>3. Rationale</h3>
+        <div id="section5">
+            <h3>5. Methodoloogy</h3>
         </div>
         
-        <div id="section3-1">
-            <h4>3.1. Defining Hazard</h4>
+        <div id="section5-1">
+            <h4>5.1 Data Processing</h4>
         </div>
         
-        <div id="section3-1-1">
-            <h5>3.1.1. Hazard Categorization</h5>
+        <div id="section5-1-1">
+            <h5>5.1.1 Hazard Data</h5>
+            <p>The information from the API is joined to RW boundary spatial data (shapefile), that will produce hazard maps of the specified event, like below:</p>
+                    
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-hazard-maps.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-hazard-maps.png" width="550"></a>
+                <figcaption>Figure 4 Hazard Maps</figcaption>
+            </figure>
+            
             <p>Depth and duration of flood became an important aspect to be considered on Flood damage and loss calculation, so the flood is categorized based on depth and duration like table below.</p>
             
             <table class="table1">
-                <caption>Table 7 JakSAFE Hazard Categorization</caption>
+                <caption>Table 1 JakSAFE Hazard Categorization</caption>
                 <tr class="header-table1">
                     <th>Class</th>
                     <th>Depth (cm)</th>
@@ -289,554 +277,308 @@
             <p>For calculating the loss, the affected area also being an important aspect to be considered. So, we made an algorithm to set the surrounding RW of inudated area as the affected area (Class A4/B4/C4/D4), like described by the images below:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-affected-area-algorithm.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-affected-area-algorithm.png" width="450"></a>
-                <figcaption>Figure 8 Affected Area Algorithm</figcaption>
+                <a href="{{ STATIC_URL }}img/about/5-affected-area-algorithm.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-affected-area-algorithm.png" width="420"></a>
+                <figcaption>Figure 5 Affected Area Algorithm</figcaption>
             </figure>
-        </div>
-        
-        <div id="section3-1-2">
-            <h5>3.1.2. Contour Delineation</h5>
-            <p>Contour delineation is done to classifying the area of every RW based on JakSAFE flood height categorization. Information about flood height is pulled through DIMS API with RW boundary as unit analysis. However, when the information said that certain RW was inundated with 150 cm flood height, does not mean every asset lies on those RW was inudated. Therefore, contour delineation needs to be done to detailing damage and loss calculations. The classification is done using Digital Elevation Model data for every RW Boundary, but there are RWs which its elevation range is very steep, so the method of contour delineation needs to be differentiated for steeps elevation area and the opposite. This process is done using QGIS Software, QGIS API, and GDAL module in Python language. The python script for this method can be accessed on Github on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_contour_delineation.py" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_contour_delineation.py</i></a>. While the concept of this methodology will be discussed below:</p>
-        </div>
-        
-        <div id="section3-1-2-1">
-            <h5>3.1.2.1. Area with Elevation Range &lt; 5 m</h5>
-            <p>For area with elevation range below than 5 meters within an RW Boundary, DEM was processed with steps as follow:</p>
+            
+            <p>After we have information about inundated RW from DIMS, we detailing the information by contour delineation localization method, using RW boundary as the unit analysis. The first process to achieve that is masking the DEM data by RW boundary first, then we classify the depth into three class (10-70 cm, 71-150 cm, and &gt;150 cm). The main point of doing this method is by erasing river or water body from DEM to generate the best classification result. The result of the method was shown by map below:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-lt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-lt-5.png" width="650"></a>
-                <figcaption>Figure 9 Steps of Contour Delineation (Area &lt; 5 m)</figcaption>
+                <a href="{{ STATIC_URL }}img/about/5-contour-delineation.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-contour-delineation.png" width="420"></a>
+                <figcaption>Figure 6 Contour Delineation</figcaption>
+            </figure>
+        </div>
+        
+        <div id="section5-1-2">
+            <h5>5.1.2 Exposure Data</h5>
+            <p>As described before, exposure data was combined from P4T, Base Map, and other sources data using GIS (Geographic Information System) Software into one geodatabase in shapefile format. Every feature on the building exposure have attribute like building name or building category. Then we categorize those information into 143 assets, 17 subsectors, and 4 sectors to ease the calculation later. The detail information of building exposure data and the categorization was shown by table and map below:</p>
+            
+            <table class="table2">
+                <caption>Table 2 Count of Building Exposure</caption>
+                <tr class="header-table2">
+                    <th>Data</th>
+                    <th>Count of Villages</th>
+                    <th>Total Unit Asset</th>
+                </tr>
+                <tr class="content-table2">
+                    <td>Land Parcel</td>
+                    <td>193</td>
+                    <td>966.033</td>
+                </tr>
+                <tr class="content-table2">
+                    <td>Building Footprint</td>
+                    <td>49</td>
+                    <td>388.345</td>
+                </tr>
+                <tr class="content-table2">
+                    <td>Other sources</td>
+                    <td>spread</td>
+                    <td>2.150</td>
+                </tr>
+                <tr class="content-table2">
+                    <td><b>Total</b></td>
+                    <td><b>242</b></td>
+                    <td style="background-color: #ff8000;"><b>1.356.528</b></td>
+                </tr>
+            </table>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-land-and-building-map.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-land-and-building-map.png" width="400"></a>
+                <figcaption>Figure 7 Land Parcel and Building Footprints Map</figcaption>
             </figure>
             
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-difference-land-and-building.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-difference-land-and-building.png" width="400"></a>
+                <figcaption>Figure 8  Difference of Land Parcel and Building Footprints</figcaption>
+            </figure>
+            
+            <table class="table3">
+                <caption>Table 3 Asset Categorization</caption>
+                <tr class="header-table3">
+                    <th>SECTOR</th>
+                    <th>SUBSECTOR</th>
+                    <th>COUNT OF ASSET</th>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector">INFRASTRUKTUR</td>
+                    <td class="content-table3-odd">AIR BERSIH DAN SANITASI</td>
+                    <td class="content-table3-odd" style="text-align:center;">6</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">ENERGI</td>
+                    <td class="content-table3-even" style="text-align:center;">2</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-odd">TELEKOMUNIKASI</td>
+                    <td class="content-table3-odd" style="text-align:center;">1</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">TRANSPORTASI</td>
+                    <td class="content-table3-even" style="text-align:center;">10</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector">LINTAS SEKTOR</td>
+                    <td class="content-table3-odd">AGAMA</td>
+                    <td class="content-table3-odd" style="text-align:center;">9</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">FINANSIAL</td>
+                    <td class="content-table3-even" style="text-align:center;">5</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-odd">LINGKUNGAN</td>
+                    <td class="content-table3-odd" style="text-align:center;">10</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">PEMERINTAHAN</td>
+                    <td class="content-table3-even" style="text-align:center;">1</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector">PRODUKTIF</td>
+                    <td class="content-table3-odd">BISNIS</td>
+                    <td class="content-table3-odd" style="text-align:center;">2</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">INDUSTRI</td>
+                    <td class="content-table3-even" style="text-align:center;">4</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-odd">PARIWISATA</td>
+                    <td class="content-table3-odd" style="text-align:center;">14</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">PERDAGANGAN</td>
+                    <td class="content-table3-even" style="text-align:center;">27</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-odd">PERTANIAN</td>
+                    <td class="content-table3-odd" style="text-align:center;">27</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">PERUMAHAN</td>
+                    <td class="content-table3-even" style="text-align:center;">1</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector">SOSIAL DAN PERUMAHAN</td>
+                    <td class="content-table3-odd">KESEHATAN</td>
+                    <td class="content-table3-odd" style="text-align:center;">4</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">PELAYANAN KOMUNITAS</td>
+                    <td class="content-table3-even" style="text-align:center;">13</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-odd">PENDIDIKAN</td>
+                    <td class="content-table3-odd" style="text-align:center;">17</td>
+                </tr>
+                <tr>
+                    <td class="content-table3-sector"></td>
+                    <td class="content-table3-even">PERUMAHAN</td>
+                    <td class="content-table3-even" style="text-align:center;">3</td>
+                </tr>
+            </table>
+            
+            <p>As for road data, we combine the tabular vehicle information and spatial road data using GIS Software (QGIS) and Database Software (PostGIS and PostgreSQL). The result of this process is every segment of road has vehicle volume information like shown in maps below:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-road-exposure-map.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-road-exposure-map.png"></a>
+                <figcaption>Figure 9 Road Exposure Map</figcaption>
+            </figure>
+            
+            <p>While for aggregate exposure calculated using specific algorithm that allow the data to be randomized per every RW boundary. The process was done using database software (PostgreSQL).</p>
+        </div>
+        
+        <div id="section5-1-3">
+            <h5>5.1.3 Damage &amp; Loss Matrix</h5>
+            <p>The lack of historical data and research of damage and losses due to flooding on every category of assets make this valuation process very challenging. As the result, Estimation method was used in 80% assets valuation, like described in chart below:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-percent-val-method.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-percent-val-method.png" width="450"></a>
+                <figcaption>Figure 10 Percentage of Valuation Methods Usage</figcaption>
+            </figure>
+            
+            <p>Below are the example of damage and loss matrix estimation form, that conversed into damage and loss matrix in rupiahs later on:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-dala-estimation-form.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-estimation-form.png"></a>
+                <figcaption>Figure 11 Damage and Loss Estimation Form</figcaption>
+            </figure>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-dala-matrix.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-matrix.png"></a>
+                <figcaption>Figure 12 Damage and Loss Matrix</figcaption>
+            </figure>
+        </div>
+        
+        <div id="section5-2"> 
+            <h4>5.2 Calculation</h4>
+            <p>In general, the process of damage and loss estimation from back until shown into JakSAFE user interface is described by the image below:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-jaksafe-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-jaksafe-workflow.png"></a>
+                <figcaption>Figure 13 JakSAFE Workflow</figcaption>
+            </figure>
+            
+            <p>Before damage and loss calculation begin, data need to be processed before to acquire impacted assets data. The process of pre calculation is described as follow:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-dala-calc-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-calc-workflow.png"></a>
+                <figcaption>Figure 14 Damage and Loss Calculation Workflow</figcaption>
+            </figure>
+            
+            <p>The process of intersection of exposure and hazard data required GIS processing which is done using GIS Software like QGIS, then the result of impacted assets which is spatial data (shapefile) was converted into database and stored in PostgreSQL to improve the web performance.</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/about/5-asset-hazard-intersection.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-asset-hazard-intersection.png"></a>
+                <figcaption>Figure 15 Asset and Hazard Intersection</figcaption>
+            </figure>
+            
+            <p>The impacted assets then calculated using damage and loss matrix. There are three kind of calculation method to estimate DaLA of each asset, they are:</p>
+            
             <ul>
-                <li>Separating water bodies from land
-                    <p>This step was done by digitizing the river body first, then erasing DEM data with river body. This step is done because flood happen in land area and not on water body.</p>
+                <li>DaLA calculation per unit asset
+                    <p>This type of calculation is for building and aggregate data which asset can be counted as unit number, those type of asset usually have physical building and spesific administrative boundary like school, hospital, etc. This type of calculation is done by aggregating the unit of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
                 </li>
-                <li>Masking DEM by RW boundary
-                    <p>Then the DEM is masked using RW boundary, because RW boundary is act as unit analysis in this process.</p>
+                <li>DaLA calculation based on the area of asset
+                    <p>This type of calculation is for building and aggregate data which asset counted as area, those type of asset usually consume large area so it did not have spesific administrative boundary like reservoir, lake, etc. This type of calculation is done by aggregating the area of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
                 </li>
-                <li>Finding minimum elevation value
-                    <p>After masked by RW boundary, we find the minimum value of those DEM that will be used as starting point of elevation reclassification.</p>
-                </li>
-                <li>Reclassifying raster data with minimum value as starting point
-                    <p>Then the raster was classified into three categories (based on flood height category on JakSAFE), as follow:</p>
-                    <p>Class 1 = (Lowest elevation) through (Lowest elevation + 0.7 meters)</p>
-                    <p>Class 2 = (Lowest elevation + 0.7 meters) through (Lowest elevation + 1.5 meters)</p>
-                    <p>Class 3 = (Lowest elevation + 1.5 meters) + (Lowest elevation + 2.5 meters)</p>
-                </li>
-                <li>Polygonize the result
-                    <p>The output of reclassification is still in raster format, so we convert it into vector format by polygonize the raster data result.</p>
+                <li>DaLA calculation based on the length of asset
+                    <p>This type of calculation is usually for road which counted as length due to dataset characteristic (polyline shapefile) like road. For road dataset, the damage is calculated by aggregating the length of affected road by RW and then multiplying the result to damage and loss matrix. While the loss is calculated by aggregating vehicle volume of affected road and then multiplying the result to damage and loss matrix.</p>
                 </li>
             </ul>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-lt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-lt-5.png" width="450"></a>
-                <figcaption>Figure 10 Result of Contour Delineation (Area &lt; 5 m)</figcaption>
+                <a href="{{ STATIC_URL }}img/about/5-dala-method-calc-dist.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-method-calc-dist.png" width="450"></a>
+                <figcaption>Figure 16 DaLA Method Calculation Distribution</figcaption>
             </figure>
-            
         </div>
         
-        <div id="section3-1-2-2">
-            <h5>3.1.2.2. Area with Elevation Range &gt; 5 m</h5>
-            <p>For area with elevation range more than 5 meters within an RW Boundary, DEM was processed with steps as follow:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-gt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-gt-5.png" width="650"></a>
-                <figcaption>Figure 11 Steps of Contour Delineation (Area &gt; 5 m)</figcaption>
-            </figure>
+        <div id="section6">
+            <h3>6. Result Example</h3>
+            <p>The result of Damage and Loss calculation in JakSAFE website is broken down into two type, they are:</p>
             
             <ul>
-                <li>Separating water bodies from land
-                    <p>This step was done by digitizing the river body first, then erasing DEM data with river body. This step is done because flood happen in land area and not on water body.</p>
+                <li>Automatic Calculation
+                    <p>Automatic Calculation is presented on Automatic Report page in JakSAFE, where system will calculating the damage and loss value every 6 hours</p>
                 </li>
-                <li>Masking DEM by RW boundary
-                    <p>Then the DEM is masked using RW boundary, because RW boundary is act as unit analysis in this process.</p>
-                </li>
-                <li>Finding minimum elevation value
-                    <p>After masked by RW boundary, we find the minimum value of those DEM that will be used as starting point of elevation reclassification.</p>
-                </li>
-                <li>Finding standard deviation value
-                    <p>Then we find the standard deviation value of those DEM to remove the data variation by 1 Standard Deviation.</p>
-                </li>
-                <li>Reclassifying raster data with minimum value as starting point
-                    <p>Then the raster was classified into three categories (based on flood height category on JakSAFE), as follow:</p>
-                    <p>Class 1 = (Lowest elevation) through (Lowest elevation + Standard Deviation + 0.7 meters)</p>
-                    <p>Class 2 = (Lowest elevation + Standard Deviation + 0.7 meters) through (Lowest elevation + Standard Deviation + 1.5 meters)</p>
-                    <p>Class 3 = (Lowest elevation + Standard Deviation + 1.5 meters) + (Lowest elevation + Standard Deviation + 2.5 meters)</p>
-                </li>
-                <li>Polygonize the result
-                    <p>The output of reclassification is still in raster format, so we convert it into vector format by polygonize the raster data result.</p>
+                <li>Ad-Hoc Calculation
+                    <p>While Ad-Hoc Calculation is presented on Ad Hoc page in Jaksafe, where user can generate their own report with desired time event</p>
                 </li>
             </ul>
             
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-gt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-gt-5.png" width="450"></a>
-                <figcaption>Figure 12 Result of Contour Delineation (Area &gt; 5 m)</figcaption>
-            </figure>
-            
-        </div>
-        
-        <div id="section3-1-2-3">
-            <h5>3.1.2.3. Verification</h5>
-            <p>After defining the contour delineation method, then we take three inudated RW from flood event on 2016<sup>th</sup> of February (information from Disaster Information Management System) as sample for data verification. They are:</p>
-            <ul>
-                <li>RW 012 of Bukit Duri Village (150 cm flood height)</li>
-                <li>RW 003 of Kampung Melayu Village (150 cm flood height)</li>
-                <li>RW 007 of Cililitan Village (300 cm flood height)</li>
-            </ul>
-            
-            <div class="row">
-                <div class="col-md-6" align="right">
-                    <figure>
-                        <a href="{{ STATIC_URL }}img/science/3-residents-showing-flood-height1.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-residents-showing-flood-height1.png" width="300"></a>
-                    </figure>
-                </div>
-                <div class="col-md-6" align="middle">
-                    <figure>
-                        <a href="{{ STATIC_URL }}img/science/3-residents-showing-flood-height2.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-residents-showing-flood-height2.png" width="300"></a>
-                    </figure>
-                </div>
-            </div>
-            <figcaption align="middle">Figure 13 Residents showing flood height on field survey</figcaption>
-            
-            <br>
-            
-            <div class="row">
-                <div class="col-md-6" align="right">
-                    <figure>
-                        <a href="{{ STATIC_URL }}img/science/3-sign-showing-flood-height1.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sign-showing-flood-height1.png" width="300"></a>
-                    </figure>
-                </div>
-                <div class="col-md-6" align="middle">
-                    <figure>
-                        <a href="{{ STATIC_URL }}img/science/3-sign-showing-flood-height2.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sign-showing-flood-height2.png" width="300"></a>
-                    </figure>
-                </div>
-            </div>
-            <figcaption align="middle">Figure 14 Sign showing flood height on residents house walls</figcaption>
-            
-            <br>
-            
-            <p>Then survey was done by recording flood depth value and flood boundary. Then point of flood height (shown by black point on map below) acquired from survey was calibrated with the help of DEM data (Digital Elevation Model) to get the flooded area afterwards, the result and comparison to contour delineation map is shown by map below:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-survey-data-comparison.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-survey-data-comparison-thumb.png" width="650"></a>
-                <figcaption>Figure 15 Survey Data Comparison (Left) with Contour Delineation Data (Right)</figcaption>
-            </figure>
-            
-            <p>After reviewing and comparing the result of contour delineation method and verification data, it shows that the result was not really different for those three surveyed area. Below was the sum of inundated area comparison between survey data and contour delineation. Though the result of contour delineation process was not exactly the same like verification survey, but it is quiet have resemblance. The more important thing is we can minimize the result of damage and loss using contour delineation method, rather than using RW boundary as unit analysis that can lead to over estimation.  Therefore, we conclude that the contour delineation method is practical to be done because it is time and cost effective to be practiced for whole Jakarta Area.</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-flood-height.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-flood-height.png" width="600"></a>
-            </figure>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-area-comparison-contour.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-area-comparison-contour.png" width="600"></a>
-                <figcaption>Figure 16 Area Comparison Between Contour Delineation and Verification Data</figcaption>
-            </figure>
-            
-        </div>
-        
-        <div id="section3-1-3">
-            <h5>3.1.3. Challenge</h5>
-            <p>The challenge of defining hazard is how to find the best method for defining flood area in limited of time and cost. We are fully aware that contour or elevation alone was not the only factor affecting the water dynamic, the presence of basin also be an important aspect that affecting water dynamic. Therefore, to produce the best flood area is best modeled using hydrodynamic method. However, the area to be modeled is really large (Whole Jakarta Area), so for now we assume that contour delineation method is the effective solution.</p>
-        </div>
-        
-        <div id="section3-2">
-            <h4>3.2. Exposure Classification</h4>
-        </div>
-        
-        <div id="section3-2-1">
-            <h5>3.2.1. Sector & Sub-sector classification</h5>
-            <p>According to Damage and Loss Assessment developed by the United Nations Economic Commission for Latin America and the Caribbean (UN ECLAC), the Sector and Sub-sector for exposure classification are divided by:</p>
-            
-            <ol>
-                <li>SOCIAL SECTORS</li>
-                <ul>
-                    <li>Affected population</li>
-                    <li>Housing and human settlements</li>
-                    <li>Education and culture</li>
-                    <li>Health sector</li>
-                </ul>
-                <li>INFRASTRUCTURE</li>
-                <ul>
-                    <li>Energy</li>
-                    <li>Drinking water and sanitation</li>
-                    <li>Transport and communications</li>
-                </ul>
-                <li>ECONOMIC SECTORS</li>
-                <ul>
-                    <li>Agriculture</li>
-                    <li>Trade and industry</li>
-                    <li>Tourism</li>
-                </ul>
-            </ol>
-            
-            <p>However, there are several assets in our exposure data which did not fit into those classifications. Therefore, JakSAFE has its own categorization of Sector, Sub-Sector, and Asset that depends on the availability of Exposure Data, they are:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-sector-and-subsector-category.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sector-and-subsector-category.png" width="600"></a>
-                <figcaption>Figure 17 Sector and Subsector Category based on 2013's Worldbank DaLA categorization</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section3-2-2">
-            <h5>3.2.2. Asset Categorization</h5>
-            <p>For Land Parcel data, we categorize the asset using land utilization attribute information on the shapefile. While for Building Footprints data we adjusting the category that already set on the CAD drawing to our own asset category. The categorization process was done Using PostgreSQL and PostGIS (an open source Tabular and Spatial database engine) to ease database management. For more details about the list of asset categorization in JakSAFE, refer to github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/asset_categorization.csv" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/asset_categorization.csv</i></a>.</p>
-        </div>
-        
-        <div id="section3-2-3">
-            <h5>3.2.3. Challenge</h5>
-            <p>The exposure classification process need really detail information to deliver the best result, so imporving exposure dataset quality was the main key to deliver good damage and loss estimation. For the exposure classification will be a starting point for making damage and loss matrix, and the more varied the matrix, the estimation result will be much better.</p>
-        </div>
-        
-        <div id="section3-3">
-            <h4>3.3. Monetary Valuation</h4>
-        </div>
-        
-        <div id="section3-3-1">
-            <h5>3.3.1. Damage & Loss Valuation</h5>
-            <p>The valuation process is the process of the estimating how much (in monetary value) the asset will be loss and damage if it is inudated in certain flood height and duration. Mostly, the assumptions derived from physical characteristic of the building and the property inside the asset. Sometimes, the valuation process also helped by the regulation that states the standard utilization of space and properties in some asset category, for example on school or hospital asset. In general, the monetary valuation process consists of four following method:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-valuation-method.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-valuation-method.png" width="400"></a>
-                <figcaption>Figure 18 Valuation Method and its Quality Degree</figcaption>
-            </figure>
+            <p>The result of every calcution generating three type of tables and graphs, they are:</p>
             
             <ul>
-                <li>The 1<sup>st</sup> degree of valuation (we consider are the best quality) is consists of:
-                <ul>
-                    <li>Historical Flood Data collected from the related organization (SKPDs, BUMDs, Agencies, etc.). This information usually taken from the report(s) of damage and losses due to flood occurring in the certain year(s). Not all organization have this kind of report. Mostly they did not have of this kind of information.</li>
-                    <li>Research Literature (scientific papers, report, standard, regulation, etc.). JakSAFE team collected the information relevant with the valuation. The information is taken from Internet and Organizations. It usually in the form of scientific report that study the quantification of damage and loss due to flood event.</li>
-                    <li>Estimation with certain assumptions based on the previous source (a &amp; b). This is the least method that had been used for asset valuation on detail of the asset information. For example, for school valuation (pre-school, junior, and senior high school) we do valuation of the assets by detailing the assets that exist within the school such as classrooms, chairs, tables, furniture, etc. JakSAFE team estimate and put an assumption for each item(s) that contained inside the school that threatened by flood.</li>
-                </ul>
-                </li>
-                <li>The 2<sup>nd</sup> degree of valuation is produced without Historical information, but consists of Research Literature and Estimation process.</li>
-                <li>The 3<sup>rd</sup> degree of valuation only been done by estimating the asset manually.</li>
-                <li>The 2<sup>nd</sup> degree of valuation is used when there are no sufficient information to conduct Historical, Research Literature or Estimation method, so the valuation is following the previous method as described in the 2013's Jakarta Flood DaLA report.</li>
+                <li>Damage and Loss by Sector</li>
+                <li>Damage by Subsector and City</li>
+                <li>Loss by Subsector and City</li>
             </ul>
             
+            <p>User can also filtering the result of calculation in by administrative boundary (City, Subdistrict, District, and Blocks)</p>
+            
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-percentage-of-valuation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-percentage-of-valuation.png" width="450"></a>
-                <figcaption>Figure 19 Percentage of Valuation Methods Distribution</figcaption>
+                <a href="{{ STATIC_URL }}img/about/6-jaksafe-function-filtering.png" target="_blank"><img src="{{ STATIC_URL }}img/about/6-jaksafe-function-filtering.png"></a>
+                <figcaption>Figure 17 JakSAFE Function (Filtering Damage and Loss Result by boundary)</figcaption>
             </figure>
             
-            <p>Figure above shows that the best degree of valuation methods only used on 7% of asset valuation, and the biggest percentage (80%) using the third degree of valuation method, which is asset estimation. Sometimes the valuation methods can be a combination of two methods, but in general, most of the asset valuation using estimation methods. The estimation method itself also using standardized form that makes it easy to convert into damage and loss matrix.</p>
-        </div>
-        
-        <div id="section3-3-2">
-            <h5>3.3.2.	Damage &amp; Loss Matrix</h5>
-            <p>Below are the example of damage and loss matrix estimation form, the instrument for making damage and loss matrix in rupiahs. For more details about the list of damage and loss matrix used in JakSAFE, refer to github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv</i></a>. While for more details about valuation of each JakSAFE asset category, refer to damage and loss estimation form on github link on <a href="https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal</i></a>.</p>
+            <p>For more detailed result or further analysis, user can download the calculation result data and hazard data (in shapefile format).</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation-thumb.png" width="650"></a>
-                <figcaption>Figure 20 Damage and Loss Estimation Form</figcaption>
-            </figure>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-matrix.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-matrix.png" width="650"></a>
-                <figcaption>Figure 21 Damage and Loss Matrix Example</figcaption>
-            </figure>
-        </div>
-        
-        <div id="section3-3-3">
-            <h5>3.3.3. Challenge</h5>
-            <p>The challenge of this process are the lack of important data like damage and loss historical data, especially the historical data damage and losses due to flooding on each asset, which is very important starting point on monetary valuation process of damage and loss. The other thing to notice is the changes of economic value over time, so damage and loss matrix should remain be updated periodically to get better damage and loss estimation.</p>
-        </div>
-        
-        <div id="section3-4">
-            <h4>3.4. Damage &amp; Loss Calculation</h4>
-        </div>
-        
-        <div id="section3-4-1">
-            <h5>3.4.1. Unit of Asset</h5>
-            <p>This type of calculation is used for building (land parcel and building footprints) and aggregate data which asset can be counted as unit number, those type of asset usually have physical building and specific administrative boundary. The example of asset that using calculation method are school, hospital, ATM, and the others. The process of the calculation is done by aggregating the unit of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
-            <p>The example of damage and loss calculation based on unit asssets is:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-example-unit-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-example-unit-asset.png" width="450"></a>
-                <figcaption>Figure 22 Example of Unit Asset Calculation</figcaption>
-            </figure>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Asset</td>
-                    <td class="content-table4-right">House</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset</td>
-                    <td class="content-table4-right">10</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Flood Category</td>
-                    <td class="content-table4-right">A2</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Damage Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 500.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Loss Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 450.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage</td>
-                    <td class="content-table4-right">10 x Rp 500.000 = Rp 5.000.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss</td>
-                    <td class="content-table4-right">10 x Rp 450.000 = Rp 4.500.000</td>
-                </tr>
-            </table>
-        </div>
-        
-        <div id="section3-4-2">
-            <h5>3.4.2. Area of Asset</h5>
-            <p>This type of calculation is for spatial data which asset counted as area, those type of asset usually consume large area so it did not have spesific administrative boundary, and need to break down for several RW to ease the calculation and for damage and loss drilling down process into the RW Boundary Level.</p>
-            <p>The example of damage and loss calculation based on metric asssets is:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-example-area-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-example-area-asset.png" width="450"></a>
-                <figcaption>Figure 23 Example of Area of Asset Calculation</figcaption>
-            </figure>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Asset</td>
-                    <td class="content-table4-right">Fishpond</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Area of Asset</td>
-                    <td class="content-table4-right">100 meters</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Flood Category</td>
-                    <td class="content-table4-right">A2</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Damage Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 25.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Loss Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 150.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage</td>
-                    <td class="content-table4-right">100 x Rp 25.000 = Rp 2.500.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss</td>
-                    <td class="content-table4-right">100 x Rp 150.000 = Rp 15.000.000</td>
-                </tr>
-            </table>
-        </div>
-        
-        <div id="section3-4-3">
-            <h5>3.4.3. Length Asset</h5>
-            <p>This type of calculation is for spatial data that was shaped by polyline, so the asset counted as length, those type of asset usually consume large area so it did not have spesific administrative boundary, and need to break down for several RW to ease the calculation and for damage and loss drilling down process into the RW Boundary Level.</p>
-            <p>The example of damage and loss calculation based on length of asssets is:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-example-length-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-example-length-asset.png" width="450"></a>
-                <figcaption>Figure 24 Example of Length of Asset Calculation</figcaption>
-            </figure>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Asset</td>
-                    <td class="content-table4-right">Road</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Length of Asset</td>
-                    <td class="content-table4-right">50 meters</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Flood Category</td>
-                    <td class="content-table4-right">A2</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Damage Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Loss Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 10.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage</td>
-                    <td class="content-table4-right">50 x Rp 5.000 = Rp 250.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss</td>
-                    <td class="content-table4-right">50 x Rp 10.000 = Rp 500.000</td>
-                </tr>
-            </table>
-            
-            <p>While for vehicle asset, the calculation is a little difference, because there will be several aspect affecting rather than the length of road alone, they are fuel loss and public transportation loss. So the number of vehichle on certain length of road will be multiplied by fuel loss matrix for private vehicle, while public transportation will be multiplied by revenue deflation matrix in rupiahs. For detailed information regarding vehicle loss calculation, refer to pre caclucation script of vehicle asset in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
-        </div>
-        
-        <div id="section3-4-4">
-            <h5>3.4.4. Aggregate Asset</h5>
-            <p>This type of calculation is for aggregate data asset that have no specific location or spatial format, but only represented by aggregate file on certain level of administrative boundary. For this kind of asset we calculate the damage and loss based on the probability with formula:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-number-of-affected-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-number-of-affected-asset.png" width="600"></a>
-            </figure>
-            
-            <p>The example of damage and loss calculation for aggregate asset:</p>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Asset</td>
-                    <td class="content-table4-right">ATM</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset in certain Village</td>
-                    <td class="content-table4-right">50</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Number of Block on the Village</td>
-                    <td class="content-table4-right">5</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Area of the Village</td>
-                    <td class="content-table4-right">10000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Number of Block inundated</td>
-                    <td class="content-table4-right">2 (RW X and RW Y, with area 500 meters and 200 meters respectively)</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Flood Category</td>
-                    <td class="content-table4-right">A2</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Damage Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Loss Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 10.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset for RW X</td>
-                    <td class="content-table4-right">(500/10000) x 50 = 2.5 (roundup to 3)</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset for RW Y</td>
-                    <td class="content-table4-right">(200/10000) x 50 = 1</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage for RW X</td>
-                    <td class="content-table4-right">3 x Rp 5.000 = Rp 15.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage for RW Y</td>
-                    <td class="content-table4-right">1 x Rp 5.000 = Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss for RW X</td>
-                    <td class="content-table4-right">3 x Rp 10.000 = Rp 30.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss for RW Y</td>
-                    <td class="content-table4-right">1 x Rp 10.000 = Rp 10.000</td>
-                </tr>
-            </table>
-        </div>
-        
-        <div id="section3-4-5">
-            <h5>3.4.5. Summarize the Calculation and Reporting</h5>
-            <p>Before damage and loss calculation begin, data need to be processed, or we call it pre calculation process. The process of pre calculation is described as follow:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" width="600"></a>
-                <figcaption>Figure 25 Pre Calculation Workflow</figcaption>
-            </figure>
-            
-            <p>The exposure data intersected with hazard data (contour delineation data) in GIS Software. Then the result was aggregated based on asset, by RW Boundary. The result of the process was in shapefile data, then it was converted into database file using postgis and PostgreSQL, and stored into JakSAFE database. Every asset of exposure data in the database has already have details information, either the exposure and hazard classification. The purpose of storage the data into database form is to improve JakSAFE web performance. Then we were aggregating the database by RW boundary, asset category, and hazard classification. Finally, the process followed by calculating the damage and loss that was done by multiplying the aggregate database to the damage and loss matrix (in Rupiahs). The result of those whole process is damage and loss database based on RW and Hazard Class. The purpose of doing this process is to improve JakSAFE performance, so the application did not need to repeat the GIS and aggregation process which take a long time to be done. The SQL script for pre calculation can be viewed in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-output-damage-and-loss-thumb.png" width="650"></a>
-                <figcaption>Figure 27 Output of Damage and Loss pre Calculation Database</figcaption>
+                <a href="{{ STATIC_URL }}img/about/6-jaksafe-function-downloading.png" target="_blank"><img src="{{ STATIC_URL }}img/about/6-jaksafe-function-downloading.png"></a>
+                <figcaption>Figure 18 JakSAFE Function (Downloading detail of Calculation)</figcaption>
             </figure>
         </div>
         
     </div>
--->
+    
     <!-- Sidebar static menu -->
     <div class="col-md-4">
         <div id="sidebar-block" class="sidebar-nav-fixed">
             <ul class="sidebar-menu ">
                 <li class="sidebar-header">Contents</li>
             </ul>
-            <div id="scrollable">
-                <ul class="sidebar-menu">
-                    <li><a href="#section1">1. General Overview</a></li>
-                    <li><a href="#section2">2. Background</a>
-                        <ul class="sidebar-menu">
-                            <li><a href="#section2-1">2.1 Administration Boundary</a></li>
-                            <li><a href="#section2-2">2.2. Exposure</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section2-2-1">2.2.1. Parcel Data</a></li>
-                                    <li><a href="#section2-2-2">2.2.2. Building Footprint</a></li>
-                                    <li><a href="#section2-2-3">2.2.3. Road Data</a></li>
-                                    <li><a href="#section2-2-4">2.2.4. Aggregate Data</a></li>
-                                    <li><a href="#section2-2-5">2.2.5. Challenge</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#section2-3">2.3. Hazard</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section2-3-1">2.3.1. Flood Report</a></li>
-                                    <li><a href="#section2-3-2">2.3.2. Challenge</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#section2-4">2.4. Assumptions</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#section3">3. Rationale</a>
-                        <ul class="sidebar-menu">
-                            <li><a href="#section3-1">3.1. Defining Hazard</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section3-1-1">3.1.1. Hazard Categorization</a></li>
-                                    <li><a href="#section3-1-2">3.1.2. Contour Delineation</a>
-                                        <ul class="sidebar-menu">
-                                            <li><a href="#section3-1-2-1">3.1.2.1. Area with Elevation Range &lt; 5 m</a></li>
-                                            <li><a href="#section3-1-2-2">3.1.2.2. Area with Elevation Range &gt; 5 m</a></li>
-                                            <li><a href="#section3-1-2-3">3.1.2.3. Verification</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="#section3-1-3">3.1.3. Challenge</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#section3-2">3.2. Exposure Classification</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section3-2-1">3.2.1. Sector &amp; Sub-sector classification</a></li>
-                                    <li><a href="#section3-2-2">3.2.2. Asset Categorization</a></li>
-                                    <li><a href="#section3-2-3">3.2.3. Challenge</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#section3-3">3.3. Monetary Valuation</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section3-3-1">3.3.1. Damage &amp; Loss Valuation</a></li>
-                                    <li><a href="#section3-3-2">3.3.2. Damage &amp; Loss Matrix</a></li>
-                                    <li><a href="#section3-3-3">3.3.3. Challenge</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#section3-4">3.4. Damage &amp; Loss Calculation</a>
-                                <ul class="sidebar-menu">
-                                    <li><a href="#section3-4-1">3.4.1. Unit of Asset</a></li>
-                                    <li><a href="#section3-4-2">3.4.2. Area of Asset</a></li>
-                                    <li><a href="#section3-4-3">3.4.3. Length Asset</a></li>
-                                    <li><a href="#section3-4-4">3.4.4. Aggregate Asset</a></li>
-                                    <li><a href="#section3-4-5">3.4.5. Summarize the Calculation and Reporting</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>          
+            <div id="scrollhidden">
+                <div id="scrollable">
+                    <ul class="sidebar-menu">
+                        <li><a href="#section1">1. Executive Summary</a></li>
+                        <li><a href="#section2">2. Background</a></li>
+                        <li><a href="#section3">3. Supporting Team</a></li>
+                        <li><a href="#section4">4. Data Source</a>
+                            <ul class="sidebar-menu">
+                                <li><a href="#section4-1">4.1 Hazard Data</a></li>
+                                <li><a href="#section4-2">4.2 Exposure Data</a></li>
+                                <li><a href="#section4-3">4.3 Damage &amp; loss Matrix</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#section5">5. Methodology</a>
+                            <ul class="sidebar-menu">
+                                <li><a href="#section5-1">5.1 Data Processing</a>
+                                    <ul class="sidebar-menu">
+                                        <li><a href="#section5-1-1">5.1.1 Hazard Data</a></li>
+                                        <li><a href="#section5-1-2">5.1.2 Exposure Data</a></li>
+                                        <li><a href="#section5-1-3">5.1.3 Damage &amp; loss Matrix</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#section5-2">5.2 Calculation</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#section6">6. Result Example</a></li>
+                    </ul>
+                </div>            
+            </div>            
         </div>
     </div>
 </div>
