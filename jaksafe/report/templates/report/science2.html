@@ -197,6 +197,245 @@
             <p>After processing the hazard and exposure data, we have found the number of building affected by flood, but the question is how we change those number into value in rupiahs? Therefore, there has to be assumption to converting the affected building into rupiahs. To ease the assumption, we need to classify the exposure data into different assets, subsector, and sectors first. Then the assumption is made as a damage and loss matrix in rupiahs of every asset, where every category of asset has its own rupiah damage value and loss value in rupiah. However, sometimes the unit for calculating various assets is not the same, like when calculating building we use unit number of building, however in calculating road we have to use metric unit, and when calculating lake we need to use area as unit. Therefore, we also need to define method of calculation on every category of asset. The other thing to consider when making damage and loss value is that type of flood is have different value, like the loss of building that was inundated by 50 cm of flood will be different with the other that inundated by 200 cm of flood, or the damage value of building that was inundated by flood in 1 day will be different with other that inundated in 5 days, so we also need to categorize the hazard. To summarize it all, we need to categorize the hazard and classifying the exposure data to be able make damage and loss value assumption in rupiah, we are going to dig deeper into the rationale of every assumption on the next chapter.</p>
         </div>
         
+        <div id="section3">
+            <h3>3. Rationale</h3>
+        </div>
+        
+        <div id="section3-1">
+            <h4>3.1. Defining Hazard</h4>
+        </div>
+        
+        <div id="section3-1-1">
+            <h5>3.1.1. Hazard Categorization</h5>
+            <p>Depth and duration of flood became an important aspect to be considered on Flood damage and loss calculation, so the flood is categorized based on depth and duration like table below.</p>
+            
+            <table class="table1">
+                <caption>Table 7 JakSAFE Hazard Categorization</caption>
+                <tr class="header-table1">
+                    <th>Class</th>
+                    <th>Depth (cm)</th>
+                    <th>Duration (days(s))</th>
+                    <th>Class</th>
+                    <th>Depth (cm)</th>
+                    <th>Duration (days(s))</th>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">A1</td>
+                    <td class="content-table1-depth1">10-70</td>
+                    <td class="content-table1-depth1">&lt;1</td>
+                    <td class="content-table1-class">C1</td>
+                    <td class="content-table1-depth1">10-70</td>
+                    <td class="content-table1-depth1">5-8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">A2</td>
+                    <td class="content-table1-depth2">71-150</td>
+                    <td class="content-table1-depth2">&lt;1</td>
+                    <td class="content-table1-class">C2</td>
+                    <td class="content-table1-depth2">71-150</td>
+                    <td class="content-table1-depth2">5-8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">A3</td>
+                    <td class="content-table1-depth3">&gt;150</td>
+                    <td class="content-table1-depth3">&lt;1</td>
+                    <td class="content-table1-class">C3</td>
+                    <td class="content-table1-depth3">&gt;150</td>
+                    <td class="content-table1-depth3">5-8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">A4</td>
+                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">&lt;1</td>
+                    <td class="content-table1-class">C4</td>
+                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">5-8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">B1</td>
+                    <td class="content-table1-depth1">10-70</td>
+                    <td class="content-table1-depth1">1-4</td>
+                    <td class="content-table1-class">D1</td>
+                    <td class="content-table1-depth1">10-70</td>
+                    <td class="content-table1-depth1">&gt;8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">B2</td>
+                    <td class="content-table1-depth2">71-150</td>
+                    <td class="content-table1-depth2">1-4</td>
+                    <td class="content-table1-class">D2</td>
+                    <td class="content-table1-depth2">71-150</td>
+                    <td class="content-table1-depth2">&gt;8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">B3</td>
+                    <td class="content-table1-depth3">&gt;150</td>
+                    <td class="content-table1-depth3">1-4</td>
+                    <td class="content-table1-class">D3</td>
+                    <td class="content-table1-depth3">&gt;150</td>
+                    <td class="content-table1-depth3">&gt;8</td>
+                </tr>
+                <tr>
+                    <td class="content-table1-class">B4</td>
+                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">1-4</td>
+                    <td class="content-table1-class">D4</td>
+                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">&gt;8</td>
+                </tr>
+            </table>
+            
+            <p>For calculating the loss, the affected area also being an important aspect to be considered. So, we made an algorithm to set the surrounding RW of inudated area as the affected area (Class A4/B4/C4/D4), like described by the images below:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-affected-area-algorithm.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-affected-area-algorithm.png" width="450"></a>
+                <figcaption>Figure 8 Affected Area Algorithm</figcaption>
+            </figure>
+        </div>
+        
+        <div id="section3-1-2">
+            <h5>3.1.2. Contour Delineation</h5>
+            <p>Contour delineation is done to classifying the area of every RW based on JakSAFE flood height categorization. Information about flood height is pulled through DIMS API with RW boundary as unit analysis. However, when the information said that certain RW was inundated with 150 cm flood height, does not mean every asset lies on those RW was inudated. Therefore, contour delineation needs to be done to detailing damage and loss calculations. The classification is done using Digital Elevation Model data for every RW Boundary, but there are RWs which its elevation range is very steep, so the method of contour delineation needs to be differentiated for steeps elevation area and the opposite. This process is done using QGIS Software, QGIS API, and GDAL module in Python language. The python script for this method can be accessed on Github on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_contour_delineation.py" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_contour_delineation.py</i></a>. While the concept of this methodology will be discussed below:</p>
+        </div>
+        
+        <div id="section3-1-2-1">
+            <h5>3.1.2.1. Area with Elevation Range &lt; 5 m</h5>
+            <p>For area with elevation range below than 5 meters within an RW Boundary, DEM was processed with steps as follow:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-lt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-lt-5.png" width="650"></a>
+                <figcaption>Figure 9 Steps of Contour Delineation (Area &lt; 5 m)</figcaption>
+            </figure>
+            
+            <ul>
+                <li>Separating water bodies from land
+                    <p>This step was done by digitizing the river body first, then erasing DEM data with river body. This step is done because flood happen in land area and not on water body.</p>
+                </li>
+                <li>Masking DEM by RW boundary
+                    <p>Then the DEM is masked using RW boundary, because RW boundary is act as unit analysis in this process.</p>
+                </li>
+                <li>Finding minimum elevation value
+                    <p>After masked by RW boundary, we find the minimum value of those DEM that will be used as starting point of elevation reclassification.</p>
+                </li>
+                <li>Reclassifying raster data with minimum value as starting point
+                    <p>Then the raster was classified into three categories (based on flood height category on JakSAFE), as follow:</p>
+                    <p>Class 1 = (Lowest elevation) through (Lowest elevation + 0.7 meters)</p>
+                    <p>Class 2 = (Lowest elevation + 0.7 meters) through (Lowest elevation + 1.5 meters)</p>
+                    <p>Class 3 = (Lowest elevation + 1.5 meters) + (Lowest elevation + 2.5 meters)</p>
+                </li>
+                <li>Polygonize the result
+                    <p>The output of reclassification is still in raster format, so we convert it into vector format by polygonize the raster data result.</p>
+                </li>
+            </ul>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-lt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-lt-5.png" width="450"></a>
+                <figcaption>Figure 10 Result of Contour Delineation (Area &lt; 5 m)</figcaption>
+            </figure>
+            
+        </div>
+        
+        <div id="section3-1-2-2">
+            <h5>3.1.2.2. Area with Elevation Range &gt; 5 m</h5>
+            <p>For area with elevation range more than 5 meters within an RW Boundary, DEM was processed with steps as follow:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-gt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-steps-of-contour-delineation-gt-5.png" width="650"></a>
+                <figcaption>Figure 11 Steps of Contour Delineation (Area &gt; 5 m)</figcaption>
+            </figure>
+            
+            <ul>
+                <li>Separating water bodies from land
+                    <p>This step was done by digitizing the river body first, then erasing DEM data with river body. This step is done because flood happen in land area and not on water body.</p>
+                </li>
+                <li>Masking DEM by RW boundary
+                    <p>Then the DEM is masked using RW boundary, because RW boundary is act as unit analysis in this process.</p>
+                </li>
+                <li>Finding minimum elevation value
+                    <p>After masked by RW boundary, we find the minimum value of those DEM that will be used as starting point of elevation reclassification.</p>
+                </li>
+                <li>Finding standard deviation value
+                    <p>Then we find the standard deviation value of those DEM to remove the data variation by 1 Standard Deviation.</p>
+                </li>
+                <li>Reclassifying raster data with minimum value as starting point
+                    <p>Then the raster was classified into three categories (based on flood height category on JakSAFE), as follow:</p>
+                    <p>Class 1 = (Lowest elevation) through (Lowest elevation + Standard Deviation + 0.7 meters)</p>
+                    <p>Class 2 = (Lowest elevation + Standard Deviation + 0.7 meters) through (Lowest elevation + Standard Deviation + 1.5 meters)</p>
+                    <p>Class 3 = (Lowest elevation + Standard Deviation + 1.5 meters) + (Lowest elevation + Standard Deviation + 2.5 meters)</p>
+                </li>
+                <li>Polygonize the result
+                    <p>The output of reclassification is still in raster format, so we convert it into vector format by polygonize the raster data result.</p>
+                </li>
+            </ul>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-gt-5.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-result-of-contour-delineation-gt-5.png" width="450"></a>
+                <figcaption>Figure 12 Result of Contour Delineation (Area &gt; 5 m)</figcaption>
+            </figure>
+            
+        </div>
+        
+        <div id="section3-1-2-3">
+            <h5>3.1.2.3. Verification</h5>
+            <p>After defining the contour delineation method, then we take three inudated RW from flood event on 2016<sup>th</sup> of February (information from Disaster Information Management System) as sample for data verification. They are:</p>
+            <ul>
+                <li>RW 012 of Bukit Duri Village (150 cm flood height)</li>
+                <li>RW 003 of Kampung Melayu Village (150 cm flood height)</li>
+                <li>RW 007 of Cililitan Village (300 cm flood height)</li>
+            </ul>
+            
+            <div class="row">
+                <div class="col-md-6" align="right">
+                    <figure>
+                        <a href="{{ STATIC_URL }}img/science/3-residents-showing-flood-height1.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-residents-showing-flood-height1.png" width="300"></a>
+                    </figure>
+                </div>
+                <div class="col-md-6" align="middle">
+                    <figure>
+                        <a href="{{ STATIC_URL }}img/science/3-residents-showing-flood-height2.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-residents-showing-flood-height2.png" width="300"></a>
+                    </figure>
+                </div>
+            </div>
+            <figcaption align="middle">Figure 13 Residents showing flood height on field survey</figcaption>
+            
+            <br>
+            
+            <div class="row">
+                <div class="col-md-6" align="right">
+                    <figure>
+                        <a href="{{ STATIC_URL }}img/science/3-sign-showing-flood-height1.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sign-showing-flood-height1.png" width="300"></a>
+                    </figure>
+                </div>
+                <div class="col-md-6" align="middle">
+                    <figure>
+                        <a href="{{ STATIC_URL }}img/science/3-sign-showing-flood-height2.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sign-showing-flood-height2.png" width="300"></a>
+                    </figure>
+                </div>
+            </div>
+            <figcaption align="middle">Figure 14 Sign showing flood height on residents house walls</figcaption>
+            
+            <br>
+            
+            <p>Then survey was done by recording flood depth value and flood boundary. Then point of flood height (shown by black point on map below) acquired from survey was calibrated with the help of DEM data (Digital Elevation Model) to get the flooded area afterwards, the result and comparison to contour delineation map is shown by map below:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-survey-data-comparison.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-survey-data-comparison-thumb.png" width="650"></a>
+                <figcaption>Figure 15 Survey Data Comparison (Left) with Contour Delineation Data (Right)</figcaption>
+            </figure>
+            
+            <p>After reviewing and comparing the result of contour delineation method and verification data, it shows that the result was not really different for those three surveyed area. Below was the sum of inundated area comparison between survey data and contour delineation. Though the result of contour delineation process was not exactly the same like verification survey, but it is quiet have resemblance. The more important thing is we can minimize the result of damage and loss using contour delineation method, rather than using RW boundary as unit analysis that can lead to over estimation.  Therefore, we conclude that the contour delineation method is practical to be done because it is time and cost effective to be practiced for whole Jakarta Area.</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-flood-height.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-flood-height.png" width="600"></a>
+            </figure>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-area-comparison-contour.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-area-comparison-contour.png" width="600"></a>
+                <figcaption>Figure 16 Area Comparison Between Contour Delineation and Verification Data</figcaption>
+            </figure>
+            
+        </div>
+        
         
         
     </div>
