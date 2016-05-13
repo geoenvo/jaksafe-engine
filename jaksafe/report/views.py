@@ -172,14 +172,7 @@ def map(request, template='report/map.html'):
     context_dict["successes"] = []
     return render_to_response(template, RequestContext(request, context_dict))
 
-def science(request, template='report/science.html'):
-    context_dict = {}
-    context_dict["page_title"] = 'JakSAFE Science'
-    context_dict["errors"] = []
-    context_dict["successes"] = []
-    return render_to_response(template, RequestContext(request, context_dict))
-    
-def science2(request, template='report/science2.html'):
+def science(request, template='report/science2.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Science'
     context_dict["errors"] = []
