@@ -675,84 +675,20 @@
             <p>While for vehicle asset, the calculation is a little difference, because there will be several aspect affecting rather than the length of road alone, they are fuel loss and public transportation loss. So the number of vehichle on certain length of road will be multiplied by fuel loss matrix for private vehicle, while public transportation will be multiplied by revenue deflation matrix in rupiahs. For detailed information regarding vehicle loss calculation, refer to pre caclucation script of vehicle asset in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
         </div>
         
-        <div id="section3-4-4">
-            <h5>3.4.4. Aggregate Asset</h5>
-            <p>This type of calculation is for aggregate data asset that have no specific location or spatial format, but only represented by aggregate file on certain level of administrative boundary. For this kind of asset we calculate the damage and loss based on the probability with formula:</p>
-            
-            <figure>
-                <a href="{{ STATIC_URL }}img/science/3-number-of-affected-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-number-of-affected-asset.png" width="600"></a>
-            </figure>
-            
-            <p>The example of damage and loss calculation for aggregate asset:</p>
-            
-            <table class="table4">
-                <tr>
-                    <td class="content-table4-left">Asset</td>
-                    <td class="content-table4-right">ATM</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset in certain Village</td>
-                    <td class="content-table4-right">50</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Number of Block on the Village</td>
-                    <td class="content-table4-right">5</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Area of the Village</td>
-                    <td class="content-table4-right">10000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Number of Block inundated</td>
-                    <td class="content-table4-right">2 (RW X and RW Y, with area 500 meters and 200 meters respectively)</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Flood Category</td>
-                    <td class="content-table4-right">A2</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Damage Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Loss Value for A2 Flood</td>
-                    <td class="content-table4-right">Rp 10.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset for RW X</td>
-                    <td class="content-table4-right">(500/10000) x 50 = 2.5 (roundup to 3)</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Asset for RW Y</td>
-                    <td class="content-table4-right">(200/10000) x 50 = 1</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage for RW X</td>
-                    <td class="content-table4-right">3 x Rp 5.000 = Rp 15.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Damage for RW Y</td>
-                    <td class="content-table4-right">1 x Rp 5.000 = Rp 5.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss for RW X</td>
-                    <td class="content-table4-right">3 x Rp 10.000 = Rp 30.000</td>
-                </tr>
-                <tr>
-                    <td class="content-table4-left">Total Loss for RW Y</td>
-                    <td class="content-table4-right">1 x Rp 10.000 = Rp 10.000</td>
-                </tr>
-            </table>
-        </div>
+        
         
         <div id="section3-4-5">
             <h5>3.4.5. Summarize the Calculation and Reporting</h5>
             <p>Before damage and loss calculation begin, data need to be processed, or we call it pre calculation process. The process of pre calculation is described as follow:</p>
-                <a href="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" target="_blank">View1</a>
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" width="600"></a>
                 <figcaption>Figure 25 Pre Calculation Workflow</figcaption>
-            <p>The exposure data intersected with hazard data (contour delineation data) in GIS Software. Then the result was aggregated based on asset, by RW Boundary. The result of the process was in shapefile data, then it was converted into database file using postgis and PostgreSQL, and stored into JakSAFE database.</p>
-                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank">View</a>
+            </figure>
+            <p>The exposure data intersected with hazard data (contour delineation data) in GIS Software. Then the result was aggregated based on asset, by RW Boundary. The result of the process was in shapefile data, then it was converted into database file using postgis and PostgreSQL, and stored into JakSAFE database. Every asset of exposure data in the database has already have details information, either the exposure and hazard classification. The purpose of storage the data into database form is to improve JakSAFE web performance. Then we were aggregating the database by RW boundary, asset category, and hazard classification. Finally, the process followed by calculating the damage and loss that was done by multiplying the aggregate database to the damage and loss matrix (in Rupiahs). The result of those whole process is damage and loss database based on RW and Hazard Class. The purpose of doing this process is to improve JakSAFE performance, so the application did not need to repeat the GIS and aggregation process which take a long time to be done. The SQL script for pre calculation can be viewed in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-output-damage-and-loss-thumb.png" width="650"></a>
                 <figcaption>Figure 27 Output of Damage and Loss pre Calculation Database</figcaption>
+            </figure>
         </div>
     </div>
 
