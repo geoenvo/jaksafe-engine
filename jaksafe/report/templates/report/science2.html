@@ -745,7 +745,22 @@
             </table>
         </div>
         
-        
+        <div id="section3-4-5">
+            <h5>3.4.5. Summarize the Calculation and Reporting</h5>
+            <p>Before damage and loss calculation begin, data need to be processed, or we call it pre calculation process. The process of pre calculation is described as follow:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-pre-calculation-workflow.png" width="600"></a>
+                <figcaption>Figure 25 Pre Calculation Workflow</figcaption>
+            </figure>
+            
+            <p>The exposure data intersected with hazard data (contour delineation data) in GIS Software. Then the result was aggregated based on asset, by RW Boundary. The result of the process was in shapefile data, then it was converted into database file using postgis and PostgreSQL, and stored into JakSAFE database. Every asset of exposure data in the database has already have details information, either the exposure and hazard classification. The purpose of storage the data into database form is to improve JakSAFE web performance. Then we were aggregating the database by RW boundary, asset category, and hazard classification. Finally, the process followed by calculating the damage and loss that was done by multiplying the aggregate database to the damage and loss matrix (in Rupiahs). The result of those whole process is damage and loss database based on RW and Hazard Class. The purpose of doing this process is to improve JakSAFE performance, so the application did not need to repeat the GIS and aggregation process which take a long time to be done. The SQL script for pre calculation can be viewed in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-output-damage-and-loss-thumb.png" width="650"></a>
+                <figcaption>Figure 27 Output of Damage and Loss pre Calculation Database</figcaption>
+            </figure>
+        </div>
         
     </div>
 
