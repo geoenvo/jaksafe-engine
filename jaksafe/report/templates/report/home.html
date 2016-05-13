@@ -5,6 +5,10 @@
 
 {% block extra_header %}
 <link href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>
+    {% load chartit %}
+    {{ charts|load_charts:"chart-sector-container, chart-subsector-container" }}
 {% endblock %}
 
 {% block content %}
@@ -61,6 +65,42 @@
     </div>
 </div>
 {% endif %}
+
+<div id="event" id="" class="row mb-20">
+	<div class="col-md-12">
+        <!--<h3>{{ page_title }}</h3>-->
+        <h3>Recent Flood</h3>
+    </div>
+    <!--
+    <div class="col-md-12">
+		<div id='chart-sector-container'> Chart sector will be rendered here </div>
+		<hr>
+		<div id='chart-subsector-container'> Chart subsector will be rendered here </div>
+	</div>
+    -->
+    <div class="col-md-8">
+        <!--insert map here-->
+        <iframe style="border: none;" height="433" width="650" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
+    </div>
+	<div class="col-md-4">
+    <!--
+        <h4>
+            {% if start_date|date:'d M Y' == end_date|date:'d M Y' %}
+            {{end_date|date:'d M Y'}} Estimated Loses:
+            {% else %}
+            {{start_date|date:'d'}} - {{end_date|date:'d M Y'}} Estimated Loses:
+            {% endif %}
+            <br>
+            <b>Rp {{total_total|intcomma}}</b>
+            <br>
+            <br>
+            <div id='chart-sector-container'> Chart sector will be rendered here </div>
+            <br>
+            <div id='chart-subsector-container'> Chart subsector will be rendered here </div>
+        </h4>
+    -->
+    </div>
+</div>
 
 <div id="about" class="row mb-20">
     <div class="col-md-8">

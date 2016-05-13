@@ -1,4 +1,5 @@
-BEGIN
+CREATE TRIGGER `auto_calc_daily` AFTER INSERT ON `auto_calc`
+ FOR EACH ROW BEGIN
 /* Get prev t0 */
 SELECT t0 INTO @prev_t0 FROM auto_calc WHERE id=NEW.id-1;
 

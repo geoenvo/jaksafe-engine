@@ -74,6 +74,88 @@ def home(request, template='report/home.html'):
     context_dict["page_title"] = 'JakSAFE Home'
     context_dict["errors"] = []
     context_dict["successes"] = []
+
+    report_auto_daily = AutoCalcDaily.objects.all().order_by('-id')[:1]
+    if report_auto_daily and report_auto_daily[0]:
+        id_event = report_auto_daily[0].id_event
+        context_dict["start_date"] = report_auto_daily[0].from_date
+        context_dict["end_date"] = report_auto_daily[0].to_date
+    
+    cursor = connection.cursor()
+    cursor_pg = connections['pgdala'].cursor()
+        
+    cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from auto_dala_result where id_event=%s group by sector order by sector',[id_event])
+    sector_dala = dictfetchall(cursor_pg)
+    cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from auto_dala_result where id_event=%s group by sector, subsector order by sector, subsector',[id_event])
+    subsector_dala = dictfetchall(cursor_pg)
+
+    context_dict["sector_dala"] = sector_dala
+    context_dict["subsector_dala"] = subsector_dala
+
+    total_damage = 0
+    total_loss = 0
+    for sdal in sector_dala:
+        #print sdal
+        if sdal['damage']!=None:
+            total_damage = total_damage + sdal['damage']
+        if sdal['loss']!=None:
+            total_loss = total_loss + sdal['loss']
+    total_total = total_damage + total_loss	
+    
+    context_dict["total_loss"] = total_loss
+    context_dict["total_damage"]= total_damage
+    context_dict["total_total"]= total_total
+
+    sectorpivotdatapool = PivotDataPool(
+       series=[
+           {'options':{
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event)),
+               'categories':['sector']},
+            #  'legend_by':['sector']},
+            'terms':{
+               'sector_loss':Sum('loss'),
+               'sector_damage':Sum('damage')}}])
+    subsectorpivotdatapool = PivotDataPool(
+        series=[
+           {'options':{
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event)),
+               'categories':['subsector']},
+            'terms':{
+               'subsector_loss':Sum('loss'),
+               'subsector_damage':Sum('damage')}}])
+    
+    sectorpivotchrt = PivotChart(
+        datasource = sectorpivotdatapool,
+        series_options = [
+		   {'options':{
+            'type':'column',
+            'stacking':True,
+            'xAxis':0,
+            'yAxis':0},
+           'terms':['sector_loss', 'sector_damage']}],
+		chart_options = {
+           'title': {
+               'text': 'Kerusakan dan Kerugian per Sektor'},
+           'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
+		})			
+    
+    subsectorpivotchrt = PivotChart(
+        datasource =subsectorpivotdatapool,
+        series_options = [
+            {'options':{
+               'type':'column',
+               'stacking':True,
+               'xAxis':0,
+               'yAxis':0},
+             'terms':['subsector_loss', 'subsector_damage']}],
+		chart_options = {
+           'title': {
+               'text': 'Kerusakan dan Kerugian per Subsektor'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
+        })
+    
+    context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt]
+    
     return render_to_response(template, RequestContext(request, context_dict))
 
 def about(request, template='report/about.html'):
@@ -1322,6 +1404,31 @@ def report_adhoc_web(request, id_event, template='report/report_adhoc_web.html')
 			
     context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt, damagepiechart, losspiechart, dkotapvtchrt,infdmgassetchrt, inflossassetchrt,linsdmgassetchrt, linslossassetchrt,proddmgassetchrt, prodlossassetchrt,sospdmgassetchrt, sosplossassetchrt]
     return render_to_response(template, RequestContext(request, context_dict))
+
+
+#def home(request, id_event, template='report/home.html'):
+#    context_dict = {}
+#    context_dict["page_title"] = 'JakSAFE Home'
+#    context_dict["errors"] = []
+#    context_dict["successes"] = []
+    
+#    id_event = 171 #cek cara ngambil nilai ini otomatis dari auto_calc_daily gmn?
+#    event = AutoCalcDaily.objects.using('default').get(id_event=int(id_event))
+#    context_dict["start_date"] = event.from_date
+#    context_dict["end_date"] = event.to_date
+#    context_dict["total_total"] = 6845000000
+
+#    cursor = connection.cursor()
+#    cursor_pg = connections['pgdala'].cursor()
+	
+#    try:
+#        event = AutoCalc.objects.using('default').get(id_event=int(id_event))
+#    except AutoCalc.DoesNotExist:
+#        raise Http404("Event does not exist")
+#    context_dict["start_date"] = event.t0
+#    context_dict["end_date"] = event.t1
+    
+#    return render_to_response(template, RequestContext(request, context_dict))
 	
 def report_auto_web(request, id_event, template='report/report_auto_web.html'):
     context_dict = {}
