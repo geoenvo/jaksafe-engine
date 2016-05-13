@@ -436,6 +436,201 @@
             
         </div>
         
+        <div id="section3-1-3">
+            <h5>3.1.3. Challenge</h5>
+            <p>The challenge of defining hazard is how to find the best method for defining flood area in limited of time and cost. We are fully aware that contour or elevation alone was not the only factor affecting the water dynamic, the presence of basin also be an important aspect that affecting water dynamic. Therefore, to produce the best flood area is best modeled using hydrodynamic method. However, the area to be modeled is really large (Whole Jakarta Area), so for now we assume that contour delineation method is the effective solution.</p>
+        </div>
+        
+        <div id="section3-2">
+            <h4>3.2. Exposure Classification</h4>
+        </div>
+        
+        <div id="section3-2-1">
+            <h5>3.2.1. Sector & Sub-sector classification</h5>
+            <p>According to Damage and Loss Assessment developed by the United Nations Economic Commission for Latin America and the Caribbean (UN ECLAC), the Sector and Sub-sector for exposure classification are divided by:</p>
+            
+            <ol>
+                <li>SOCIAL SECTORS</li>
+                <ul>
+                    <li>Affected population</li>
+                    <li>Housing and human settlements</li>
+                    <li>Education and culture</li>
+                    <li>Health sector</li>
+                </ul>
+                <li>INFRASTRUCTURE</li>
+                <ul>
+                    <li>Energy</li>
+                    <li>Drinking water and sanitation</li>
+                    <li>Transport and communications</li>
+                </ul>
+                <li>ECONOMIC SECTORS</li>
+                <ul>
+                    <li>Agriculture</li>
+                    <li>Trade and industry</li>
+                    <li>Tourism</li>
+                </ul>
+            </ol>
+            
+            <p>However, there are several assets in our exposure data which did not fit into those classifications. Therefore, JakSAFE has its own categorization of Sector, Sub-Sector, and Asset that depends on the availability of Exposure Data, they are:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-sector-and-subsector-category.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-sector-and-subsector-category.png" width="600"></a>
+                <figcaption>Figure 17 Sector and Subsector Category based on 2013's Worldbank DaLA categorization</figcaption>
+            </figure>
+        </div>
+        
+        <div id="section3-2-2">
+            <h5>3.2.2. Asset Categorization</h5>
+            <p>For Land Parcel data, we categorize the asset using land utilization attribute information on the shapefile. While for Building Footprints data we adjusting the category that already set on the CAD drawing to our own asset category. The categorization process was done Using PostgreSQL and PostGIS (an open source Tabular and Spatial database engine) to ease database management. For more details about the list of asset categorization in JakSAFE, refer to github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/asset_categorization.csv" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/asset_categorization.csv</i></a>.</p>
+        </div>
+        
+        <div id="section3-2-3">
+            <h5>3.2.3. Challenge</h5>
+            <p>The exposure classification process need really detail information to deliver the best result, so imporving exposure dataset quality was the main key to deliver good damage and loss estimation. For the exposure classification will be a starting point for making damage and loss matrix, and the more varied the matrix, the estimation result will be much better.</p>
+        </div>
+        
+        <div id="section3-3">
+            <h4>3.3. Monetary Valuation</h4>
+        </div>
+        
+        <div id="section3-3-1">
+            <h5>3.3.1. Damage & Loss Valuation</h5>
+            <p>The valuation process is the process of the estimating how much (in monetary value) the asset will be loss and damage if it is inudated in certain flood height and duration. Mostly, the assumptions derived from physical characteristic of the building and the property inside the asset. Sometimes, the valuation process also helped by the regulation that states the standard utilization of space and properties in some asset category, for example on school or hospital asset. In general, the monetary valuation process consists of four following method:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-valuation-method.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-valuation-method.png" width="400"></a>
+                <figcaption>Figure 18 Valuation Method and its Quality Degree</figcaption>
+            </figure>
+            
+            <ul>
+                <li>The 1<sup>st</sup> degree of valuation (we consider are the best quality) is consists of:
+                <ul>
+                    <li>Historical Flood Data collected from the related organization (SKPDs, BUMDs, Agencies, etc.). This information usually taken from the report(s) of damage and losses due to flood occurring in the certain year(s). Not all organization have this kind of report. Mostly they did not have of this kind of information.</li>
+                    <li>Research Literature (scientific papers, report, standard, regulation, etc.). JakSAFE team collected the information relevant with the valuation. The information is taken from Internet and Organizations. It usually in the form of scientific report that study the quantification of damage and loss due to flood event.</li>
+                    <li>Estimation with certain assumptions based on the previous source (a &amp; b). This is the least method that had been used for asset valuation on detail of the asset information. For example, for school valuation (pre-school, junior, and senior high school) we do valuation of the assets by detailing the assets that exist within the school such as classrooms, chairs, tables, furniture, etc. JakSAFE team estimate and put an assumption for each item(s) that contained inside the school that threatened by flood.</li>
+                </ul>
+                </li>
+                <li>The 2<sup>nd</sup> degree of valuation is produced without Historical information, but consists of Research Literature and Estimation process.</li>
+                <li>The 3<sup>rd</sup> degree of valuation only been done by estimating the asset manually.</li>
+                <li>The 2<sup>nd</sup> degree of valuation is used when there are no sufficient information to conduct Historical, Research Literature or Estimation method, so the valuation is following the previous method as described in the 2013's Jakarta Flood DaLA report.</li>
+            </ul>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-percentage-of-valuation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-percentage-of-valuation.png" width="450"></a>
+                <figcaption>Figure 19 Percentage of Valuation Methods Distribution</figcaption>
+            </figure>
+            
+            <p>Figure above shows that the best degree of valuation methods only used on 7% of asset valuation, and the biggest percentage (80%) using the third degree of valuation method, which is asset estimation. Sometimes the valuation methods can be a combination of two methods, but in general, most of the asset valuation using estimation methods. The estimation method itself also using standardized form that makes it easy to convert into damage and loss matrix.</p>
+        </div>
+        
+        <div id="section3-3-2">
+            <h5>3.3.2.	Damage &amp; Loss Matrix</h5>
+            <p>Below are the example of damage and loss matrix estimation form, the instrument for making damage and loss matrix in rupiahs. For more details about the list of damage and loss matrix used in JakSAFE, refer to github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv</i></a>. While for more details about valuation of each JakSAFE asset category, refer to damage and loss estimation form on github link on <a href="https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal</i></a>.</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation-thumb.png" width="650"></a>
+                <figcaption>Figure 20 Damage and Loss Estimation Form</figcaption>
+            </figure>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-matrix.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-matrix.png" width="650"></a>
+                <figcaption>Figure 21 Damage and Loss Matrix Example</figcaption>
+            </figure>
+        </div>
+        
+        <div id="section3-3-3">
+            <h5>3.3.3. Challenge</h5>
+            <p>The challenge of this process are the lack of important data like damage and loss historical data, especially the historical data damage and losses due to flooding on each asset, which is very important starting point on monetary valuation process of damage and loss. The other thing to notice is the changes of economic value over time, so damage and loss matrix should remain be updated periodically to get better damage and loss estimation.</p>
+        </div>
+        
+        <div id="section3-4">
+            <h4>3.4. Damage &amp; Loss Calculation</h4>
+        </div>
+        
+        <div id="section3-4-1">
+            <h5>3.4.1. Unit of Asset</h5>
+            <p>This type of calculation is used for building (land parcel and building footprints) and aggregate data which asset can be counted as unit number, those type of asset usually have physical building and specific administrative boundary. The example of asset that using calculation method are school, hospital, ATM, and the others. The process of the calculation is done by aggregating the unit of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
+            <p>The example of damage and loss calculation based on unit asssets is:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-example-unit-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-example-unit-asset.png" width="450"></a>
+                <figcaption>Figure 22 Example of Unit Asset Calculation</figcaption>
+            </figure>
+            
+            <table class="table4">
+                <tr>
+                    <td class="content-table4-left">Asset</td>
+                    <td class="content-table4-right">House</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Asset</td>
+                    <td class="content-table4-right">10</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Flood Category</td>
+                    <td class="content-table4-right">A2</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Damage Value for A2 Flood</td>
+                    <td class="content-table4-right">Rp 500.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Loss Value for A2 Flood</td>
+                    <td class="content-table4-right">Rp 450.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Damage</td>
+                    <td class="content-table4-right">10 x Rp 500.000 = Rp 5.000.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Loss</td>
+                    <td class="content-table4-right">10 x Rp 450.000 = Rp 4.500.000</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div id="section3-4-2">
+            <h5>3.4.2. Area of Asset</h5>
+            <p>This type of calculation is for spatial data which asset counted as area, those type of asset usually consume large area so it did not have spesific administrative boundary, and need to break down for several RW to ease the calculation and for damage and loss drilling down process into the RW Boundary Level.</p>
+            <p>The example of damage and loss calculation based on metric asssets is:</p>
+            
+            <figure>
+                <a href="{{ STATIC_URL }}img/science/3-example-area-asset.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-example-area-asset.png" width="450"></a>
+                <figcaption>Figure 23 Example of Area of Asset Calculation</figcaption>
+            </figure>
+            
+            <table class="table4">
+                <tr>
+                    <td class="content-table4-left">Asset</td>
+                    <td class="content-table4-right">Fishpond</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Area of Asset</td>
+                    <td class="content-table4-right">100 meters</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Flood Category</td>
+                    <td class="content-table4-right">A2</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Damage Value for A2 Flood</td>
+                    <td class="content-table4-right">Rp 25.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Loss Value for A2 Flood</td>
+                    <td class="content-table4-right">Rp 150.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Damage</td>
+                    <td class="content-table4-right">100 x Rp 25.000 = Rp 2.500.000</td>
+                </tr>
+                <tr>
+                    <td class="content-table4-left">Total Loss</td>
+                    <td class="content-table4-right">100 x Rp 150.000 = Rp 15.000.000</td>
+                </tr>
+            </table>
+        </div>
+        
         
         
     </div>
