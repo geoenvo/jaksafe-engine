@@ -179,6 +179,13 @@ def science(request, template='report/science.html'):
     context_dict["successes"] = []
     return render_to_response(template, RequestContext(request, context_dict))
     
+def science2(request, template='report/science.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Science'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    return render_to_response(template, RequestContext(request, context_dict))
+    
 def data(request, template='report/data.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Data'
