@@ -71,7 +71,7 @@
             </figure>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" width="600"></a>
+                <a href="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-jakarta-admin-boundary.png" width="650"></a>
                 <figcaption>Figure 2 Jakarta Administrative Boundary</figcaption>
             </figure>
         </div>
@@ -101,7 +101,7 @@
             </table>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/2-example-parcel-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-parcel-data.png" width="450"></a>
+                <a href="{{ STATIC_URL }}img/science/2-example-parcel-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-parcel-data-thumb.png" width="650"></a>
                 <figcaption>Figure 3 Example of Parcel Data in shapefile format</figcaption>
             </figure>
         </div>
@@ -136,7 +136,7 @@
             <p>We are using road data from OpenstreetMap as road expossure input for JakSAFE. Road data from OpenstreetMap is in shapefile format, and already have information about road type in it. The shapefile has information about the name of the road, type of road, and also length. However, Damage and Loss estimation for "VEHICLE" asset is counted based on number of vehicle on inudated road. Therefore, we need to add vehicle volume information to road shapefile. We are using vehicle volume data obtained from Transportation Agency. The process of inputing vehicle volume information is done using database software (PostGIS and PostgreSQL) to ease database management. After those stages were done, the data from PostGIS is exported into shapefile and generate result like picture below:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/2-vehicle-volume-info.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-vehicle-volume-info.png" width="650"></a>
+                <a href="{{ STATIC_URL }}img/science/2-vehicle-volume-info.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-vehicle-volume-info-thumb.png" width="650"></a>
                 <figcaption>Figure 5 Vehicle Volume Information on Road Shapefile</figcaption>
             </figure>
         </div>
@@ -146,7 +146,7 @@
             <p>The ideal expossure data requirements for JakSAFE are expected in the spatial features such as polygon or polyline. Data collected from related institutions comes in various formats, one of the is aggregate data. However, with some assumption and rationale, we still can make use of those data to enrich JakSAFE exposure database. The example of aggregate data was shown like table below:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/2-example-aggregate-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-aggregate-data.png" width="650"></a>
+                <a href="{{ STATIC_URL }}img/science/2-example-aggregate-data.png" target="_blank"><img src="{{ STATIC_URL }}img/science/2-example-aggregate-data-thumb.png" width="650"></a>
                 <figcaption>Figure 6 Example of Aggregate Data</figcaption>
             </figure>
         </div>
@@ -419,7 +419,7 @@
             <p>Then survey was done by recording flood depth value and flood boundary. Then point of flood height (shown by black point on map below) acquired from survey was calibrated with the help of DEM data (Digital Elevation Model) to get the flooded area afterwards, the result and comparison to contour delineation map is shown by map below:</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-survey-data-comparison.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-survey-data-comparison.png" width="600"></a>
+                <a href="{{ STATIC_URL }}img/science/3-survey-data-comparison.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-survey-data-comparison-thumb.png" width="650"></a>
                 <figcaption>Figure 15 Survey Data Comparison (Left) with Contour Delineation Data (Right)</figcaption>
             </figure>
             
@@ -528,7 +528,7 @@
             <p>Below are the example of damage and loss matrix estimation form, the instrument for making damage and loss matrix in rupiahs. For more details about the list of damage and loss matrix used in JakSAFE, refer to github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/dal_matrix.csv</i></a>. While for more details about valuation of each JakSAFE asset category, refer to damage and loss estimation form on github link on <a href="https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/tree/master/form_matrix_dal</i></a>.</p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation.png" width="650"></a>
+                <a href="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-damage-and-lost-estimation-thumb.png" width="650"></a>
                 <figcaption>Figure 20 Damage and Loss Estimation Form</figcaption>
             </figure>
             
@@ -757,7 +757,7 @@
             <p>The exposure data intersected with hazard data (contour delineation data) in GIS Software. Then the result was aggregated based on asset, by RW Boundary. The result of the process was in shapefile data, then it was converted into database file using postgis and PostgreSQL, and stored into JakSAFE database. Every asset of exposure data in the database has already have details information, either the exposure and hazard classification. The purpose of storage the data into database form is to improve JakSAFE web performance. Then we were aggregating the database by RW boundary, asset category, and hazard classification. Finally, the process followed by calculating the damage and loss that was done by multiplying the aggregate database to the damage and loss matrix (in Rupiahs). The result of those whole process is damage and loss database based on RW and Hazard Class. The purpose of doing this process is to improve JakSAFE performance, so the application did not need to repeat the GIS and aggregation process which take a long time to be done. The SQL script for pre calculation can be viewed in github link on <a href="https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql" target="_blank"><i>https://github.com/geoenvo/jaksafe-etc/blob/master/script_precalc.sql</i></a></p>
             
             <figure>
-                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" width="650"></a>
+                <a href="{{ STATIC_URL }}img/science/3-output-damage-and-loss.png" target="_blank"><img src="{{ STATIC_URL }}img/science/3-output-damage-and-loss-thumb.png" width="650"></a>
                 <figcaption>Figure 27 Output of Damage and Loss pre Calculation Database</figcaption>
             </figure>
         </div>
