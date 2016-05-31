@@ -8,7 +8,7 @@
 <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>
     {% load chartit %}
-    {{ charts|load_charts:"chart-sector-container, chart-subsector-container" }}
+    {{ charts|load_charts:"chart-subsector-loss-container, chart-subsector-damage-container, chart-village-loss-container, chart-village-damage-container" }}
 {% endblock %}
 
 {% block content %}
@@ -71,46 +71,57 @@
         <!--<h3>{{ page_title }}</h3>-->
         <h3>Recent Flood</h3>
     </div>
-    <!--
-    <div class="col-md-12">
-		<div id='chart-sector-container'> Chart sector will be rendered here </div>
-		<hr>
-		<div id='chart-subsector-container'> Chart subsector will be rendered here </div>
-	</div>
-    -->
     <div class="col-md-8">
         <!--insert map here-->
-        <iframe style="border: none;" height="433" width="650" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
-    </div>
-	<div class="col-md-4">
-    <!--
-        <h4>
-            {% if start_date|date:'d M Y' == end_date|date:'d M Y' %}
-            {{end_date|date:'d M Y'}} Estimated Loses:
-            {% else %}
-            {{start_date|date:'d'}} - {{end_date|date:'d M Y'}} Estimated Loses:
-            {% endif %}
-            <br>
-            <b>Rp {{total_total|intcomma}}</b>
-            <br>
-            <br>
-            <div id='chart-sector-container'> Chart sector will be rendered here </div>
-            <br>
-            <div id='chart-subsector-container'> Chart subsector will be rendered here </div>
-        </h4>
-    -->
-    </div>
-</div>
-
-<div id="about" class="row mb-20">
-    <div class="col-md-8">
+        <iframe style="border: none;" height="433" width="750" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
+        
+        <br>
+        <br>
+        <table class="table1">
+            <caption style='font-size: 18px'>Flooded RW's</caption>
+            <thead>
+                <tr class="header-table1">
+                    <th class="text-center">{% trans "Village" %}</th>
+                    <th class="text-center">{% trans "RW" %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for kel, rw in flooded_rw %}
+                <tr>
+                    <td class="text-center content-table1-class">{{ kel }}</td>
+                    <td class="text-center content-table1-class">{{ rw }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        
         <h3>What is JakSAFE?</h3>
 		<p>JakSAFE is a system designed to estimate the damage and loss due to flood event in DKI Jakarta. JakSAFE will estimate financial damage and losses due to flood generated from estimation of reported flood event via BPBD team, people's report, social media, and confirmed by field surveyor. The report then aggregated by RW's of Villages and attached to certain height of innundated and flood long (in days).</p>
 		<p>JakSAFE using the latest Jakarta Eksposure v1.0 which collected and processed during JakSAFE Data Collection activity 2015. This Exposure dataset is produced from P4T parcel data and merged with building footprint of Jakarta.</p>
 		<p>The estimation of Damage and Lossess consists of following sectors: Infrastructure, Productive, Social & Housing, and Cross-sector. The valuation of each assets on the Exposure dataset are using estimation & assumption, research documentation, papers, standard and historical flood report.</p>
 		<p>The Total covered villages are 261 villages on the mainland of Java (excl. thousand island). The total assets covered are 1.354.377 defined assets in Jakarta including housing, business, commerce, government and public assets.</p>
 		<p>JakSAFE is funded by GFDRR throught the Worldbank. Design, Developed and Implemented by Geo Enviro Omega and inspired by InaSAFE. Currently implemented in DKI Jakarta Province, capital of Indonesia.</p>
-		
+    </div>
+	<div class="col-md-4">
+        <h4>
+            {% if start_date|date:'d M Y' == end_date|date:'d M Y' %}
+            {{end_date|date:'d M Y'}} Estimated Loses:
+            {% else %}
+            {{start_date|date:'d'}} - {{end_date|date:'d M Y'}} Estimated Damage and Losses:
+            {% endif %}
+            <br>
+            <b>Rp {{total_total|intcomma}}</b>
+            <br>
+            <br>
+            <div id='chart-subsector-loss-container'> Chart subsector will be rendered here </div>
+            <br>
+            <div id='chart-subsector-damage-container'> Chart subsector will be rendered here </div>
+            <br>
+            <div id='chart-village-loss-container'> Chart village will be rendered here </div>
+            <br>
+            <div id='chart-village-damage-container'> Chart village will be rendered here </div>
+        </h4>
     </div>
 </div>
 {% endblock %}

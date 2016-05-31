@@ -105,56 +105,141 @@ def home(request, template='report/home.html'):
     context_dict["total_loss"] = total_loss
     context_dict["total_damage"]= total_damage
     context_dict["total_total"]= total_total
-
-    sectorpivotdatapool = PivotDataPool(
-       series=[
-           {'options':{
-               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event)),
-               'categories':['sector']},
-            #  'legend_by':['sector']},
-            'terms':{
-               'sector_loss':Sum('loss'),
-               'sector_damage':Sum('damage')}}])
-    subsectorpivotdatapool = PivotDataPool(
+    
+    #Get flooded village and rw
+    cursor_pg.execute("SELECT kelurahan,rw FROM auto_dala_result WHERE id_event = %s AND loss > %s AND kelurahan IS NOT NULL GROUP BY kelurahan,rw ORDER BY kelurahan,rw" % (id_event, 0))
+    result_set = dictfetchall(cursor_pg)
+    list_rw = []
+    list_kel = []
+    prev_kel = "0"
+    rw = ""
+    iter = 0
+    for rvil in result_set:
+        if rvil['kelurahan'] == prev_kel:
+            rw += ", " + rvil['rw']
+        else:
+            if iter > 0:
+               list_rw.append(rw)
+            list_kel.append(rvil['kelurahan'])
+            rw = rvil['rw']
+            prev_kel = rvil['kelurahan']
+            
+        if iter == len(result_set)-1:
+           list_rw.append(rw) 
+        iter += 1
+        
+    zipped = zip(list_kel, list_rw)
+    context_dict["flooded_rw"] = zipped
+    
+    #Plot Top 5 Losses by Subsector
+    subsectorpivotdatapoolloss = PivotDataPool(
         series=[
            {'options':{
-               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event)),
-               'categories':['subsector']},
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
+               'categories':'subsector'},
             'terms':{
-               'subsector_loss':Sum('loss'),
-               'subsector_damage':Sum('damage')}}])
+               'sub-sector_loss':Sum('loss')}}],
+            top_n_term = 'sub-sector_loss',
+            top_n = 5
+        )
     
-    sectorpivotchrt = PivotChart(
-        datasource = sectorpivotdatapool,
-        series_options = [
-		   {'options':{
-            'type':'column',
-            'stacking':True,
-            'xAxis':0,
-            'yAxis':0},
-           'terms':['sector_loss', 'sector_damage']}],
-		chart_options = {
-           'title': {
-               'text': 'Kerusakan dan Kerugian per Sektor'},
-           'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
-		})			
-    
-    subsectorpivotchrt = PivotChart(
-        datasource =subsectorpivotdatapool,
+    subsectorpivotchrtloss = PivotChart(
+        datasource =subsectorpivotdatapoolloss,
         series_options = [
             {'options':{
                'type':'column',
                'stacking':True,
                'xAxis':0,
                'yAxis':0},
-             'terms':['subsector_loss', 'subsector_damage']}],
-		chart_options = {
+             'terms':['sub-sector_loss']}],
+        chart_options = {
            'title': {
-               'text': 'Kerusakan dan Kerugian per Subsektor'},
-            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
-        })
+               'text': 'Top 5 Losses by Sub-Sector'},
+                'colors': ['#FFB800']
+            })
     
-    context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt]
+    #Plot Top 5 Damages by Subsector
+    subsectorpivotdatapooldamage = PivotDataPool(
+        series=[
+           {'options':{
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
+               'categories':'subsector'},
+            'terms':{
+               'sub-sector_damage':Sum('damage')}}],
+            top_n_term = 'sub-sector_damage',
+            top_n = 5
+        )
+    
+    subsectorpivotchrtdamage = PivotChart(
+        datasource =subsectorpivotdatapooldamage,
+        series_options = [
+            {'options':{
+               'type':'column',
+               'stacking':True,
+               'xAxis':0,
+               'yAxis':0},
+             'terms':['sub-sector_damage']}],
+        chart_options = {
+           'title': {
+               'text': 'Top 5 Damages by Sub-Sector'},
+               'colors': ['#FF8900']
+            })
+    
+    #Plot Top 5 Losses by Village    
+    villagepivotdatapoolloss = PivotDataPool(
+        series=[
+           {'options':{
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
+               'categories':'kelurahan'},
+            'terms':{
+               'village_loss':Sum('loss')}}],
+            top_n_term = 'village_loss',
+            top_n = 5
+        )
+    
+    villagepivotchrtloss = PivotChart(
+        datasource =villagepivotdatapoolloss,
+        series_options = [
+            {'options':{
+               'type':'column',
+               'stacking':True,
+               'xAxis':0,
+               'yAxis':0},
+             'terms':['village_loss']}],
+        chart_options = {
+           'title': {
+               'text': 'Top 5 Losses by Village'},
+                'colors': ['#FFB800']
+            })
+    
+    #Plot Top 5 Damages by Village
+    villagepivotdatapooldamage = PivotDataPool(
+        series=[
+           {'options':{
+               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
+               'categories':'kelurahan'},
+            'terms':{
+               'village_damage':Sum('damage')}}],
+            top_n_term = 'village_damage',
+            top_n = 5
+        )
+    
+    villagepivotchrtdamage = PivotChart(
+        datasource =villagepivotdatapooldamage,
+        series_options = [
+            {'options':{
+               'type':'column',
+               'stacking':True,
+               'xAxis':0,
+               'yAxis':0},
+             'terms':['village_damage']}],
+        chart_options = {
+           'title': {
+               'text': 'Top 5 Damages by Village'},
+                'colors': ['#FF8900']
+            })
+    
+    context_dict["charts"] = [subsectorpivotchrtloss, subsectorpivotchrtdamage, villagepivotchrtloss, villagepivotchrtdamage]
     
     return render_to_response(template, RequestContext(request, context_dict))
 
@@ -341,11 +426,11 @@ def report_daily(request, template='report/report_daily.html'):
             # process filter
             print "DEBUG t0 = %s, t1 = %s" % (date_range['t0'], date_range['t1'])
             
-            cursor.execute("SELECT id, id_event, t0, t1, damage, loss, id_event FROM auto_calc WHERE t0 >= '%s' AND t1 <= '%s' ORDER BY id DESC" % (date_range['t0'], date_range['t1']))
+            cursor.execute("SELECT id, id_event, from_date, to_date, day, loss FROM auto_calc_daily WHERE from_date >= '%s' AND to_date <= '%s' ORDER BY id DESC" % (date_range['t0'], date_range['t1']))
             
             resultset = dictfetchall(cursor)
             
-            context_dict["auto_calc"] = resultset
+            context_dict["auto_calc_daily"] = resultset
             
             messages.add_message(request, messages.INFO, "Showing reports for date period: %s - %s" % (date_range['t0'], date_range['t1']))
         else:
