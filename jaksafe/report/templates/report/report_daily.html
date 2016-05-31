@@ -55,7 +55,7 @@
 <div id="filter" class="row mb-20">
     <div class="col-md-12">
         <p><strong>{% trans "Select the date period to filter reports" %}</strong></p>
-        <form method="post" action="{% url "report_auto" %}" class="form-inline">
+        <form method="post" action="{% url "report_daily" %}" class="form-inline">
             <div class="form-group">
                 <div class="input-group date datepicker" id="t0">
                     <input name="t0" type="text" class="form-control" placeholder="{% trans "Start Date" %}">

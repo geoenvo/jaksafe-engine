@@ -6,9 +6,9 @@
 {% block extra_header %}
 <link href="{{ STATIC_URL }}css/bootstrap-datetimepicker.min.css" rel="stylesheet">
 <script src="{{ STATIC_URL }}js/jquery.min.js"></script>	
-	<script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>
-		{% load chartit %}
-		{{ charts|load_charts:"chart-sector-container, chart-subsector-container, chart-piedamage-container,chart-pieloss-container,chart-dalkota-container,chart-dmginf-container,chart-lossinf-container,chart-dmglins-container,chart-losslins-container,chart-dmgprod-container,chart-lossprod-container,chart-dmgsosp-container,chart-losssosp-container" }}
+<script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>
+    {% load chartit %}
+    {{ charts|load_charts:"chart-sector-container, chart-subsector-container, chart-piedamage-container,chart-pieloss-container,chart-dalkota-container,chart-dmginf-container,chart-lossinf-container,chart-dmglins-container,chart-losslins-container,chart-dmgprod-container,chart-lossprod-container,chart-dmgsosp-container,chart-losssosp-container" }}
 {% endblock %}
 
 {% block content %}
