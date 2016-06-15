@@ -49,7 +49,7 @@ if __name__ == '__main__':
     
     ## uncomment next line to set manual t1 
     #t1 = t.Time('20150210115959')
-#    t1 = t.Time('20151116175959')
+#    t1 = t.Time('20160513175959')
 
     t0 = t.Time(t1.timeStamp()-(6*3600))
 

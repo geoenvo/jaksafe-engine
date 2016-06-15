@@ -19,6 +19,7 @@ from django.db.models import Sum, Avg
 from django.core import serializers
 import simplejson
 import collections
+from django.utils.translation import gettext_lazy as _
 
 '''
 def index(request):

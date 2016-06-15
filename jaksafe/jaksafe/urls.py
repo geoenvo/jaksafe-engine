@@ -10,7 +10,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'jaksafe.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^$', RedirectView.as_view(url=reverse_lazy('home')), name='index'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^report/', include('report.urls')),
