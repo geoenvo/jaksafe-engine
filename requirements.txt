@@ -4,13 +4,16 @@ MySQL-python==1.2.5
 supervisor==3.1.3
 django-ckeditor==4.5.3
 django_extended_flatpages==0.1
-django-chartit==0.1
 matplotlib==1.4.3
 pandas==0.16.0
 simplejson==3.6.5
 SQLAlchemy==1.0.9
 psycopg2==2.4.5
+<<<<<<< HEAD
 django-leaflet==0.18.0
 djangorestframework==3.3.2
 djangorestframework-gis==0.10.1
 python-magic==0.4.11
+=======
+-e git+https://github.com/geoenvo/django-chartit#egg=django_chartit
+>>>>>>> 67b99853786544480262301e1f378fea86eb6e7c
