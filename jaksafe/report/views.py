@@ -517,6 +517,8 @@ def report_auto(request, template='report/report_auto.html'):
             
             resultset = dictfetchall(cursor)
             
+            context_dict["jakservice_auto_output_report_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
+            context_dict["jakservice_auto_output_log_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
             context_dict["auto_calc"] = resultset
             
             messages.add_message(request, messages.INFO, "Showing reports for date period: %s - %s" % (date_range['t0'], date_range['t1']))
@@ -597,6 +599,8 @@ def report_adhoc(request, template='report/report_adhoc.html'):
             
             cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on ( id_user = auth_user.id ) WHERE t0 >= '%s' AND t1 <= '%s' ORDER BY adhoc_calc.id DESC" % (date_range['t0'], date_range['t1']))
             
+            context_dict["jakservice_adhoc_output_report_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
+            context_dict["jakservice_adhoc_output_log_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
             resultset = dictfetchall(cursor)
             
             context_dict["adhoc_calc"] = resultset
