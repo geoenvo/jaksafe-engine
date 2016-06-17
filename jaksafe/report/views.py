@@ -431,6 +431,8 @@ def report_daily(request, template='report/report_daily.html'):
             
             resultset = dictfetchall(cursor)
             
+            context_dict["jakservice_auto_output_report_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
+            context_dict["jakservice_auto_output_log_url"] = settings.JAKSERVICE_AUTO_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
             context_dict["auto_calc_daily"] = resultset
             
             messages.add_message(request, messages.INFO, "Showing reports for date period: %s - %s" % (date_range['t0'], date_range['t1']))
@@ -1490,31 +1492,6 @@ def report_adhoc_web(request, id_event, template='report/report_adhoc_web.html')
 			
     context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt, damagepiechart, losspiechart, dkotapvtchrt,infdmgassetchrt, inflossassetchrt,linsdmgassetchrt, linslossassetchrt,proddmgassetchrt, prodlossassetchrt,sospdmgassetchrt, sosplossassetchrt]
     return render_to_response(template, RequestContext(request, context_dict))
-
-
-#def home(request, id_event, template='report/home.html'):
-#    context_dict = {}
-#    context_dict["page_title"] = 'JakSAFE Home'
-#    context_dict["errors"] = []
-#    context_dict["successes"] = []
-    
-#    id_event = 171 #cek cara ngambil nilai ini otomatis dari auto_calc_daily gmn?
-#    event = AutoCalcDaily.objects.using('default').get(id_event=int(id_event))
-#    context_dict["start_date"] = event.from_date
-#    context_dict["end_date"] = event.to_date
-#    context_dict["total_total"] = 6845000000
-
-#    cursor = connection.cursor()
-#    cursor_pg = connections['pgdala'].cursor()
-	
-#    try:
-#        event = AutoCalc.objects.using('default').get(id_event=int(id_event))
-#    except AutoCalc.DoesNotExist:
-#        raise Http404("Event does not exist")
-#    context_dict["start_date"] = event.t0
-#    context_dict["end_date"] = event.t1
-    
-#    return render_to_response(template, RequestContext(request, context_dict))
 	
 def report_auto_web(request, id_event, template='report/report_auto_web.html'):
     context_dict = {}
