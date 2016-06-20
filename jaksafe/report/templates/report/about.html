@@ -49,35 +49,35 @@
 <div id="about" class="row mb-20">
     <div class="col-md-8">
         <div id="section1">
-            <h3>1. Executive Summary</h3>
-            <p>JakSAFE is web based software to estimate the Damages and Losses due to Flood events in Jakarta area. The project has been running since January 2015, and the v.1.1 software has finished on November 2015.</p>
-            <p>The main activities of this project are software development and exposure data collection. Damage and loss calculation is a complex process that involving several aspects. Therefore, it needs at least exposure data, hazard data, and other assumptions as the input, for the calculation to begin. The exposure database was collected from local government, while the hazard data is gathered from command center of Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta, in the form of flooded area with RW (Rukun Warga) Boundary as the unit analysis.</p>
+            <h3>{% trans "1. Executive Summary" %}</h3>
+            <p>{% blocktrans %}JakSAFE is web based software to estimate the Damages and Losses due to Flood events in Jakarta area. The project has been running since January 2015, and the v.1.1 software has finished on November 2015.{% endblocktrans %}</p>
+            <p>{% blocktrans %}The main activities of this project are software development and exposure data collection. Damage and loss calculation is a complex process that involving several aspects. Therefore, it needs at least exposure data, hazard data, and other assumptions as the input, for the calculation to begin. The exposure database was collected from local government, while the hazard data is gathered from command center of Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta, in the form of flooded area with RW (Rukun Warga) Boundary as the unit analysis.{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/1-jaksafe-dala-concept.png" target="_blank"><img src="{{ STATIC_URL }}img/about/1-jaksafe-dala-concept.png" width="380"></a>
-                <figcaption>Figure 1 JakSAFE Workflow</figcaption>
+                <figcaption>{% trans "Figure 1 JakSAFE Workflow" %}</figcaption>
             </figure>
             
-            <p>After the database has completed, the exposure overlaid with hazard data and will producing information about assets impacted by the flood, which later will be calculated with several assumption and produce damage and loss value in Rupiahs. The sector classification is referring to Damage and Loss Assessment Guide Book published by ECLAC. The development team developed the methodology based on Jakarta condition and data availability.</p>
+            <p>{% blocktrans %}After the database has completed, the exposure overlaid with hazard data and will producing information about assets impacted by the flood, which later will be calculated with several assumption and produce damage and loss value in Rupiahs. The sector classification is referring to Damage and Loss Assessment Guide Book published by ECLAC. The development team developed the methodology based on Jakarta condition and data availability.{% endblocktrans %}</p>
         </div>
         
         <div id="section2">
-            <h3>2. Background</h3>
-            <p>Flood is the most common and frequent disaster in Indonesia. Among area in Indonesia, Jakarta is one of the regions which have a high risk of flooding. Losses caused by flooding in early February 2007 reached 5.16 trillion rupiahs and is expected to reach 20 trillion rupiahs in flood that occurred in January 2013. High level of losses due to floods in Jakarta can inhibit the development of the city. Therefore, the local government of Jakarta specifically BPBD DKI Jakarta (regional disaster management agencies), need a tool to estimate damages and losses due to flood in rapid manner. Estimation of Jakarta flood damage and losses as one carried out by BAPPENAS (national planning agency), BPBDs (local disaster management agency), and BNPB (national disaster management agency) or other institutions such as the above is still done manually. In 2013, World Bank supports Jakarta BPBD to calculate Damage and Loss Assessment (DaLA) of flood events that occurred early in 2013. It took long time to issue the report. The methodology used at the time was post-disaster survey. It is constrained due to difficulties in obtaining completed data from each of the sectors. For sectors which data is not available, it's calculated using various assumptions. The calculation is fairly complex process because it includes the effects of direct and indirect damage and losses. Indirect impacts including impacts on business processes, micro and macro-economic, social and environmental.</p>
-            <p>After Hackathon event held in July 2014 initiated under Code for Resilience (CfR), World Bank continue to follow up the post-Hackathon event. From February to April 2015, Jakarta InaSAFE (JakSAFE) has initiated and produces the prototype of the Software. Phase 2 is focusing on completion of Exposure Data and Assumptions (finished by December 2015).</p>
-            <p>Jakarta would be the right place to perform this prototype because Flood in Jakarta is nearly occurring yearly in several Villages. Jakarta via Disaster Management Agency (BPBD) already has flood reporting system that reported every day, which area is flooded and at what depth. This data is publicly available and already published an API (Application Programming Interface) which can support as JakSAFE input periodically (Daily or Six-hourly). Worlbank has conduct RW (block) mapping activity in 2013, resulted   2685 RW and 5091 RT has been mapped. The main idea is develop tools that can estimate damages and losses value (in monetary unit) due to flood events, using GIS methodology by utilizes the Flood Events data (in the form of RW block data), Exposure Data (Buildings &amp; Land Parcels) and certain assumptions. Recent development (2016) JakSAFE is updating Hazard area using Contour Delineation model that still under development. In the future, JakSAFE will combine Hazard mapping produced by Hydrological/hydrodynamics Model, improve the physical damage model and improve losses model using more complex micro &amp; macroeconomic parameter &amp; assumptions to get more realistic output of Damage and Loss value. JakSAFE is initially developed by Inteligensi Risiko and continued by Geo Enviro Omega.</p>
+            <h3>{% trans "2. Background" %}</h3>
+            <p>{% blocktrans %}Flood is the most common and frequent disaster in Indonesia. Among area in Indonesia, Jakarta is one of the regions which have a high risk of flooding. Losses caused by flooding in early February 2007 reached 5.16 trillion rupiahs and is expected to reach 20 trillion rupiahs in flood that occurred in January 2013. High level of losses due to floods in Jakarta can inhibit the development of the city. Therefore, the local government of Jakarta specifically BPBD DKI Jakarta (regional disaster management agencies), need a tool to estimate damages and losses due to flood in rapid manner. Estimation of Jakarta flood damage and losses as one carried out by BAPPENAS (national planning agency), BPBDs (local disaster management agency), and BNPB (national disaster management agency) or other institutions such as the above is still done manually. In 2013, World Bank supports Jakarta BPBD to calculate Damage and Loss Assessment (DaLA) of flood events that occurred early in 2013. It took long time to issue the report. The methodology used at the time was post-disaster survey. It is constrained due to difficulties in obtaining completed data from each of the sectors. For sectors which data is not available, it's calculated using various assumptions. The calculation is fairly complex process because it includes the effects of direct and indirect damage and losses. Indirect impacts including impacts on business processes, micro and macro-economic, social and environmental.{% endblocktrans %}</p>
+            <p>{% blocktrans %}After Hackathon event held in July 2014 initiated under Code for Resilience (CfR), World Bank continue to follow up the post-Hackathon event. From February to April 2015, Jakarta InaSAFE (JakSAFE) has initiated and produces the prototype of the Software. Phase 2 is focusing on completion of Exposure Data and Assumptions (finished by December 2015).{% endblocktrans %}</p>
+            <p>{% blocktrans %}Jakarta would be the right place to perform this prototype because Flood in Jakarta is nearly occurring yearly in several Villages. Jakarta via Disaster Management Agency (BPBD) already has flood reporting system that reported every day, which area is flooded and at what depth. This data is publicly available and already published an API (Application Programming Interface) which can support as JakSAFE input periodically (Daily or Six-hourly). Worlbank has conduct RW (block) mapping activity in 2013, resulted   2685 RW and 5091 RT has been mapped. The main idea is develop tools that can estimate damages and losses value (in monetary unit) due to flood events, using GIS methodology by utilizes the Flood Events data (in the form of RW block data), Exposure Data (Buildings &amp; Land Parcels) and certain assumptions. Recent development (2016) JakSAFE is updating Hazard area using Contour Delineation model that still under development. In the future, JakSAFE will combine Hazard mapping produced by Hydrological/hydrodynamics Model, improve the physical damage model and improve losses model using more complex micro &amp; macroeconomic parameter &amp; assumptions to get more realistic output of Damage and Loss value. JakSAFE is initially developed by Inteligensi Risiko and continued by Geo Enviro Omega.{% endblocktrans %}</p>
         </div>
         
         <div id="section3">
-            <h3>3. Supporting Team</h3>
-            <p><b><u>Adviser</u></b></p>
+            <h3>{% trans "3. Supporting Team" %}</h3>
+            <p><b><u>{% trans "Adviser" %}</u></b></p>
             <ul>
                 <li>Iwan Gunawan (Worldbank)</li>
                 <li>Suryani Amin (Worldbank)</li>
                 <li>Magda Adriani (Worldbank)</li>
             </ul>
             
-            <p><b><u>Development Team</u></b></p>
+            <p><b><u>{% trans "Development Team" %}</u></b></p>
             <div class="row">
                 <div class="col-md-5">
                     <ul>
@@ -104,22 +104,22 @@
         </div>
         
         <div id="section4">
-            <h3>4. Data Source</h3>
-            <p>There are three kind of input data used in JakSAFE:</p>
+            <h3>{% trans "4. Data Source" %}</h3>
+            <p>{% blocktrans %}There are three kind of input data used in JakSAFE:{% endblocktrans %}</p>
         </div>
         
         <div id="section4-1">
-            <h4>4.1 Hazard Data</h4>
-            <p>Hazard data was gathered from Disaster Management Information System (DIMS) installed in Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta Command Center through their API. The data contains information about inudated area in Jakarta, with RW Boundary as their unit analysis. Jakarta as a Province, has five different kind of administrative boundary as described by chart and maps below, from the highest to the lowest level:</p>
+            <h4>{% trans "4.1 Hazard Data" %}</h4>
+            <p>{% blocktrans %}Hazard data was gathered from Disaster Management Information System (DIMS) installed in Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta Command Center through their API. The data contains information about inudated area in Jakarta, with RW Boundary as their unit analysis. Jakarta as a Province, has five different kind of administrative boundary as described by chart and maps below, from the highest to the lowest level:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/4-geolevel.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-geolevel.png" style="margin-bottom: 0;"></a>
-                <figcaption>Figure 2 Jakarta Administrative Boundary</figcaption>
+                <figcaption>{% trans "Figure 2 Jakarta Administrative Boundary" %}</figcaption>
             </figure>
             
-            <p>As explained above, the RT boundary was the lowest boundary level in Jakarta. However, the process of RT boundary mapping is not completed yet (for now it is only covering 35 Kelurahans in Jakarta). Therefore, the flood hazard information gathered using RW boundary as the unit analysis. The output of DIMS API (flooded RWs) is can accessed by the link below:</p>
+            <p>{% blocktrans %}As explained above, the RT boundary was the lowest boundary level in Jakarta. However, the process of RT boundary mapping is not completed yet (for now it is only covering 35 Kelurahans in Jakarta). Therefore, the flood hazard information gathered using RW boundary as the unit analysis. The output of DIMS API (flooded RWs) is can accessed by the link below:{% endblocktrans %}</p>
             <p align="middle"><a href="http://bpbd.jakarta.go.id/cgi-bin/flr" target="_blank"><i>http://bpbd.jakarta.go.id/cgi-bin/flr</i></a></p>
-            <p>The output information of those API are:</p>
+            <p>{% trans "The output information of those API are:" %}</p>
             
             <div class="row">
                 <div class="col-md-5">
@@ -130,8 +130,8 @@
                         <li>Kelurahan (Village)</li>
                         <li>RW (Block)</li>
                         <li>RT (Sub - Block)</li>
-                        <li>Time of Flood Event</li>
-                        <li>Flood Depth</li>
+                        <li>{% trans "Time of Flood Event" %}</li>
+                        <li>{% trans "Flood Depth" %}</li>
                     </ul>
                 </div>
                 <div class="col-md-3">
@@ -143,70 +143,70 @@
         </div>
         
         <div id="section4-2">
-            <h4>4.2 Exposure Data</h4>
-            <p>There are three kind data type of JakSAFE exposure, they are:</p>
+            <h4>{% trans "4.2 Exposure Data" %}</h4>
+            <p>{% trans "There are three kind data type of JakSAFE exposure, they are:" %}</p>
             <ul>
-                <li>Aggregate Exposure Data
-                    <p>Aggregate Exposure Data are asset information which didn't have exact location, so the data provided as aggregate file with administrative boundary as unit analysis.</p>
+                <li>{% trans "Aggregate Exposure Data" %}
+                    <p>{% blocktrans %}Aggregate Exposure Data are asset information which didn't have exact location, so the data provided as aggregate file with administrative boundary as unit analysis.{% endblocktrans %}</p>
                 </li>
-                <li>Road Expossure
-                    <p>Spatial Road Expossure data was acquired from OpenstreetMap in the form of spatial data, while the vehicle volume data obtained from Transportation Agency in the form of tabular data.</p>
+                <li>{% trans "Road Expossure" %}
+                    <p>{% blocktrans %}Spatial Road Expossure data was acquired from OpenstreetMap in the form of spatial data, while the vehicle volume data obtained from Transportation Agency in the form of tabular data.{% endblocktrans %}</p>
                 </li>
-                <li>Building Expossure
-                    <p>Spatial Building Exposure data was acquired from P4T and Base Map Data from local government. The P4T data was containing land parcel of Jakarta, and only covering 70% of Jakarta, while Base Map Data containing building footprint of Jakarta and covering 25% of Jakarta, the rest of 5% data was gathered from many sources.</p>
+                <li>{% trans "Building Expossure" %}
+                    <p>{% blocktrans %}Spatial Building Exposure data was acquired from P4T and Base Map Data from local government. The P4T data was containing land parcel of Jakarta, and only covering 70% of Jakarta, while Base Map Data containing building footprint of Jakarta and covering 25% of Jakarta, the rest of 5% data was gathered from many sources.{% endblocktrans %}</p>
                 </li>
             </ul>
             
             <figure>
                  <a href="{{ STATIC_URL }}img/about/4-exposure-data.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-exposure-data.png" width="450"></a>
-                <figcaption>Figure 3 Exposure Data Type Distribution</figcaption>
+                <figcaption>{% trans "Figure 3 Exposure Data Type Distribution" %}</figcaption>
             </figure>
         </div>
         
         <div id="section4-3">
-            <h4>4.3 Damage &amp; Loss Matrix </h4>
-            <p>Damage and Loss Matrix was obtained through valuation process. It is the process to estimating how much (in monetary value) the asset will be loss and damaged after flooded with certain depth and time. In general, the damage and loss matrix assumptions are derived from physical characteristic of the building including property inside the building. The asset valuation process consists of four following method of valuation, they are:</p>
+            <h4>{% trans "4.3 Damage &amp; Loss Matrix" %}</h4>
+            <p>{% blocktrans %}Damage and Loss Matrix was obtained through valuation process. It is the process to estimating how much (in monetary value) the asset will be loss and damaged after flooded with certain depth and time. In general, the damage and loss matrix assumptions are derived from physical characteristic of the building including property inside the building. The asset valuation process consists of four following method of valuation, they are:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/4-valuation-method.png" target="_blank"><img src="{{ STATIC_URL }}img/about/4-valuation-method.png" width="150"></a>
             </figure>
             
             <ul>
-                <li>Historical Flood Data collected from the related organization (SKPDs, BUMDs, Agencies, etc.). This information usually taken from the report(s) of damage and losses due to flood occurring in the certain year(s). However, not every organization have those report.</li>
-                <li>Research Literature (scientific papers, report, standard, regulation, etc.). JakSAFE team collected the informations relevant with the valuation. The information is taken from Internet and Organizations. It usually in the form of scientific report that study the quantification of damage and lossess due to flood event.</li>
-                <li>Estimation is done with certain assumptions based on the physical characteristic of the asset and the property inside the building. For example, for school valuation (pre-school, junior, and senior high school) we do valuation of the assets by detailing the assets that exist within the school such as classrooms, chairs, tables, furniture, etc. JakSAFE team estimate and put an assumption for each item(s) that contained inside the school that threatened by flood.</li>
-                <li>If there are no sufficient information to conduct Historical, Research Literature or Estimation method, the valuation is done based on the previous method conducted by World Bank in their 2013's Flood DaLA report.</li>
+                <li>{% blocktrans %}Historical Flood Data collected from the related organization (SKPDs, BUMDs, Agencies, etc.). This information usually taken from the report(s) of damage and losses due to flood occurring in the certain year(s). However, not every organization have those report.{% endblocktrans %}</li>
+                <li>{% blocktrans %}Research Literature (scientific papers, report, standard, regulation, etc.). JakSAFE team collected the informations relevant with the valuation. The information is taken from Internet and Organizations. It usually in the form of scientific report that study the quantification of damage and lossess due to flood event.{% endblocktrans %}</li>
+                <li>{% blocktrans %}Estimation is done with certain assumptions based on the physical characteristic of the asset and the property inside the building. For example, for school valuation (pre-school, junior, and senior high school) we do valuation of the assets by detailing the assets that exist within the school such as classrooms, chairs, tables, furniture, etc. JakSAFE team estimate and put an assumption for each item(s) that contained inside the school that threatened by flood.{% endblocktrans %}</li>
+                <li>{% blocktrans %}If there are no sufficient information to conduct Historical, Research Literature or Estimation method, the valuation is done based on the previous method conducted by World Bank in their 2013's Flood DaLA report.{% endblocktrans %}</li>
             </ul>
         </div>
         
         <div id="section5">
-            <h3>5. Methodoloogy</h3>
+            <h3>{% trans "5. Methodology" %}</h3>
         </div>
         
         <div id="section5-1">
-            <h4>5.1 Data Processing</h4>
+            <h4>{% trans "5.1 Data Processing" %}</h4>
         </div>
         
         <div id="section5-1-1">
-            <h5>5.1.1 Hazard Data</h5>
-            <p>The information from the API is joined to RW boundary spatial data (shapefile), that will produce hazard maps of the specified event, like below:</p>
+            <h5>{% trans "5.1.1 Hazard Data" %}</h5>
+            <p>{% blocktrans %}The information from the API is joined to RW boundary spatial data (shapefile), that will produce hazard maps of the specified event, like below:{% endblocktrans %}</p>
                     
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-hazard-maps.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-hazard-maps.png" width="550"></a>
-                <figcaption>Figure 4 Hazard Maps</figcaption>
+                <figcaption>{% trans "Figure 4 Hazard Maps" %}</figcaption>
             </figure>
             
-            <p>Depth and duration of flood became an important aspect to be considered on Flood damage and loss calculation, so the flood is categorized based on depth and duration like table below.</p>
+            <p>{% blocktrans %}Depth and duration of flood became an important aspect to be considered on Flood damage and loss calculation, so the flood is categorized based on depth and duration like table below.{% endblocktrans %}</p>
             
             <table class="table1">
-                <caption>Table 1 JakSAFE Hazard Categorization</caption>
+                <caption>{% trans "Table 1 JakSAFE Hazard Categorization" %}</caption>
                 <tr class="header-table1">
-                    <th>Class</th>
-                    <th>Depth (cm)</th>
-                    <th>Duration (days(s))</th>
-                    <th>Class</th>
-                    <th>Depth (cm)</th>
-                    <th>Duration (days(s))</th>
+                    <th>{% trans "Class" %}</th>
+                    <th>{% trans "Depth (cm)" %}</th>
+                    <th>{% trans "Duration (days(s))" %}</th>
+                    <th>{% trans "Class" %}</th>
+                    <th>{% trans "Depth (cm)" %}</th>
+                    <th>{% trans "Duration (days(s))" %}</th>
                 </tr>
                 <tr>
                     <td class="content-table1-class">A1</td>
@@ -234,10 +234,10 @@
                 </tr>
                 <tr>
                     <td class="content-table1-class">A4</td>
-                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">{% trans "Affected" %}</td>
                     <td class="content-table1-depth4">&lt;1</td>
                     <td class="content-table1-class">C4</td>
-                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">{% trans "Affected" %}</td>
                     <td class="content-table1-depth4">5-8</td>
                 </tr>
                 <tr>
@@ -266,57 +266,57 @@
                 </tr>
                 <tr>
                     <td class="content-table1-class">B4</td>
-                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">{% trans "Affected" %}</td>
                     <td class="content-table1-depth4">1-4</td>
                     <td class="content-table1-class">D4</td>
-                    <td class="content-table1-depth4">Affected</td>
+                    <td class="content-table1-depth4">{% trans "Affected" %}</td>
                     <td class="content-table1-depth4">&gt;8</td>
                 </tr>
             </table>
             
-            <p>For calculating the loss, the affected area also being an important aspect to be considered. So, we made an algorithm to set the surrounding RW of inudated area as the affected area (Class A4/B4/C4/D4), like described by the images below:</p>
+            <p>{% blocktrans %}For calculating the loss, the affected area also being an important aspect to be considered. So, we made an algorithm to set the surrounding RW of inudated area as the affected area (Class A4/B4/C4/D4), like described by the images below:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-affected-area-algorithm.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-affected-area-algorithm.png" width="420"></a>
-                <figcaption>Figure 5 Affected Area Algorithm</figcaption>
+                <figcaption>{% trans "Figure 5 Affected Area Algorithm" %}</figcaption>
             </figure>
             
-            <p>After we have information about inundated RW from DIMS, we detailing the information by contour delineation localization method, using RW boundary as the unit analysis. The first process to achieve that is masking the DEM data by RW boundary first, then we classify the depth into three class (10-70 cm, 71-150 cm, and &gt;150 cm). The main point of doing this method is by erasing river or water body from DEM to generate the best classification result. The result of the method was shown by map below:</p>
+            <p>{% blocktrans %}After we have information about inundated RW from DIMS, we detailing the information by contour delineation localization method, using RW boundary as the unit analysis. The first process to achieve that is masking the DEM data by RW boundary first, then we classify the depth into three class (10-70 cm, 71-150 cm, and &gt;150 cm). The main point of doing this method is by erasing river or water body from DEM to generate the best classification result. The result of the method was shown by map below:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-contour-delineation.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-contour-delineation.png" width="420"></a>
-                <figcaption>Figure 6 Contour Delineation</figcaption>
+                <figcaption>{% trans "Figure 6 Contour Delineation" %}</figcaption>
             </figure>
         </div>
         
         <div id="section5-1-2">
-            <h5>5.1.2 Exposure Data</h5>
-            <p>As described before, exposure data was combined from P4T, Base Map, and other sources data using GIS (Geographic Information System) Software into one geodatabase in shapefile format. Every feature on the building exposure have attribute like building name or building category. Then we categorize those information into 143 assets, 17 subsectors, and 4 sectors to ease the calculation later. The detail information of building exposure data and the categorization was shown by table and map below:</p>
+            <h5>{% trans "5.1.2 Exposure Data" %}</h5>
+            <p>{% blocktrans %}As described before, exposure data was combined from P4T, Base Map, and other sources data using GIS (Geographic Information System) Software into one geodatabase in shapefile format. Every feature on the building exposure have attribute like building name or building category. Then we categorize those information into 143 assets, 17 subsectors, and 4 sectors to ease the calculation later. The detail information of building exposure data and the categorization was shown by table and map below:{% endblocktrans %}</p>
             
             <table class="table2">
-                <caption>Table 2 Count of Building Exposure</caption>
+                <caption>{% trans "Table 2 Count of Building Exposure" %}</caption>
                 <tr class="header-table2">
-                    <th>Data</th>
-                    <th>Count of Villages</th>
-                    <th>Total Unit Asset</th>
+                    <th>{% trans "Data" %}</th>
+                    <th>{% trans "Count of Villages" %}</th>
+                    <th>{% trans "Total Unit Asset" %}</th>
                 </tr>
                 <tr class="content-table2">
-                    <td>Land Parcel</td>
+                    <td>{% trans "Land Parcel" %}</td>
                     <td>193</td>
                     <td>966.033</td>
                 </tr>
                 <tr class="content-table2">
-                    <td>Building Footprint</td>
+                    <td>{% trans "Building Footprint" %}</td>
                     <td>49</td>
                     <td>388.345</td>
                 </tr>
                 <tr class="content-table2">
-                    <td>Other sources</td>
-                    <td>spread</td>
+                    <td>{% trans "Other sources" %}</td>
+                    <td>{% trans "spread" %}</td>
                     <td>2.150</td>
                 </tr>
                 <tr class="content-table2">
-                    <td><b>Total</b></td>
+                    <td><b>{% trans "Total" %}</b></td>
                     <td><b>242</b></td>
                     <td style="background-color: #ff8000;"><b>1.356.528</b></td>
                 </tr>
@@ -324,221 +324,221 @@
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-land-and-building-map.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-land-and-building-map.png" width="400"></a>
-                <figcaption>Figure 7 Land Parcel and Building Footprints Map</figcaption>
+                <figcaption>{% trans "Figure 7 Land Parcel and Building Footprints Map" %}</figcaption>
             </figure>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-difference-land-and-building.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-difference-land-and-building.png" width="400"></a>
-                <figcaption>Figure 8  Difference of Land Parcel and Building Footprints</figcaption>
+                <figcaption>{% trans "Figure 8  Difference of Land Parcel and Building Footprints" %}</figcaption>
             </figure>
             
             <table class="table3">
-                <caption>Table 3 Asset Categorization</caption>
+                <caption>{% trans "Table 3 Asset Categorization" %}</caption>
                 <tr class="header-table3">
-                    <th>SECTOR</th>
-                    <th>SUBSECTOR</th>
-                    <th>COUNT OF ASSET</th>
+                    <th>{% trans "SECTOR" %}</th>
+                    <th>{% trans "SUBSECTOR" %}</th>
+                    <th>{% trans "COUNT OF ASSET" %}</th>
                 </tr>
                 <tr>
-                    <td class="content-table3-sector">INFRASTRUKTUR</td>
-                    <td class="content-table3-odd">AIR BERSIH DAN SANITASI</td>
+                    <td class="content-table3-sector">{% trans "INFRASTRUKTUR" %}</td>
+                    <td class="content-table3-odd">{% trans "AIR BERSIH DAN SANITASI" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">6</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">ENERGI</td>
+                    <td class="content-table3-even">{% trans "ENERGI" %}</td>
                     <td class="content-table3-even" style="text-align:center;">2</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-odd">TELEKOMUNIKASI</td>
+                    <td class="content-table3-odd">{% trans "TELEKOMUNIKASI" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">1</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">TRANSPORTASI</td>
+                    <td class="content-table3-even">{% trans "TRANSPORTASI" %}</td>
                     <td class="content-table3-even" style="text-align:center;">10</td>
                 </tr>
                 <tr>
-                    <td class="content-table3-sector">LINTAS SEKTOR</td>
-                    <td class="content-table3-odd">AGAMA</td>
+                    <td class="content-table3-sector">{% trans "LINTAS SEKTOR" %}</td>
+                    <td class="content-table3-odd">{% trans "AGAMA" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">9</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">FINANSIAL</td>
+                    <td class="content-table3-even">{% trans "FINANSIAL" %}</td>
                     <td class="content-table3-even" style="text-align:center;">5</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-odd">LINGKUNGAN</td>
+                    <td class="content-table3-odd">{% trans "LINGKUNGAN" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">10</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">PEMERINTAHAN</td>
+                    <td class="content-table3-even">{% trans "PEMERINTAHAN" %}</td>
                     <td class="content-table3-even" style="text-align:center;">1</td>
                 </tr>
                 <tr>
-                    <td class="content-table3-sector">PRODUKTIF</td>
-                    <td class="content-table3-odd">BISNIS</td>
+                    <td class="content-table3-sector">{% trans "PRODUKTIF" %}</td>
+                    <td class="content-table3-odd">{% trans "BISNIS" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">2</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">INDUSTRI</td>
+                    <td class="content-table3-even">{% trans "INDUSTRI" %}</td>
                     <td class="content-table3-even" style="text-align:center;">4</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-odd">PARIWISATA</td>
+                    <td class="content-table3-odd">{% trans "PARIWISATA" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">14</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">PERDAGANGAN</td>
+                    <td class="content-table3-even">{% trans "PERDAGANGAN" %}</td>
                     <td class="content-table3-even" style="text-align:center;">27</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-odd">PERTANIAN</td>
+                    <td class="content-table3-odd">{% trans "PERTANIAN" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">27</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">PERUMAHAN</td>
+                    <td class="content-table3-even">{% trans "PERUMAHAN" %}</td>
                     <td class="content-table3-even" style="text-align:center;">1</td>
                 </tr>
                 <tr>
-                    <td class="content-table3-sector">SOSIAL DAN PERUMAHAN</td>
-                    <td class="content-table3-odd">KESEHATAN</td>
+                    <td class="content-table3-sector">{% trans "SOSIAL DAN PERUMAHAN" %}</td>
+                    <td class="content-table3-odd">{% trans "KESEHATAN" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">4</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">PELAYANAN KOMUNITAS</td>
+                    <td class="content-table3-even">{% trans "PELAYANAN KOMUNITAS" %}</td>
                     <td class="content-table3-even" style="text-align:center;">13</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-odd">PENDIDIKAN</td>
+                    <td class="content-table3-odd">{% trans "PENDIDIKAN" %}</td>
                     <td class="content-table3-odd" style="text-align:center;">17</td>
                 </tr>
                 <tr>
                     <td class="content-table3-sector"></td>
-                    <td class="content-table3-even">PERUMAHAN</td>
+                    <td class="content-table3-even">{% trans "PERUMAHAN" %}</td>
                     <td class="content-table3-even" style="text-align:center;">3</td>
                 </tr>
             </table>
             
-            <p>As for road data, we combine the tabular vehicle information and spatial road data using GIS Software (QGIS) and Database Software (PostGIS and PostgreSQL). The result of this process is every segment of road has vehicle volume information like shown in maps below:</p>
+            <p>{% blocktrans %}As for road data, we combine the tabular vehicle information and spatial road data using GIS Software (QGIS) and Database Software (PostGIS and PostgreSQL). The result of this process is every segment of road has vehicle volume information like shown in maps below:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-road-exposure-map.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-road-exposure-map.png"></a>
-                <figcaption>Figure 9 Road Exposure Map</figcaption>
+                <figcaption>{% trans "Figure 9 Road Exposure Map" %}</figcaption>
             </figure>
             
-            <p>While for aggregate exposure calculated using specific algorithm that allow the data to be randomized per every RW boundary. The process was done using database software (PostgreSQL).</p>
+            <p>{% blocktrans %}While for aggregate exposure calculated using specific algorithm that allow the data to be randomized per every RW boundary. The process was done using database software (PostgreSQL).{% endblocktrans %}</p>
         </div>
         
         <div id="section5-1-3">
-            <h5>5.1.3 Damage &amp; Loss Matrix</h5>
-            <p>The lack of historical data and research of damage and losses due to flooding on every category of assets make this valuation process very challenging. As the result, Estimation method was used in 80% assets valuation, like described in chart below:</p>
+            <h5>{% trans "5.1.3 Damage &amp; Loss Matrix" %}</h5>
+            <p>{% blocktrans %}The lack of historical data and research of damage and losses due to flooding on every category of assets make this valuation process very challenging. As the result, Estimation method was used in 80% assets valuation, like described in chart below:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-percent-val-method.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-percent-val-method.png" width="450"></a>
-                <figcaption>Figure 10 Percentage of Valuation Methods Usage</figcaption>
+                <figcaption>{% trans "Figure 10 Percentage of Valuation Methods Usage" %}</figcaption>
             </figure>
             
-            <p>Below are the example of damage and loss matrix estimation form, that conversed into damage and loss matrix in rupiahs later on:</p>
+            <p>{% blocktrans %}Below are the example of damage and loss matrix estimation form, that conversed into damage and loss matrix in rupiahs later on:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-dala-estimation-form.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-estimation-form.png"></a>
-                <figcaption>Figure 11 Damage and Loss Estimation Form</figcaption>
+                <figcaption>{% trans "Figure 11 Damage and Loss Estimation Form" %}</figcaption>
             </figure>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-dala-matrix.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-matrix.png"></a>
-                <figcaption>Figure 12 Damage and Loss Matrix</figcaption>
+                <figcaption>{% trans "Figure 12 Damage and Loss Matrix" %}</figcaption>
             </figure>
         </div>
         
         <div id="section5-2"> 
-            <h4>5.2 Calculation</h4>
-            <p>In general, the process of damage and loss estimation from back until shown into JakSAFE user interface is described by the image below:</p>
+            <h4>{% trans "5.2 Calculation" %}</h4>
+            <p>{% blocktrans %}In general, the process of damage and loss estimation from back until shown into JakSAFE user interface is described by the image below:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-jaksafe-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-jaksafe-workflow.png"></a>
-                <figcaption>Figure 13 JakSAFE Workflow</figcaption>
+                <figcaption>{% trans "Figure 13 JakSAFE Workflow" %}</figcaption>
             </figure>
             
-            <p>Before damage and loss calculation begin, data need to be processed before to acquire impacted assets data. The process of pre calculation is described as follow:</p>
+            <p>{% blocktrans %}Before damage and loss calculation begin, data need to be processed before to acquire impacted assets data. The process of pre calculation is described as follow:{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-dala-calc-workflow.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-calc-workflow.png"></a>
-                <figcaption>Figure 14 Damage and Loss Calculation Workflow</figcaption>
+                <figcaption>{% trans "Figure 14 Damage and Loss Calculation Workflow" %}</figcaption>
             </figure>
             
-            <p>The process of intersection of exposure and hazard data required GIS processing which is done using GIS Software like QGIS, then the result of impacted assets which is spatial data (shapefile) was converted into database and stored in PostgreSQL to improve the web performance.</p>
+            <p>{% blocktrans %}The process of intersection of exposure and hazard data required GIS processing which is done using GIS Software like QGIS, then the result of impacted assets which is spatial data (shapefile) was converted into database and stored in PostgreSQL to improve the web performance.{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-asset-hazard-intersection.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-asset-hazard-intersection.png"></a>
-                <figcaption>Figure 15 Asset and Hazard Intersection</figcaption>
+                <figcaption>{% trans "Figure 15 Asset and Hazard Intersection" %}</figcaption>
             </figure>
             
-            <p>The impacted assets then calculated using damage and loss matrix. There are three kind of calculation method to estimate DaLA of each asset, they are:</p>
+            <p>{% blocktrans %}The impacted assets then calculated using damage and loss matrix. There are three kind of calculation method to estimate DaLA of each asset, they are:{% endblocktrans %}</p>
             
             <ul>
-                <li>DaLA calculation per unit asset
-                    <p>This type of calculation is for building and aggregate data which asset can be counted as unit number, those type of asset usually have physical building and spesific administrative boundary like school, hospital, etc. This type of calculation is done by aggregating the unit of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
+                <li>{% trans "DaLA calculation per unit asset" %}
+                    <p>{% blocktrans %}This type of calculation is for building and aggregate data which asset can be counted as unit number, those type of asset usually have physical building and spesific administrative boundary like school, hospital, etc. This type of calculation is done by aggregating the unit of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.{% endblocktrans %}</p>
                 </li>
-                <li>DaLA calculation based on the area of asset
-                    <p>This type of calculation is for building and aggregate data which asset counted as area, those type of asset usually consume large area so it did not have spesific administrative boundary like reservoir, lake, etc. This type of calculation is done by aggregating the area of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.</p>
+                <li>{% trans "DaLA calculation based on the area of asset" %}
+                    <p>{% blocktrans %}This type of calculation is for building and aggregate data which asset counted as area, those type of asset usually consume large area so it did not have spesific administrative boundary like reservoir, lake, etc. This type of calculation is done by aggregating the area of affected asset by RW boundary, and then multiplying the result to damage and loss matrix.{% endblocktrans %}</p>
                 </li>
-                <li>DaLA calculation based on the length of asset
-                    <p>This type of calculation is usually for road which counted as length due to dataset characteristic (polyline shapefile) like road. For road dataset, the damage is calculated by aggregating the length of affected road by RW and then multiplying the result to damage and loss matrix. While the loss is calculated by aggregating vehicle volume of affected road and then multiplying the result to damage and loss matrix.</p>
+                <li>{% trans "DaLA calculation based on the length of asset" %}
+                    <p>{% blocktrans %}This type of calculation is usually for road which counted as length due to dataset characteristic (polyline shapefile) like road. For road dataset, the damage is calculated by aggregating the length of affected road by RW and then multiplying the result to damage and loss matrix. While the loss is calculated by aggregating vehicle volume of affected road and then multiplying the result to damage and loss matrix.{% endblocktrans %}</p>
                 </li>
             </ul>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/5-dala-method-calc-dist.png" target="_blank"><img src="{{ STATIC_URL }}img/about/5-dala-method-calc-dist.png" width="450"></a>
-                <figcaption>Figure 16 DaLA Method Calculation Distribution</figcaption>
+                <figcaption>{% trans "Figure 16 DaLA Method Calculation Distribution" %}</figcaption>
             </figure>
         </div>
         
         <div id="section6">
-            <h3>6. Result Example</h3>
-            <p>The result of Damage and Loss calculation in JakSAFE website is broken down into two type, they are:</p>
+            <h3>{% trans "6. Result Example" %}</h3>
+            <p>{% trans "The result of Damage and Loss calculation in JakSAFE website is broken down into two type, they are:" %}</p>
             
             <ul>
-                <li>Automatic Calculation
-                    <p>Automatic Calculation is presented on Automatic Report page in JakSAFE, where system will calculating the damage and loss value every 6 hours</p>
+                <li>{% trans "Automatic Calculation" %}
+                    <p>{% blocktrans %}Automatic Calculation is presented on Automatic Report page in JakSAFE, where system will calculating the damage and loss value every 6 hours{% endblocktrans %}</p>
                 </li>
-                <li>Ad-Hoc Calculation
-                    <p>While Ad-Hoc Calculation is presented on Ad Hoc page in Jaksafe, where user can generate their own report with desired time event</p>
+                <li>{% trans "Ad-Hoc Calculation" %}
+                    <p>{% blocktrans %}While Ad-Hoc Calculation is presented on Ad Hoc page in Jaksafe, where user can generate their own report with desired time event{% endblocktrans %}</p>
                 </li>
             </ul>
             
-            <p>The result of every calcution generating three type of tables and graphs, they are:</p>
+            <p>{% trans "The result of every calcution generating three type of tables and graphs, they are:" %}</p>
             
             <ul>
-                <li>Damage and Loss by Sector</li>
-                <li>Damage by Subsector and City</li>
-                <li>Loss by Subsector and City</li>
+                <li>{% trans "Damage and Loss by Sector" %}</li>
+                <li>{% trans "Damage by Subsector and City" %}</li>
+                <li>{% trans "Loss by Subsector and City" %}</li>
             </ul>
             
-            <p>User can also filtering the result of calculation in by administrative boundary (City, Subdistrict, District, and Blocks)</p>
+            <p>{% blocktrans %}User can also filtering the result of calculation in by administrative boundary (City, Subdistrict, District, and Blocks){% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/6-jaksafe-function-filtering.png" target="_blank"><img src="{{ STATIC_URL }}img/about/6-jaksafe-function-filtering.png"></a>
-                <figcaption>Figure 17 JakSAFE Function (Filtering Damage and Loss Result by boundary)</figcaption>
+                <figcaption>{% trans "Figure 17 JakSAFE Function (Filtering Damage and Loss Result by boundary)" %}</figcaption>
             </figure>
             
-            <p>For more detailed result or further analysis, user can download the calculation result data and hazard data (in shapefile format).</p>
+            <p>{% blocktrans %}For more detailed result or further analysis, user can download the calculation result data and hazard data (in shapefile format).{% endblocktrans %}</p>
             
             <figure>
                 <a href="{{ STATIC_URL }}img/about/6-jaksafe-function-downloading.png" target="_blank"><img src="{{ STATIC_URL }}img/about/6-jaksafe-function-downloading.png"></a>
-                <figcaption>Figure 18 JakSAFE Function (Downloading detail of Calculation)</figcaption>
+                <figcaption>{% trans "Figure 18 JakSAFE Function (Downloading detail of Calculation)" %}</figcaption>
             </figure>
         </div>
         
@@ -548,34 +548,34 @@
     <div class="col-md-4">
         <div id="sidebar-block" class="sidebar-nav-fixed">
             <ul class="sidebar-menu ">
-                <li class="sidebar-header">Contents</li>
+                <li class="sidebar-header">{% trans "Contents" %}</li>
             </ul>
             <div id="scrollhidden">
                 <div id="scrollable">
                     <ul class="sidebar-menu">
-                        <li><a href="#section1">1. Executive Summary</a></li>
-                        <li><a href="#section2">2. Background</a></li>
-                        <li><a href="#section3">3. Supporting Team</a></li>
-                        <li><a href="#section4">4. Data Source</a>
+                        <li><a href="#section1">{% trans "1. Executive Summary" %}</a></li>
+                        <li><a href="#section2">{% trans "2. Background" %}</a></li>
+                        <li><a href="#section3">{% trans "3. Supporting Team" %}</a></li>
+                        <li><a href="#section4">{% trans "4. Data Source" %}</a>
                             <ul class="sidebar-menu">
-                                <li><a href="#section4-1">4.1 Hazard Data</a></li>
-                                <li><a href="#section4-2">4.2 Exposure Data</a></li>
-                                <li><a href="#section4-3">4.3 Damage &amp; loss Matrix</a></li>
+                                <li><a href="#section4-1">{% trans "4.1 Hazard Data" %}</a></li>
+                                <li><a href="#section4-2">{% trans "4.2 Exposure Data" %}</a></li>
+                                <li><a href="#section4-3">{% trans "4.3 Damage &amp; loss Matrix" %}</a></li>
                             </ul>
                         </li>
-                        <li><a href="#section5">5. Methodology</a>
+                        <li><a href="#section5">{% trans "5. Methodology" %}</a>
                             <ul class="sidebar-menu">
-                                <li><a href="#section5-1">5.1 Data Processing</a>
+                                <li><a href="#section5-1">{% trans "5.1 Data Processing" %}</a>
                                     <ul class="sidebar-menu">
-                                        <li><a href="#section5-1-1">5.1.1 Hazard Data</a></li>
-                                        <li><a href="#section5-1-2">5.1.2 Exposure Data</a></li>
-                                        <li><a href="#section5-1-3">5.1.3 Damage &amp; loss Matrix</a></li>
+                                        <li><a href="#section5-1-1">{% trans "5.1.1 Hazard Data" %}</a></li>
+                                        <li><a href="#section5-1-2">{% trans "5.1.2 Exposure Data" %}</a></li>
+                                        <li><a href="#section5-1-3">{% trans "5.1.3 Damage &amp; loss Matrix" %}</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#section5-2">5.2 Calculation</a></li>
+                                <li><a href="#section5-2">{% trans "5.2 Calculation" %}</a></li>
                             </ul>
                         </li>
-                        <li><a href="#section6">6. Result Example</a></li>
+                        <li><a href="#section6">{% trans "6. Result Example" %}</a></li>
                     </ul>
                 </div>            
             </div>            

@@ -54,7 +54,7 @@
 <div id="event" id="" class="row mb-20">
 	<div class="col-md-12">
         <!--<h3>{{ page_title }}</h3>-->
-        <h3>Recent Flood</h3>
+        <h3>{% trans "Recent Flood" %}</h3>
     </div>
     <div class="col-md-8">
         <!--insert map here-->
@@ -69,16 +69,16 @@
 <div id="event" id="" class="row mb-20">
 	<div class="col-md-12">
         <!--<h3>{{ page_title }}</h3>-->
-        <h3>Recent Flood</h3>
+        <h3>{% trans "Recent Flood" %}</h3>
     </div>
     <div class="col-md-8">
         <!--insert map here-->
-        <iframe style="border: none;" height="433" width="750" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
+        <iframe style="border: none;" height="433" width="100%" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
         
         <br>
         <br>
         <table class="table1">
-            <caption style='font-size: 18px'>Flooded RW's</caption>
+            <caption style='font-size: 18px'>{% trans "Flooded RW's" %}</caption>
             <thead>
                 <tr class="header-table1">
                     <th class="text-center">{% trans "Village" %}</th>
@@ -96,19 +96,19 @@
         </table>
         <br>
         
-        <h3>What is JakSAFE?</h3>
-		<p>JakSAFE is a system designed to estimate the damage and loss due to flood event in DKI Jakarta. JakSAFE will estimate financial damage and losses due to flood generated from estimation of reported flood event via BPBD team, people's report, social media, and confirmed by field surveyor. The report then aggregated by RW's of Villages and attached to certain height of innundated and flood long (in days).</p>
-		<p>JakSAFE using the latest Jakarta Eksposure v1.0 which collected and processed during JakSAFE Data Collection activity 2015. This Exposure dataset is produced from P4T parcel data and merged with building footprint of Jakarta.</p>
-		<p>The estimation of Damage and Lossess consists of following sectors: Infrastructure, Productive, Social & Housing, and Cross-sector. The valuation of each assets on the Exposure dataset are using estimation & assumption, research documentation, papers, standard and historical flood report.</p>
-		<p>The Total covered villages are 261 villages on the mainland of Java (excl. thousand island). The total assets covered are 1.354.377 defined assets in Jakarta including housing, business, commerce, government and public assets.</p>
-		<p>JakSAFE is funded by GFDRR throught the Worldbank. Design, Developed and Implemented by Geo Enviro Omega and inspired by InaSAFE. Currently implemented in DKI Jakarta Province, capital of Indonesia.</p>
+        <h3>{% trans "What is JakSAFE?" %}</h3>
+		<p>{% blocktrans %}JakSAFE is a system designed to estimate the damage and loss due to flood event in DKI Jakarta. JakSAFE will estimate financial damage and losses due to flood generated from estimation of reported flood event via BPBD team, people's report, social media, and confirmed by field surveyor. The report then aggregated by RW's of Villages and attached to certain height of innundated and flood long (in days).{% endblocktrans %}</p>
+		<p>{% blocktrans %}JakSAFE using the latest Jakarta Exposure v1.0 which collected and processed during JakSAFE Data Collection activity 2015. This Exposure dataset is produced from P4T parcel data and merged with building footprint of Jakarta.{% endblocktrans %}</p>
+		<p>{% blocktrans %}The estimation of Damage and Losses consists of following sectors: Infrastructure, Productive, Social &amp; Housing, and Cross-sector. The valuation of each assets on the Exposure dataset are using estimation &amp; assumption, research documentation, papers, standard and historical flood report.{% endblocktrans %}</p>
+		<p>{% blocktrans %}The Total covered villages are 261 villages on the mainland of Java (excl. thousand island). The total assets covered are 1.354.377 defined assets in Jakarta including housing, business, commerce, government and public assets.{% endblocktrans %}</p>
+		<p>{% blocktrans %}JakSAFE is funded by GFDRR throught the Worldbank. Design, Developed and Implemented by Geo Enviro Omega and inspired by InaSAFE. Currently implemented in DKI Jakarta Province, capital of Indonesia.{% endblocktrans %}</p>
     </div>
 	<div class="col-md-4">
         <h4>
             {% if start_date|date:'d M Y' == end_date|date:'d M Y' %}
-            {{end_date|date:'d M Y'}} Estimated Loses:
+            {{end_date|date:'d M Y'}} {% trans "Estimated Damage and Losses:" %}
             {% else %}
-            {{start_date|date:'d'}} - {{end_date|date:'d M Y'}} Estimated Damage and Losses:
+            {{start_date|date:'d'}} - {{end_date|date:'d M Y'}} {% trans "Estimated Damage and Losses:" %}
             {% endif %}
             <br>
             <b>Rp {{total_total|intcomma}}</b>
