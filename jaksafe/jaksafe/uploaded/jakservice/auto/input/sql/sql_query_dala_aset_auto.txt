@@ -174,10 +174,10 @@ from asumsi_aggregate where level_agg = 'PROVINSI' and kota = 'JAKARTA SELATAN';
 
 --c. hitung kerusakan kendaraan (insert kedalam table adhc_kerusakan_kendaraan)
 insert into adhoc_kerusakan_kendaraan (id_event, kerusakan_kendaraan)
-select cast((%s) as int) id_event,
-(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=(%s))/264.0)*(%s)34.0*12(%s).0*0.0(%s)*109000.0)+
-(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=(%s))/264.0)*(%s)34.0*12(%s).0*0.78*2390000.0)+
-(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=(%s))/264.0)*(%s)34.0*12(%s).0*0.17*2390000.0)
+select cast(%s as int) id_event,
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*125.0*0.05*109000.0)+
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*125.0*0.78*2390000.0)+
+(((select jumlah_rw_banjir from adhoc_luas_banjir where id_event=%s)/264.0)*534.0*125.0*0.17*2390000.0)
 kerusakan_kendaraan;
 
 --d. hitung kerusakan kendaraan per kota dan insert ke asumsi temp
