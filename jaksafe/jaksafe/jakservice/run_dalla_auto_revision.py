@@ -43,13 +43,13 @@ if __name__ == '__main__':
     # Defining t1 and t0
     
     ## because cron is limited down to minute and we need to run to specific second, replace seconds with 59
-#    t1 = datetime.datetime.strftime(datetime.datetime.now(),std_time_format)
-#    t1 = t1[:-2] + '59'
-#    t1 = t.Time(t1)
+    t1 = datetime.datetime.strftime(datetime.datetime.now(),std_time_format)
+    t1 = t1[:-2] + '59'
+    t1 = t.Time(t1)
     
     ## uncomment next line to set manual t1 
     #t1 = t.Time('20150210115959')
-    t1 = t.Time('20160523235959')
+#    t1 = t.Time('20160523235959')
 
     t0 = t.Time(t1.timeStamp()-(6*3600))
 

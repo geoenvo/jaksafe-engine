@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-14 12:41+0700\n"
+"POT-Creation-Date: 2016-06-15 16:58+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr ""
 #: report/forms.py:403 report/forms.py:414 report/forms.py:425
 #: report/forms.py:436 report/forms.py:458
 msgid "Invalid file type."
-msgstr ""
+msgstr "Tipe file tidak valid."
 
 #: common/validators.py:19
 msgid "Unable to detect the file type."
@@ -63,7 +63,7 @@ msgstr "Peta"
 msgid "Science"
 msgstr "Sains"
 
-#: jaksafe/templates/base.html:43 report/templates/report/about.html:300
+#: jaksafe/templates/base.html:43 report/templates/report/about.html:299
 #: report/templates/report/science2.html:164
 msgid "Data"
 msgstr ""
@@ -90,7 +90,7 @@ msgstr "Pengaturan"
 
 #: jaksafe/templates/base.html:53
 msgid "Global Config"
-msgstr ""
+msgstr "Konfigurasi Global"
 
 #: jaksafe/templates/base.html:54
 msgid "Impact Class"
@@ -124,6 +124,26 @@ msgstr "Keluar"
 msgid "Login"
 msgstr "Masuk"
 
+#: jaksafe/templates/base.html:102
+msgid "Using"
+msgstr "Menggunakan"
+
+#: jaksafe/templates/base.html:105
+msgid "Usage Disclaimer"
+msgstr "Disclaimer"
+
+#: jaksafe/templates/base.html:111
+msgid "Supported by:"
+msgstr "Didukung oleh:"
+
+#: jaksafe/templates/base.html:126
+msgid "&emsp; Developed &amp; Implemented by:"
+msgstr "&emsp; Dikembangkan &amp; Diimplementasikan oleh:"
+
+#: jaksafe/templates/base.html:137
+msgid "Back to Top"
+msgstr "Kembali ke Atas"
+
 #: report/forms.py:23 report/forms.py:46 report/forms.py:69 report/forms.py:92
 #: report/forms.py:115 report/forms.py:138 report/forms.py:161
 #, python-format
@@ -141,7 +161,7 @@ msgid "Upload file not found."
 msgstr "Unggah file tidak ditemukan"
 
 #: report/templates/report/about.html:52
-#: report/templates/report/about.html:557
+#: report/templates/report/about.html:556
 msgid "1. Executive Summary"
 msgstr "1. Rangkuman Eksekutif"
 
@@ -197,13 +217,13 @@ msgstr ""
 "ECLAC. Penyusunan metodologi perhitungan juga disesuaikan oleh kondisi "
 "Jakarta dan ketersediaan data."
 
-#: report/templates/report/about.html:66
-#: report/templates/report/about.html:558
+#: report/templates/report/about.html:65
+#: report/templates/report/about.html:557
 #: report/templates/report/science2.html:749
 msgid "2. Background"
 msgstr "2. Latar Belakang"
 
-#: report/templates/report/about.html:67
+#: report/templates/report/about.html:66
 msgid ""
 "Flood is the most common and frequent disaster in Indonesia. Among area in "
 "Indonesia, Jakarta is one of the regions which have a high risk of flooding. "
@@ -248,7 +268,7 @@ msgstr ""
 "tidak langsung diantaranya seperti dampak banjir pada proses bisnis, ekonomi "
 "mikro dan makro, dampak sosial, serta dampak lingkungan."
 
-#: report/templates/report/about.html:68
+#: report/templates/report/about.html:67
 msgid ""
 "After Hackathon event held in July 2014 initiated under Code for Resilience "
 "(CfR), World Bank continue to follow up the post-Hackathon event. From "
@@ -263,7 +283,7 @@ msgstr ""
 "JakSAFE fase II dilakukan dengan fokus untuk mengumpulkan data paparan dan "
 "pembuatan asumsi kerusakan dan kerugian (selesai pada Desember 2015)."
 
-#: report/templates/report/about.html:69
+#: report/templates/report/about.html:68
 msgid ""
 "Jakarta would be the right place to perform this prototype because Flood in "
 "Jakarta is nearly occurring yearly in several Villages. Jakarta via Disaster "
@@ -305,34 +325,34 @@ msgstr ""
 "JakSAFE diinisiasi oleh Intelegensi Risiko, dan kemudian dilanjutkan oleh "
 "Geo Enviro Omega."
 
-#: report/templates/report/about.html:73
-#: report/templates/report/about.html:559
+#: report/templates/report/about.html:72
+#: report/templates/report/about.html:558
 msgid "3. Supporting Team"
 msgstr "3. Tim Pendukung"
 
-#: report/templates/report/about.html:74
+#: report/templates/report/about.html:73
 msgid "Adviser"
 msgstr ""
 
-#: report/templates/report/about.html:81
+#: report/templates/report/about.html:80
 msgid "Development Team"
 msgstr "Tim Pengembang"
 
-#: report/templates/report/about.html:108
-#: report/templates/report/about.html:560
+#: report/templates/report/about.html:107
+#: report/templates/report/about.html:559
 msgid "4. Data Source"
 msgstr "4. Sumber Data"
 
-#: report/templates/report/about.html:109
+#: report/templates/report/about.html:108
 msgid "There are three kind of input data used in JakSAFE:"
 msgstr "Terdapat tiga jenis input data JakSAFE, diantaranya:"
 
-#: report/templates/report/about.html:113
-#: report/templates/report/about.html:562
+#: report/templates/report/about.html:112
+#: report/templates/report/about.html:561
 msgid "4.1 Hazard Data"
 msgstr "4.1 Data Bahaya"
 
-#: report/templates/report/about.html:114
+#: report/templates/report/about.html:113
 msgid ""
 "Hazard data was gathered from Disaster Management Information System (DIMS) "
 "installed in Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta Command "
@@ -348,12 +368,12 @@ msgstr ""
 "analisisnya. Jakarta sebagai provinsi membawahi 5 batas administrasi seperti "
 "yang dijelaskan melalui peta dan grafik di bawah ini:"
 
-#: report/templates/report/about.html:118
+#: report/templates/report/about.html:117
 #: report/templates/report/science2.html:74
 msgid "Figure 2 Jakarta Administrative Boundary"
 msgstr "Gambar 2 Batas Administrasi Jakarta"
 
-#: report/templates/report/about.html:121
+#: report/templates/report/about.html:120
 msgid ""
 "As explained above, the RT boundary was the lowest boundary level in "
 "Jakarta. However, the process of RT boundary mapping is not completed yet "
@@ -363,40 +383,39 @@ msgid ""
 msgstr ""
 "Seperti yang dijelaskan diatas, batas RT merupakan batas administrasi "
 "terendah di Jakarta. Namun proses pemetaan data RT masih belum komplit "
-"(hanya mengcover 35 Kelurahan di Jakarta). "
-"Sehingga, data bahaya banjir hanya dikumpulkan hingga "
-"ke batas administrasi RW sebagai unit analisisnya. Output DIMS API dapat "
-"diakses melalui link di bawah ini:"
+"(hanya mengcover 35 Kelurahan di Jakarta). Sehingga, data bahaya banjir "
+"hanya dikumpulkan hingga ke batas administrasi RW sebagai unit analisisnya. "
+"Output DIMS API dapat diakses melalui link di bawah ini:"
 
-#: report/templates/report/about.html:123
+#: report/templates/report/about.html:122
 #: report/templates/report/data.html:124
 msgid "The output information of those API are:"
 msgstr "Output informasi dari API tersebut diantaranya:"
 
-#: report/templates/report/about.html:134
+#: report/templates/report/about.html:133
 #: report/templates/report/data.html:134
 msgid "Time of Flood Event"
 msgstr "Waktu kejadian"
 
-#: report/templates/report/about.html:135
+#: report/templates/report/about.html:134
 #: report/templates/report/data.html:135
 msgid "Flood Depth"
 msgstr "Ketinggian banjir"
 
-#: report/templates/report/about.html:147
-#: report/templates/report/about.html:563
+#: report/templates/report/about.html:146
+#: report/templates/report/about.html:562
 msgid "4.2 Exposure Data"
 msgstr "4.2 Data Paparan"
 
-#: report/templates/report/about.html:148
+#: report/templates/report/about.html:147
 msgid "There are three kind data type of JakSAFE exposure, they are:"
 msgstr "Terdapat tiga tipe data paparan Jaksafe, mereka adalah:"
 
-#: report/templates/report/about.html:150
+#: report/templates/report/about.html:149
 msgid "Aggregate Exposure Data"
 msgstr "Data Paparan Agregat"
 
-#: report/templates/report/about.html:151
+#: report/templates/report/about.html:150
 msgid ""
 "Aggregate Exposure Data are asset information which didn't have exact "
 "location, so the data provided as aggregate file with administrative "
@@ -406,11 +425,11 @@ msgstr ""
 "data diolah dalam format agregat dengan informasi batas administrasi sebagai "
 "unit analisisnya."
 
-#: report/templates/report/about.html:153
+#: report/templates/report/about.html:152
 msgid "Road Expossure"
 msgstr "Data Paparan Jalan"
 
-#: report/templates/report/about.html:154
+#: report/templates/report/about.html:153
 msgid ""
 "Spatial Road Expossure data was acquired from OpenstreetMap in the form of "
 "spatial data, while the vehicle volume data obtained from Transportation "
@@ -421,11 +440,11 @@ msgstr ""
 "atribut dari data spasial jalan dikumpulkan dari Dinas Transportasi Jakarta "
 "dengan format data tabular."
 
-#: report/templates/report/about.html:156
+#: report/templates/report/about.html:155
 msgid "Building Expossure"
 msgstr "Data Paparan Bangunan"
 
-#: report/templates/report/about.html:157
+#: report/templates/report/about.html:156
 #, python-format
 msgid ""
 "Spatial Building Exposure data was acquired from P4T and Base Map Data from "
@@ -440,15 +459,15 @@ msgstr ""
 "data Peta Dasar yang merupakan data penggunaan tanah mengcover 25%% wilayah "
 "Jakarta, dan sisa 5%% data paparan dikumpulkan dari berbagai sumber lainnya."
 
-#: report/templates/report/about.html:163
+#: report/templates/report/about.html:162
 msgid "Figure 3 Exposure Data Type Distribution"
 msgstr "Gambar 3 Distribusi Tipe Data Paparan"
 
-#: report/templates/report/about.html:168
+#: report/templates/report/about.html:167
 msgid "4.3 Damage &amp; Loss Matrix"
 msgstr "4.3 Matrix Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:169
+#: report/templates/report/about.html:168
 msgid ""
 "Damage and Loss Matrix was obtained through valuation process. It is the "
 "process to estimating how much (in monetary value) the asset will be loss "
@@ -464,7 +483,7 @@ msgstr ""
 "fisik bangunan, termasuk property yang terdapat di bangunan tersebut. Proses "
 "valuasi sendiri terdiri dari empat metode valuasi, yaitu:"
 
-#: report/templates/report/about.html:176
+#: report/templates/report/about.html:175
 msgid ""
 "Historical Flood Data collected from the related organization (SKPDs, BUMDs, "
 "Agencies, etc.). This information usually taken from the report(s) of damage "
@@ -476,7 +495,7 @@ msgstr ""
 "lainya). Namun umumnya tidak seluruh instansi memiliki laporan atau data "
 "historis seperti itu."
 
-#: report/templates/report/about.html:177
+#: report/templates/report/about.html:176
 msgid ""
 "Research Literature (scientific papers, report, standard, regulation, etc.). "
 "JakSAFE team collected the informations relevant with the valuation. The "
@@ -489,7 +508,7 @@ msgstr ""
 "berkaitan dengan valuasi valuasi tersebut, baik dari internet ataupun dari "
 "organisasi terkait, lalu melakukan penilaian dan valuasi dari data tersebut."
 
-#: report/templates/report/about.html:178
+#: report/templates/report/about.html:177
 msgid ""
 "Estimation is done with certain assumptions based on the physical "
 "characteristic of the asset and the property inside the building. For "
@@ -506,7 +525,7 @@ msgstr ""
 "sebagainya. Tim JakSAFE mengestimasi dan mengasumsikan setiap barang yang "
 "ada di sekolah yang terancam oleh banjir."
 
-#: report/templates/report/about.html:179
+#: report/templates/report/about.html:178
 msgid ""
 "If there are no sufficient information to conduct Historical, Research "
 "Literature or Estimation method, the valuation is done based on the previous "
@@ -516,22 +535,22 @@ msgstr ""
 "dilakukan berdasarkan metode yang dilakukan oleh World Bank pada penilaian "
 "kerusakan dan keruugian banjir pada tahun 2013."
 
-#: report/templates/report/about.html:184
-#: report/templates/report/about.html:567
+#: report/templates/report/about.html:183
+#: report/templates/report/about.html:566
 msgid "5. Methodology"
 msgstr "5. Metodologi"
 
-#: report/templates/report/about.html:188
-#: report/templates/report/about.html:569
+#: report/templates/report/about.html:187
+#: report/templates/report/about.html:568
 msgid "5.1 Data Processing"
 msgstr "5.1 Pengolahan Data"
 
-#: report/templates/report/about.html:192
-#: report/templates/report/about.html:571
+#: report/templates/report/about.html:191
+#: report/templates/report/about.html:570
 msgid "5.1.1 Hazard Data"
 msgstr "5.1.1 Data Bahaya"
 
-#: report/templates/report/about.html:193
+#: report/templates/report/about.html:192
 msgid ""
 "The information from the API is joined to RW boundary spatial data "
 "(shapefile), that will produce hazard maps of the specified event, like "
@@ -541,11 +560,11 @@ msgstr ""
 "(shapefile), yang nantinya akan menghasilkan peta event kejadian banjir "
 "seperti peta di bawah ini:"
 
-#: report/templates/report/about.html:197
+#: report/templates/report/about.html:196
 msgid "Figure 4 Hazard Maps"
 msgstr "Gambar 4 Peta Hazard"
 
-#: report/templates/report/about.html:200
+#: report/templates/report/about.html:199
 #: report/templates/report/science2.html:187
 msgid ""
 "Depth and duration of flood became an important aspect to be considered on "
@@ -557,35 +576,35 @@ msgstr ""
 "dikategorisasi berdasarkan kedalaman dan durasi banjirnya seperti "
 "kategorisasi tabel di bawah."
 
-#: report/templates/report/about.html:203
+#: report/templates/report/about.html:202
 msgid "Table 1 JakSAFE Hazard Categorization"
 msgstr "Tabel 1 Kategorisasi Banjir JakSAFE"
 
-#: report/templates/report/about.html:205
-#: report/templates/report/about.html:208
+#: report/templates/report/about.html:204
+#: report/templates/report/about.html:207
 #: report/templates/report/science2.html:192
 #: report/templates/report/science2.html:195
 msgid "Class"
 msgstr "Kelas"
 
-#: report/templates/report/about.html:206
-#: report/templates/report/about.html:209
+#: report/templates/report/about.html:205
+#: report/templates/report/about.html:208
 #: report/templates/report/science2.html:193
 #: report/templates/report/science2.html:196
 msgid "Depth (cm)"
 msgstr "Kedalaman (cm)"
 
-#: report/templates/report/about.html:207
-#: report/templates/report/about.html:210
+#: report/templates/report/about.html:206
+#: report/templates/report/about.html:209
 #: report/templates/report/science2.html:194
 #: report/templates/report/science2.html:197
 msgid "Duration (days(s))"
 msgstr "Durasi (hari)"
 
-#: report/templates/report/about.html:238
-#: report/templates/report/about.html:241
-#: report/templates/report/about.html:270
-#: report/templates/report/about.html:273
+#: report/templates/report/about.html:237
+#: report/templates/report/about.html:240
+#: report/templates/report/about.html:269
+#: report/templates/report/about.html:272
 #: report/templates/report/science2.html:225
 #: report/templates/report/science2.html:228
 #: report/templates/report/science2.html:257
@@ -593,7 +612,7 @@ msgstr "Durasi (hari)"
 msgid "Affected"
 msgstr "Terdampak"
 
-#: report/templates/report/about.html:278
+#: report/templates/report/about.html:277
 #: report/templates/report/science2.html:265
 msgid ""
 "For calculating the loss, the affected area also being an important aspect "
@@ -607,11 +626,11 @@ msgstr ""
 "ke dalam kategori kelas banjir A4, B4, C4, D4), seperti yang dijelaskan "
 "melalui gambar di bawah ini:"
 
-#: report/templates/report/about.html:282
+#: report/templates/report/about.html:281
 msgid "Figure 5 Affected Area Algorithm"
 msgstr "Gambar 5 Algoritma Wilayah Terdampak"
 
-#: report/templates/report/about.html:285
+#: report/templates/report/about.html:284
 msgid ""
 "After we have information about inundated RW from DIMS, we detailing the "
 "information by contour delineation localization method, using RW boundary as "
@@ -630,16 +649,16 @@ msgstr ""
 "data ketinggian. Hasil dari metode delineasi kontur tersebut ditunjukan oleh "
 "peta di bawah ini:"
 
-#: report/templates/report/about.html:289
+#: report/templates/report/about.html:288
 msgid "Figure 6 Contour Delineation"
 msgstr "Gambar 6 Peta Hasil Delineasi Kontur"
 
-#: report/templates/report/about.html:294
-#: report/templates/report/about.html:572
+#: report/templates/report/about.html:293
+#: report/templates/report/about.html:571
 msgid "5.1.2 Exposure Data"
 msgstr "5.1.2 Data Paparan"
 
-#: report/templates/report/about.html:295
+#: report/templates/report/about.html:294
 msgid ""
 "As described before, exposure data was combined from P4T, Base Map, and "
 "other sources data using GIS (Geographic Information System) Software into "
@@ -658,148 +677,148 @@ msgstr ""
 "perhitungan. Detail informasi mengenai data paparan dapat dilihat melalui "
 "peta dan tabel di bawah ini:"
 
-#: report/templates/report/about.html:298
+#: report/templates/report/about.html:297
 msgid "Table 2 Count of Building Exposure"
 msgstr "Tabel 2 Distribusi Data Paparan Bangunan"
 
-#: report/templates/report/about.html:301
+#: report/templates/report/about.html:300
 msgid "Count of Villages"
 msgstr "Jumlah kelurahan"
 
-#: report/templates/report/about.html:302
+#: report/templates/report/about.html:301
 msgid "Total Unit Asset"
 msgstr "Total Aset"
 
-#: report/templates/report/about.html:305
+#: report/templates/report/about.html:304
 msgid "Land Parcel"
 msgstr "Parsel Tanah"
 
-#: report/templates/report/about.html:310
+#: report/templates/report/about.html:309
 msgid "Building Footprint"
 msgstr "Penggunaan Bangunan"
 
-#: report/templates/report/about.html:315
+#: report/templates/report/about.html:314
 msgid "Other sources"
 msgstr "Sumber lain"
 
-#: report/templates/report/about.html:316
+#: report/templates/report/about.html:315
 msgid "spread"
 msgstr ""
 
-#: report/templates/report/about.html:320
+#: report/templates/report/about.html:319
 msgid "Total"
 msgstr ""
 
-#: report/templates/report/about.html:328
+#: report/templates/report/about.html:327
 msgid "Figure 7 Land Parcel and Building Footprints Map"
 msgstr "Gambar 7 Peta Parsel Bangunan dan Penggunaan Bangunan"
 
-#: report/templates/report/about.html:333
+#: report/templates/report/about.html:332
 msgid "Figure 8  Difference of Land Parcel and Building Footprints"
 msgstr "Gambar 8 Perbedaan Parsel Bangunan dan Penggunaan Bangunan"
 
-#: report/templates/report/about.html:337
+#: report/templates/report/about.html:336
 msgid "Table 3 Asset Categorization"
 msgstr "Tabel 3 Kategorisasi Aset"
 
-#: report/templates/report/about.html:339
+#: report/templates/report/about.html:338
 msgid "SECTOR"
 msgstr "SEKTOR"
 
-#: report/templates/report/about.html:340
+#: report/templates/report/about.html:339
 msgid "SUBSECTOR"
 msgstr "SUBSEKTOR"
 
-#: report/templates/report/about.html:341
+#: report/templates/report/about.html:340
 msgid "COUNT OF ASSET"
 msgstr "HITUNGAN ASET"
 
-#: report/templates/report/about.html:344
+#: report/templates/report/about.html:343
 msgid "INFRASTRUKTUR"
 msgstr ""
 
-#: report/templates/report/about.html:345
+#: report/templates/report/about.html:344
 msgid "AIR BERSIH DAN SANITASI"
 msgstr ""
 
-#: report/templates/report/about.html:350
+#: report/templates/report/about.html:349
 msgid "ENERGI"
 msgstr ""
 
-#: report/templates/report/about.html:355
+#: report/templates/report/about.html:354
 msgid "TELEKOMUNIKASI"
 msgstr ""
 
-#: report/templates/report/about.html:360
+#: report/templates/report/about.html:359
 msgid "TRANSPORTASI"
 msgstr ""
 
-#: report/templates/report/about.html:364
+#: report/templates/report/about.html:363
 msgid "LINTAS SEKTOR"
 msgstr ""
 
-#: report/templates/report/about.html:365
+#: report/templates/report/about.html:364
 msgid "AGAMA"
 msgstr ""
 
-#: report/templates/report/about.html:370
+#: report/templates/report/about.html:369
 msgid "FINANSIAL"
 msgstr ""
 
-#: report/templates/report/about.html:375
+#: report/templates/report/about.html:374
 msgid "LINGKUNGAN"
 msgstr ""
 
-#: report/templates/report/about.html:380
+#: report/templates/report/about.html:379
 msgid "PEMERINTAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:384
+#: report/templates/report/about.html:383
 msgid "PRODUKTIF"
 msgstr ""
 
-#: report/templates/report/about.html:385
+#: report/templates/report/about.html:384
 msgid "BISNIS"
 msgstr ""
 
-#: report/templates/report/about.html:390
+#: report/templates/report/about.html:389
 msgid "INDUSTRI"
 msgstr ""
 
-#: report/templates/report/about.html:395
+#: report/templates/report/about.html:394
 msgid "PARIWISATA"
 msgstr ""
 
-#: report/templates/report/about.html:400
+#: report/templates/report/about.html:399
 msgid "PERDAGANGAN"
 msgstr ""
 
-#: report/templates/report/about.html:405
+#: report/templates/report/about.html:404
 msgid "PERTANIAN"
 msgstr ""
 
-#: report/templates/report/about.html:410
-#: report/templates/report/about.html:430
+#: report/templates/report/about.html:409
+#: report/templates/report/about.html:429
 msgid "PERUMAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:414
+#: report/templates/report/about.html:413
 msgid "SOSIAL DAN PERUMAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:415
+#: report/templates/report/about.html:414
 msgid "KESEHATAN"
 msgstr ""
 
-#: report/templates/report/about.html:420
+#: report/templates/report/about.html:419
 msgid "PELAYANAN KOMUNITAS"
 msgstr ""
 
-#: report/templates/report/about.html:425
+#: report/templates/report/about.html:424
 msgid "PENDIDIKAN"
 msgstr ""
 
-#: report/templates/report/about.html:435
+#: report/templates/report/about.html:434
 msgid ""
 "As for road data, we combine the tabular vehicle information and spatial "
 "road data using GIS Software (QGIS) and Database Software (PostGIS and "
@@ -812,11 +831,11 @@ msgstr ""
 "adalah volume setiap jenis kendaraan pada masing-masing segmen jalan. Contoh "
 "data paparan jalan dapat dilihat melalui gambar di bawah ini:"
 
-#: report/templates/report/about.html:439
+#: report/templates/report/about.html:438
 msgid "Figure 9 Road Exposure Map"
 msgstr "Gambar 9 Peta Paparan Jalan"
 
-#: report/templates/report/about.html:442
+#: report/templates/report/about.html:441
 msgid ""
 "While for aggregate exposure calculated using specific algorithm that allow "
 "the data to be randomized per every RW boundary. The process was done using "
@@ -826,11 +845,11 @@ msgstr ""
 "tertentu, yang akan merandom data per RW. Proses randomisasi data ini juga "
 "diolah dengan menggunakan software database (PostgreSQL)."
 
-#: report/templates/report/about.html:446
+#: report/templates/report/about.html:445
 msgid "5.1.3 Damage &amp; Loss Matrix"
 msgstr "5.1.3 Matrix Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:447
+#: report/templates/report/about.html:446
 #, python-format
 msgid ""
 "The lack of historical data and research of damage and losses due to "
@@ -839,16 +858,16 @@ msgid ""
 "valuation, like described in chart below:"
 msgstr ""
 "Kurangnya informasi data dan penelitian mengenai kerusakan dan kerugian "
-"akibat banjir di Jakarta membuat proses valuasi menjadi terhambat. "
-"Sehingga sebagai solusi, 80%% proses pembuatan matrix dilakukan "
-"dengan metode estimasi nilai barang dan bangunan, seperti yang digambarkan "
-"pada chart di bawah ini:"
+"akibat banjir di Jakarta membuat proses valuasi menjadi terhambat. Sehingga "
+"sebagai solusi, 80%% proses pembuatan matrix dilakukan dengan metode "
+"estimasi nilai barang dan bangunan, seperti yang digambarkan pada chart di "
+"bawah ini:"
 
-#: report/templates/report/about.html:451
+#: report/templates/report/about.html:450
 msgid "Figure 10 Percentage of Valuation Methods Usage"
 msgstr "Gambar 10 Persentase Penggunaan Metode Valuasi"
 
-#: report/templates/report/about.html:454
+#: report/templates/report/about.html:453
 msgid ""
 "Below are the example of damage and loss matrix estimation form, that "
 "conversed into damage and loss matrix in rupiahs later on:"
@@ -857,20 +876,20 @@ msgstr ""
 "adalah contoh dari form estimasi kerusakan dan kerugian yang kemudian "
 "dikonversi menjadi nilai rupiah:"
 
-#: report/templates/report/about.html:458
+#: report/templates/report/about.html:457
 msgid "Figure 11 Damage and Loss Estimation Form"
 msgstr "Gambar 11 Contoh Form Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:463
+#: report/templates/report/about.html:462
 msgid "Figure 12 Damage and Loss Matrix"
 msgstr "Gambar 12 Contoh Matrix Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:468
-#: report/templates/report/about.html:576
+#: report/templates/report/about.html:467
+#: report/templates/report/about.html:575
 msgid "5.2 Calculation"
 msgstr "5.2\tPerhitungan"
 
-#: report/templates/report/about.html:469
+#: report/templates/report/about.html:468
 msgid ""
 "In general, the process of damage and loss estimation from back until shown "
 "into JakSAFE user interface is described by the image below:"
@@ -879,11 +898,11 @@ msgstr ""
 "perhitungannya muncul di JakSAFE user interface dapat dijelaspan melalui "
 "gambar di bawah ini:"
 
-#: report/templates/report/about.html:473
+#: report/templates/report/about.html:472
 msgid "Figure 13 JakSAFE Workflow"
 msgstr "Gambar 13 Alur Kerja JakSAFE"
 
-#: report/templates/report/about.html:476
+#: report/templates/report/about.html:475
 msgid ""
 "Before damage and loss calculation begin, data need to be processed before "
 "to acquire impacted assets data. The process of pre calculation is described "
@@ -894,11 +913,11 @@ msgstr ""
 "diagregasi dan dikalikan dengan matriks kerusakan dan kerugian. Proses "
 "kalkulasi dapat dideskripsikan dengan tahapan di bawah ini:"
 
-#: report/templates/report/about.html:480
+#: report/templates/report/about.html:479
 msgid "Figure 14 Damage and Loss Calculation Workflow"
 msgstr "Gambar 14 Alur Kerja Perhitungan Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:483
+#: report/templates/report/about.html:482
 msgid ""
 "The process of intersection of exposure and hazard data required GIS "
 "processing which is done using GIS Software like QGIS, then the result of "
@@ -910,11 +929,11 @@ msgstr ""
 "format shapefile. Data shapefile tersebut kemudian dikonversi dengan "
 "database dan disimpan dalam PostgreSQL untuk meningkatkan performa website."
 
-#: report/templates/report/about.html:487
+#: report/templates/report/about.html:486
 msgid "Figure 15 Asset and Hazard Intersection"
 msgstr "Gambar 15 Interseksi Hazard dan Aset"
 
-#: report/templates/report/about.html:490
+#: report/templates/report/about.html:489
 msgid ""
 "The impacted assets then calculated using damage and loss matrix. There are "
 "three kind of calculation method to estimate DaLA of each asset, they are:"
@@ -922,11 +941,11 @@ msgstr ""
 "Kemudian aset yang terdampak banjir dihitung dengan menggunakan aset "
 "kerusakan dan kerugian. Terdapat tiga jenis perhitungan aset, diantaranya:"
 
-#: report/templates/report/about.html:493
+#: report/templates/report/about.html:492
 msgid "DaLA calculation per unit asset"
 msgstr "Perhitungan DALA berdasarkan unit asset"
 
-#: report/templates/report/about.html:494
+#: report/templates/report/about.html:493
 msgid ""
 "This type of calculation is for building and aggregate data which asset can "
 "be counted as unit number, those type of asset usually have physical "
@@ -939,11 +958,11 @@ msgstr ""
 "klasifikasi banjirnya, kemudian mengalikan jumlah agregatnya dengan matriks "
 "kerusakan dan kerugian."
 
-#: report/templates/report/about.html:496
+#: report/templates/report/about.html:495
 msgid "DaLA calculation based on the area of asset"
 msgstr "Perhitungan DALA berdasarkan luas asset"
 
-#: report/templates/report/about.html:497
+#: report/templates/report/about.html:496
 msgid ""
 "This type of calculation is for building and aggregate data which asset "
 "counted as area, those type of asset usually consume large area so it did "
@@ -958,11 +977,11 @@ msgstr ""
 "mempunyai wilayah yang  luas dan bisa melewati batas administrasi, seperti "
 "danau, sawah, dsb."
 
-#: report/templates/report/about.html:499
+#: report/templates/report/about.html:498
 msgid "DaLA calculation based on the length of asset"
 msgstr "Perhitungan DALA berdasarkan panjang aset"
 
-#: report/templates/report/about.html:500
+#: report/templates/report/about.html:499
 msgid ""
 "This type of calculation is usually for road which counted as length due to "
 "dataset characteristic (polyline shapefile) like road. For road dataset, the "
@@ -973,21 +992,20 @@ msgid ""
 msgstr ""
 "Tipe kalkulasi ini dilakukan berdasarkan panjang asetnya. Tipe kalkulasinya "
 "ini biasa dilakukan dengan mengagregatkan panjang aset berdasarkan batas RW "
-"dan klasifikasi banjirnya, kemudian mengalikan jumlah agregatnya dengan matriks "
-"kerusakan dan kerugian. Perhitungan ini biasa dilakukan "
-"pada aset jalan dan kendaraan (karena berkaitan denga jalan "
-"yang terkena banjir)."
+"dan klasifikasi banjirnya, kemudian mengalikan jumlah agregatnya dengan "
+"matriks kerusakan dan kerugian. Perhitungan ini biasa dilakukan pada aset "
+"jalan dan kendaraan (karena berkaitan denga jalan yang terkena banjir)."
 
-#: report/templates/report/about.html:506
+#: report/templates/report/about.html:505
 msgid "Figure 16 DaLA Method Calculation Distribution"
 msgstr "Gambar 16 Distribusi Tipe Perhitungan DALA"
 
-#: report/templates/report/about.html:511
-#: report/templates/report/about.html:579
+#: report/templates/report/about.html:510
+#: report/templates/report/about.html:578
 msgid "6. Result Example"
 msgstr "6. Hasil"
 
-#: report/templates/report/about.html:512
+#: report/templates/report/about.html:511
 msgid ""
 "The result of Damage and Loss calculation in JakSAFE website is broken down "
 "into two type, they are:"
@@ -995,11 +1013,11 @@ msgstr ""
 "Hasil perhitungan kerusakan dan kerugian di halaman website JakSAFE dibagi "
 "ke dalam dua tipe, yaitu:"
 
-#: report/templates/report/about.html:515
+#: report/templates/report/about.html:514
 msgid "Automatic Calculation"
 msgstr "Perhitungan Otomatis"
 
-#: report/templates/report/about.html:516
+#: report/templates/report/about.html:515
 msgid ""
 "Automatic Calculation is presented on Automatic Report page in JakSAFE, "
 "where system will calculating the damage and loss value every 6 hours"
@@ -1007,11 +1025,11 @@ msgstr ""
 "Perhitungan Otomatis ditampilkan pada halaman Laporan Otomatis, dimana "
 "sistem akan menghitung nilai kerusakan dan kerugian setiap 6 jam"
 
-#: report/templates/report/about.html:518
+#: report/templates/report/about.html:517
 msgid "Ad-Hoc Calculation"
 msgstr "Perhitungan Ad-Hoc"
 
-#: report/templates/report/about.html:519
+#: report/templates/report/about.html:518
 msgid ""
 "While Ad-Hoc Calculation is presented on Ad Hoc page in Jaksafe, where user "
 "can generate their own report with desired time event"
@@ -1020,25 +1038,25 @@ msgstr ""
 "dimana pengguna dapat memperoleh laporannya sendiri dengan memasukkan waktu "
 "kejadian yang diinginkan"
 
-#: report/templates/report/about.html:523
+#: report/templates/report/about.html:522
 msgid ""
 "The result of every calcution generating three type of tables and graphs, "
 "they are:"
 msgstr "Hasil semua perhitungan mengenerate tiga tipe tabel dan grafik, yaitu:"
 
-#: report/templates/report/about.html:526
+#: report/templates/report/about.html:525
 msgid "Damage and Loss by Sector"
 msgstr "Kerusakan dan Kerugian berdasarkan Sektor"
 
-#: report/templates/report/about.html:527
+#: report/templates/report/about.html:526
 msgid "Damage by Subsector and City"
 msgstr "Kerusakan berdasarkan Subsektor dan Kotamadya"
 
-#: report/templates/report/about.html:528
+#: report/templates/report/about.html:527
 msgid "Loss by Subsector and City"
 msgstr "Kerusakan berdasarkan Subsektor dan Kotamadya"
 
-#: report/templates/report/about.html:531
+#: report/templates/report/about.html:530
 msgid ""
 "User can also filtering the result of calculation in by administrative "
 "boundary (City, Subdistrict, District, and Blocks)"
@@ -1046,14 +1064,14 @@ msgstr ""
 "Pengguna dapat juga memfilter hasil perhitungan berdasarkan batas "
 "administratif (Kotamadya, Kecamatan, Kelurahan, dan RW)"
 
-#: report/templates/report/about.html:535
+#: report/templates/report/about.html:534
 msgid ""
 "Figure 17 JakSAFE Function (Filtering Damage and Loss Result by boundary)"
 msgstr ""
 "Gambar 17 Fungsi JakSAFE (Filter hasil Kerusakan dan Kerugian berdasarkan "
 "batas)"
 
-#: report/templates/report/about.html:538
+#: report/templates/report/about.html:537
 msgid ""
 "For more detailed result or further analysis, user can download the "
 "calculation result data and hazard data (in shapefile format)."
@@ -1062,21 +1080,21 @@ msgstr ""
 "lanjut, pengguna dapat mendownload data hasil perhitungan dan data bahaya "
 "(dalam format shapefile)."
 
-#: report/templates/report/about.html:542
+#: report/templates/report/about.html:541
 msgid "Figure 18 JakSAFE Function (Downloading detail of Calculation)"
 msgstr "Gambar 18 Fungsi JakSAFE (Download detail perhitungan)"
 
-#: report/templates/report/about.html:552
+#: report/templates/report/about.html:551
 #: report/templates/report/data.html:173
 #: report/templates/report/science2.html:744
 msgid "Contents"
 msgstr "Daftar isi"
 
-#: report/templates/report/about.html:564
+#: report/templates/report/about.html:563
 msgid "4.3 Damage &amp; loss Matrix"
 msgstr "4.3 Matrix Kerusakan dan Kerugian"
 
-#: report/templates/report/about.html:573
+#: report/templates/report/about.html:572
 msgid "5.1.3 Damage &amp; loss Matrix"
 msgstr "5.1.3 Matrix Kerusakan dan Kerugian"
 
@@ -1085,8 +1103,8 @@ msgid ""
 "Data from JakSAFE is available for public under an open license, and can be "
 "accessed by the link below:"
 msgstr ""
-"Data JakSAFE merupakan data yang terbuka dan dapat digunakan oleh publik, data "
-"tersebut dapat diakses melalui link di bawah ini:"
+"Data JakSAFE merupakan data yang terbuka dan dapat digunakan oleh publik, "
+"data tersebut dapat diakses melalui link di bawah ini:"
 
 #: report/templates/report/api.html:54
 msgid ""
@@ -2178,8 +2196,8 @@ msgid ""
 msgstr ""
 "Seperti yang telah dijelaskan diatas, terdapat <b>68 Kelurahan</b> di DKI "
 "Jakarta yang tidak tercover oleh data P4T. Sehingga, untuk melengkapi data "
-"tersebut digunakan data lain dari Dinas Penataan Kota, yaitu data Peta Dasar. "
-"Peta Dasar adalah data CAD yang berisikan data penggunaan bangunan d "
+"tersebut digunakan data lain dari Dinas Penataan Kota, yaitu data Peta "
+"Dasar. Peta Dasar adalah data CAD yang berisikan data penggunaan bangunan di "
 "Jakarta, dengan total 388.345 rekaman data untuk 68 Kelurahan. Kemudian "
 "gambar CAD tersebut diklasifikasikan berdasarkan warna dan simbolnya."
 
@@ -2223,13 +2241,12 @@ msgstr ""
 "untuk menjadi data input JakSAFE. Data jalan dari OpenStreetMap sudah dalam "
 "format spasial dan memiliki informasi tipe jalan di atribut tabelnya. Namun, "
 "perhitungan kerusakan dan kerugian juga menghitung aset \"KENDARAAN\" yang "
-"dihitung berdasarkan jumlah pada jalan yang terkena banjir. "
-"Data volume kendaraan pada masing-masing jalan didapatkan dari Dinas "
-"Perhubungan Jakarta, dan kemudian diinput ke dalam data shapefile jalan. "
-"Pengolahan data kendaraan dan data jalan dilakukan dengan software database "
-"(PostGIS and PostgreSQL) untuk memudahkan pengolahan data. "
-"Hasil pengolahan data tersebut menghasilkan "
-"data seperti di bawah ini:"
+"dihitung berdasarkan jumlah pada jalan yang terkena banjir. Data volume "
+"kendaraan pada masing-masing jalan didapatkan dari Dinas Perhubungan "
+"Jakarta, dan kemudian diinput ke dalam data shapefile jalan. Pengolahan data "
+"kendaraan dan data jalan dilakukan dengan software database (PostGIS and "
+"PostgreSQL) untuk memudahkan pengolahan data. Hasil pengolahan data tersebut "
+"menghasilkan data seperti di bawah ini:"
 
 #: report/templates/report/science2.html:139
 msgid "Figure 5 Vehicle Volume Information on Road Shapefile"
@@ -2782,10 +2799,10 @@ msgid ""
 "Sector, Sub-Sector, and Asset that depends on the availability of Exposure "
 "Data, they are:"
 msgstr ""
-"Namun, terdapat beberapa aset dalam data paparan JakSAFE yang tidak masuk "
-"ke dalam kategorisasi diatas. Sehingga JakSAFE pun mengembangkan "
-"kategorisasi sendiri, baik Sektor, Subsektor, dan Asetnya sesuai dengan "
-"ketersediaan data, seperti klasiifkasi sektor dan subsektor di bawah ini:"
+"Namun, terdapat beberapa aset dalam data paparan JakSAFE yang tidak masuk ke "
+"dalam kategorisasi diatas. Sehingga JakSAFE pun mengembangkan kategorisasi "
+"sendiri, baik Sektor, Subsektor, dan Asetnya sesuai dengan ketersediaan "
+"data, seperti klasiifkasi sektor dan subsektor di bawah ini:"
 
 #: report/templates/report/science2.html:451
 msgid ""
@@ -2877,8 +2894,8 @@ msgid ""
 "The 1<sup>st</sup> degree of valuation (we consider are the best quality) is "
 "consists of:"
 msgstr ""
-"Metode valuasi dengan derajat kualitas 1 merupakan gabungan dari metode "
-"di bawah ini:"
+"Metode valuasi dengan derajat kualitas 1 merupakan gabungan dari metode di "
+"bawah ini:"
 
 #: report/templates/report/science2.html:481
 msgid ""
@@ -2978,18 +2995,19 @@ msgid ""
 "about the list of damage and loss matrix used in JakSAFE, refer to github "
 "link on "
 msgstr ""
-"Di bawah ini adalah contoh form yang digunakan untuk membuat matriks kerusakan dan kerugian dalam rupiah. "
-"Pada matriks tersebut akan di list barang dan karakterstik apa saja yang umumnya "
-"ada pada klasifikasi aset tersebut, kemudian dicari nilai rupiahnya. Untuk lebih detail "
-"mengenai form kerusakan dan kerugian masing-masing aset JakSAFE terdapat pada link "
+"Di bawah ini adalah contoh form yang digunakan untuk membuat matriks "
+"kerusakan dan kerugian dalam rupiah. Pada matriks tersebut akan di list "
+"barang dan karakterstik apa saja yang umumnya ada pada klasifikasi aset "
+"tersebut, kemudian dicari nilai rupiahnya. Untuk lebih detail mengenai form "
+"kerusakan dan kerugian masing-masing aset JakSAFE terdapat pada link "
 
 #: report/templates/report/science2.html:501
 msgid ""
 "While for more details about valuation of each JakSAFE asset category, refer "
 "to damage and loss estimation form on github link on "
 msgstr ""
-"Sedangkan untuk melihat hasil perhitunganya dalam matriks kerusakan "
-"dan kerugiannya terdapat pada link github "
+"Sedangkan untuk melihat hasil perhitunganya dalam matriks kerusakan dan "
+"kerugiannya terdapat pada link github "
 
 #: report/templates/report/science2.html:505
 msgid "Figure 20 Damage and Loss Estimation Form"
@@ -3014,11 +3032,12 @@ msgid ""
 "remain be updated periodically to get better damage and loss estimation."
 msgstr ""
 "Tantangan dalam melakukan valuasi ekonomi ini adalah kurangnya data historis "
-"mengenai kerusakan dan kerugian yang dialami akibat banjir, padahal data tersebut "
-"sangatlah penting dan dapat dijadikan kunci dalam proses pembuatan matriks "
-"kerusakan dan kerugian. Selain itu hal yang perlu diperhatikan adalah bahwa nilai "
-"ekonomi akan berubah seiring berjalannya waktu, sehingga tantangan kedepannya adalah untuk "
-"tetap mengupdate matrix kerusakan dan kerugian yang berubah seiring berjalannya waktu."
+"mengenai kerusakan dan kerugian yang dialami akibat banjir, padahal data "
+"tersebut sangatlah penting dan dapat dijadikan kunci dalam proses pembuatan "
+"matriks kerusakan dan kerugian. Selain itu hal yang perlu diperhatikan "
+"adalah bahwa nilai ekonomi akan berubah seiring berjalannya waktu, sehingga "
+"tantangan kedepannya adalah untuk tetap mengupdate matrix kerusakan dan "
+"kerugian yang berubah seiring berjalannya waktu."
 
 #: report/templates/report/science2.html:520
 #: report/templates/report/science2.html:799
@@ -3040,12 +3059,11 @@ msgid ""
 "done by aggregating the unit of affected asset by RW boundary, and then "
 "multiplying the result to damage and loss matrix."
 msgstr ""
-"Tipe perhitungan ini dapat dilakukan untuk bangunan dan data "
-"agregat yang jumlahnya bisa dihitung dalam satuan unit. Contoh perhitungan "
-"aset yang dihitung dengan menggunakan perhitungan ini adalah aset sekolah,  "
-"rumah sakit, ATM, dan sebagainya. Pehitungan dilakukan  "
-"dengan mengagregatkan jumlah unit aset "
-"di masing-masing RW, kemudian dikalikan dengan matriks "
+"Tipe perhitungan ini dapat dilakukan untuk bangunan dan data agregat yang "
+"jumlahnya bisa dihitung dalam satuan unit. Contoh perhitungan aset yang "
+"dihitung dengan menggunakan perhitungan ini adalah aset sekolah,  rumah "
+"sakit, ATM, dan sebagainya. Pehitungan dilakukan  dengan mengagregatkan "
+"jumlah unit aset di masing-masing RW, kemudian dikalikan dengan matriks "
 "kerusakan dan kerugian."
 
 #: report/templates/report/science2.html:526
@@ -3117,11 +3135,9 @@ msgid ""
 "calculation and for damage and loss drilling down process into the RW "
 "Boundary Level."
 msgstr ""
-"Tipe perhitungan ini dapat dilakukan untuk aset yang "
-"wilayahnya luas sehingga bisa melewati batas RW, "
-"sehingga perlu dipecah perhitungannya karena "
-"unit analisis yang digunakan dalam perhitungan "
-"adalah batas RW."
+"Tipe perhitungan ini dapat dilakukan untuk aset yang wilayahnya luas "
+"sehingga bisa melewati batas RW, sehingga perlu dipecah perhitungannya "
+"karena unit analisis yang digunakan dalam perhitungan adalah batas RW."
 
 #: report/templates/report/science2.html:568
 msgid "The example of damage and loss calculation based on metric asssets is:"
@@ -3156,11 +3172,10 @@ msgid ""
 "for several RW to ease the calculation and for damage and loss drilling down "
 "process into the RW Boundary Level."
 msgstr ""
-"Tipe perhitungan ini dapat dilakukan untuk aset yang datanya dalam "
-"format spasial polyline, sehingga datanya harus di break down "
-"berdasarkan RW untuk mengetahui panjang aset yang terdampak "
-"di masing-masing RW. Perhitungan seperti ini dilakukan "
-"untuk aset jalan dan kendaraan."
+"Tipe perhitungan ini dapat dilakukan untuk aset yang datanya dalam format "
+"spasial polyline, sehingga datanya harus di break down berdasarkan RW untuk "
+"mengetahui panjang aset yang terdampak di masing-masing RW. Perhitungan "
+"seperti ini dilakukan untuk aset jalan dan kendaraan."
 
 #: report/templates/report/science2.html:610
 msgid ""
@@ -3194,14 +3209,13 @@ msgid ""
 "calculation, refer to pre caclucation script of vehicle asset in github link "
 "on"
 msgstr ""
-"Sedangkan untuk aset kendaraan, perhitungan yang dilakukan cukup berbeda karena "
-"ada aspek lain yang dinilai selain panjang jalan yang terkena banjir, yaitu kerugian "
-"akibat hilangnya bahan bakar dan akibat hilangnya pemasukan pada transportasi "
-"umum. Jadi secara umum, jumlah kendaraan yang terdapat pada jalan "
-"yang terkena banjir akan dikalikan dengan matriks kerugian bahan bakar "
-"dan kerugian transportasi umum. Untuk detail informasi mengenai logic "
-"yang digunakan untuk aset kendaraan, lihat pada "
-"link"
+"Sedangkan untuk aset kendaraan, perhitungan yang dilakukan cukup berbeda "
+"karena ada aspek lain yang dinilai selain panjang jalan yang terkena banjir, "
+"yaitu kerugian akibat hilangnya bahan bakar dan akibat hilangnya pemasukan "
+"pada transportasi umum. Jadi secara umum, jumlah kendaraan yang terdapat "
+"pada jalan yang terkena banjir akan dikalikan dengan matriks kerugian bahan "
+"bakar dan kerugian transportasi umum. Untuk detail informasi mengenai logic "
+"yang digunakan untuk aset kendaraan, lihat pada link"
 
 #: report/templates/report/science2.html:652
 #: report/templates/report/science2.html:804
@@ -3216,9 +3230,8 @@ msgid ""
 "calculate the damage and loss based on the probability with formula:"
 msgstr ""
 "Sedangkan tipe perhitungan untuk data agregat yang tidak memiliki informasi "
-"lokasi yang spesifik, namun hanya informasi agregat "
-"dalam suatu batas informasi dilakukan berdasarkan probabilitas, "
-"dengan rumus:"
+"lokasi yang spesifik, namun hanya informasi agregat dalam suatu batas "
+"informasi dilakukan berdasarkan probabilitas, dengan rumus:"
 
 #: report/templates/report/science2.html:659
 msgid "The example of damage and loss calculation for aggregate asset:"
@@ -3287,9 +3300,9 @@ msgid ""
 "call it pre calculation process. The process of pre calculation is described "
 "as follow:"
 msgstr ""
-"Sebelum perhitungan kerusakan dan kerugian dimulai, data harus diproses terlebih "
-"dahulu. Tahapan ini disebut dengan tahapan pre-calculation, yang dideskripsikan "
-"dengan tahapan berikut:"
+"Sebelum perhitungan kerusakan dan kerugian dimulai, data harus diproses "
+"terlebih dahulu. Tahapan ini disebut dengan tahapan pre-calculation, yang "
+"dideskripsikan dengan tahapan berikut:"
 
 #: report/templates/report/science2.html:727
 msgid "Figure 25 Pre Calculation Workflow"
@@ -3314,22 +3327,18 @@ msgid ""
 "take a long time to be done. The SQL script for pre calculation can be "
 "viewed in github link on"
 msgstr ""
-"Data paparan yang telah diolah dan dikategorisasi kemudian "
-"diintersect dengan data bahaya banjir (yang juga telah "
-"dikategorisasi) pada Software GIS. Kemudian hasilnya "
-"diagregatkan berdasarkan aset, batas RW, dan "
-"kelas banjirnya. Hasil dari proses tersebut "
-"masih dalam bentuk data shapefile, kemudian hasilnya "
-"dikonversi menjadi database dengan "
-"menggunakan postgis dan PostgreSQL, lalu disimpan "
-"dalam database JakSAFE. Tujuan dari tahapan ini "
-"adalah untuk meningkatkan performa web, sehingga "
-"proses perhitungan dapat berjalan dengan cepat. "
-"Kemudian langkah terakhir adalah mengalikan data paparan "
-"dengan matriks kerusakan dan kerugian, sehingga diketahui "
-"nilai rupiah kerusakan dan kerugian di masing-masing "
-"RW dan berbagai kelas banjir. Script SQL untuk melakukan proses pre calculation "
-"ini dapat dilihat pada link github"
+"Data paparan yang telah diolah dan dikategorisasi kemudian diintersect "
+"dengan data bahaya banjir (yang juga telah dikategorisasi) pada Software "
+"GIS. Kemudian hasilnya diagregatkan berdasarkan aset, batas RW, dan kelas "
+"banjirnya. Hasil dari proses tersebut masih dalam bentuk data shapefile, "
+"kemudian hasilnya dikonversi menjadi database dengan menggunakan postgis dan "
+"PostgreSQL, lalu disimpan dalam database JakSAFE. Tujuan dari tahapan ini "
+"adalah untuk meningkatkan performa web, sehingga proses perhitungan dapat "
+"berjalan dengan cepat. Kemudian langkah terakhir adalah mengalikan data "
+"paparan dengan matriks kerusakan dan kerugian, sehingga diketahui nilai "
+"rupiah kerusakan dan kerugian di masing-masing RW dan berbagai kelas banjir. "
+"Script SQL untuk melakukan proses pre calculation ini dapat dilihat pada "
+"link github"
 
 #: report/templates/report/science2.html:734
 msgid "Figure 27 Output of Damage and Loss pre Calculation Database"

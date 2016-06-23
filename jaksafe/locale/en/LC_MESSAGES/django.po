@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-14 12:41+0700\n"
+"POT-Creation-Date: 2016-06-15 16:58+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Science"
 msgstr ""
 
-#: jaksafe/templates/base.html:43 report/templates/report/about.html:300
+#: jaksafe/templates/base.html:43 report/templates/report/about.html:299
 #: report/templates/report/science2.html:164
 msgid "Data"
 msgstr ""
@@ -123,6 +123,26 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
+#: jaksafe/templates/base.html:102
+msgid "Using"
+msgstr ""
+
+#: jaksafe/templates/base.html:105
+msgid "Usage Disclaimer"
+msgstr ""
+
+#: jaksafe/templates/base.html:111
+msgid "Supported by:"
+msgstr ""
+
+#: jaksafe/templates/base.html:126
+msgid "&emsp; Developed &amp; Implemented by:"
+msgstr ""
+
+#: jaksafe/templates/base.html:137
+msgid "Back to Top"
+msgstr ""
+
 #: report/forms.py:23 report/forms.py:46 report/forms.py:69 report/forms.py:92
 #: report/forms.py:115 report/forms.py:138 report/forms.py:161
 #, python-format
@@ -140,7 +160,7 @@ msgid "Upload file not found."
 msgstr ""
 
 #: report/templates/report/about.html:52
-#: report/templates/report/about.html:557
+#: report/templates/report/about.html:556
 msgid "1. Executive Summary"
 msgstr ""
 
@@ -167,7 +187,7 @@ msgstr ""
 msgid "Figure 1 JakSAFE Workflow"
 msgstr ""
 
-#: report/templates/report/about.html:61 report/templates/report/about.html:62
+#: report/templates/report/about.html:61
 msgid ""
 "After the database has completed, the exposure overlaid with hazard data and "
 "will producing information about assets impacted by the flood, which later "
@@ -177,13 +197,13 @@ msgid ""
 "methodology based on Jakarta condition and data availability."
 msgstr ""
 
-#: report/templates/report/about.html:66
-#: report/templates/report/about.html:558
+#: report/templates/report/about.html:65
+#: report/templates/report/about.html:557
 #: report/templates/report/science2.html:749
 msgid "2. Background"
 msgstr ""
 
-#: report/templates/report/about.html:67
+#: report/templates/report/about.html:66
 msgid ""
 "Flood is the most common and frequent disaster in Indonesia. Among area in "
 "Indonesia, Jakarta is one of the regions which have a high risk of flooding. "
@@ -207,7 +227,7 @@ msgid ""
 "processes, micro and macro-economic, social and environmental."
 msgstr ""
 
-#: report/templates/report/about.html:68
+#: report/templates/report/about.html:67
 msgid ""
 "After Hackathon event held in July 2014 initiated under Code for Resilience "
 "(CfR), World Bank continue to follow up the post-Hackathon event. From "
@@ -216,7 +236,7 @@ msgid ""
 "Data and Assumptions (finished by December 2015)."
 msgstr ""
 
-#: report/templates/report/about.html:69
+#: report/templates/report/about.html:68
 msgid ""
 "Jakarta would be the right place to perform this prototype because Flood in "
 "Jakarta is nearly occurring yearly in several Villages. Jakarta via Disaster "
@@ -238,34 +258,34 @@ msgid ""
 "Inteligensi Risiko and continued by Geo Enviro Omega."
 msgstr ""
 
-#: report/templates/report/about.html:73
-#: report/templates/report/about.html:559
+#: report/templates/report/about.html:72
+#: report/templates/report/about.html:558
 msgid "3. Supporting Team"
 msgstr ""
 
-#: report/templates/report/about.html:74
+#: report/templates/report/about.html:73
 msgid "Adviser"
 msgstr ""
 
-#: report/templates/report/about.html:81
+#: report/templates/report/about.html:80
 msgid "Development Team"
 msgstr ""
 
-#: report/templates/report/about.html:108
-#: report/templates/report/about.html:560
+#: report/templates/report/about.html:107
+#: report/templates/report/about.html:559
 msgid "4. Data Source"
 msgstr ""
 
-#: report/templates/report/about.html:109
+#: report/templates/report/about.html:108
 msgid "There are three kind of input data used in JakSAFE:"
 msgstr ""
 
-#: report/templates/report/about.html:113
-#: report/templates/report/about.html:562
+#: report/templates/report/about.html:112
+#: report/templates/report/about.html:561
 msgid "4.1 Hazard Data"
 msgstr ""
 
-#: report/templates/report/about.html:114
+#: report/templates/report/about.html:113
 msgid ""
 "Hazard data was gathered from Disaster Management Information System (DIMS) "
 "installed in Badan Penanggulangan Bencana Daerah (BPBD) DKI Jakarta Command "
@@ -275,12 +295,12 @@ msgid ""
 "maps below, from the highest to the lowest level:"
 msgstr ""
 
-#: report/templates/report/about.html:118
+#: report/templates/report/about.html:117
 #: report/templates/report/science2.html:74
 msgid "Figure 2 Jakarta Administrative Boundary"
 msgstr ""
 
-#: report/templates/report/about.html:121
+#: report/templates/report/about.html:120
 msgid ""
 "As explained above, the RT boundary was the lowest boundary level in "
 "Jakarta. However, the process of RT boundary mapping is not completed yet "
@@ -289,57 +309,57 @@ msgid ""
 "output of DIMS API (flooded RWs) is can accessed by the link below:"
 msgstr ""
 
-#: report/templates/report/about.html:123
+#: report/templates/report/about.html:122
 #: report/templates/report/data.html:124
 msgid "The output information of those API are:"
 msgstr ""
 
-#: report/templates/report/about.html:134
+#: report/templates/report/about.html:133
 #: report/templates/report/data.html:134
 msgid "Time of Flood Event"
 msgstr ""
 
-#: report/templates/report/about.html:135
+#: report/templates/report/about.html:134
 #: report/templates/report/data.html:135
 msgid "Flood Depth"
 msgstr ""
 
-#: report/templates/report/about.html:147
-#: report/templates/report/about.html:563
+#: report/templates/report/about.html:146
+#: report/templates/report/about.html:562
 msgid "4.2 Exposure Data"
 msgstr ""
 
-#: report/templates/report/about.html:148
+#: report/templates/report/about.html:147
 msgid "There are three kind data type of JakSAFE exposure, they are:"
 msgstr ""
 
-#: report/templates/report/about.html:150
+#: report/templates/report/about.html:149
 msgid "Aggregate Exposure Data"
 msgstr ""
 
-#: report/templates/report/about.html:151
+#: report/templates/report/about.html:150
 msgid ""
 "Aggregate Exposure Data are asset information which didn't have exact "
 "location, so the data provided as aggregate file with administrative "
 "boundary as unit analysis."
 msgstr ""
 
-#: report/templates/report/about.html:153
+#: report/templates/report/about.html:152
 msgid "Road Expossure"
 msgstr ""
 
-#: report/templates/report/about.html:154
+#: report/templates/report/about.html:153
 msgid ""
 "Spatial Road Expossure data was acquired from OpenstreetMap in the form of "
 "spatial data, while the vehicle volume data obtained from Transportation "
 "Agency in the form of tabular data."
 msgstr ""
 
-#: report/templates/report/about.html:156
+#: report/templates/report/about.html:155
 msgid "Building Expossure"
 msgstr ""
 
-#: report/templates/report/about.html:157
+#: report/templates/report/about.html:156
 #, python-format
 msgid ""
 "Spatial Building Exposure data was acquired from P4T and Base Map Data from "
@@ -349,15 +369,15 @@ msgid ""
 "gathered from many sources."
 msgstr ""
 
-#: report/templates/report/about.html:163
+#: report/templates/report/about.html:162
 msgid "Figure 3 Exposure Data Type Distribution"
 msgstr ""
 
-#: report/templates/report/about.html:168
+#: report/templates/report/about.html:167
 msgid "4.3 Damage &amp; Loss Matrix"
 msgstr ""
 
-#: report/templates/report/about.html:169
+#: report/templates/report/about.html:168
 msgid ""
 "Damage and Loss Matrix was obtained through valuation process. It is the "
 "process to estimating how much (in monetary value) the asset will be loss "
@@ -367,7 +387,7 @@ msgid ""
 "process consists of four following method of valuation, they are:"
 msgstr ""
 
-#: report/templates/report/about.html:176
+#: report/templates/report/about.html:175
 msgid ""
 "Historical Flood Data collected from the related organization (SKPDs, BUMDs, "
 "Agencies, etc.). This information usually taken from the report(s) of damage "
@@ -375,7 +395,7 @@ msgid ""
 "organization have those report."
 msgstr ""
 
-#: report/templates/report/about.html:177
+#: report/templates/report/about.html:176
 msgid ""
 "Research Literature (scientific papers, report, standard, regulation, etc.). "
 "JakSAFE team collected the informations relevant with the valuation. The "
@@ -384,7 +404,7 @@ msgid ""
 "to flood event."
 msgstr ""
 
-#: report/templates/report/about.html:178
+#: report/templates/report/about.html:177
 msgid ""
 "Estimation is done with certain assumptions based on the physical "
 "characteristic of the asset and the property inside the building. For "
@@ -395,40 +415,40 @@ msgid ""
 "school that threatened by flood."
 msgstr ""
 
-#: report/templates/report/about.html:179
+#: report/templates/report/about.html:178
 msgid ""
 "If there are no sufficient information to conduct Historical, Research "
 "Literature or Estimation method, the valuation is done based on the previous "
 "method conducted by World Bank in their 2013's Flood DaLA report."
 msgstr ""
 
-#: report/templates/report/about.html:184
-#: report/templates/report/about.html:567
+#: report/templates/report/about.html:183
+#: report/templates/report/about.html:566
 msgid "5. Methodology"
 msgstr ""
 
-#: report/templates/report/about.html:188
-#: report/templates/report/about.html:569
+#: report/templates/report/about.html:187
+#: report/templates/report/about.html:568
 msgid "5.1 Data Processing"
 msgstr ""
 
-#: report/templates/report/about.html:192
-#: report/templates/report/about.html:571
+#: report/templates/report/about.html:191
+#: report/templates/report/about.html:570
 msgid "5.1.1 Hazard Data"
 msgstr ""
 
-#: report/templates/report/about.html:193
+#: report/templates/report/about.html:192
 msgid ""
 "The information from the API is joined to RW boundary spatial data "
 "(shapefile), that will produce hazard maps of the specified event, like "
 "below:"
 msgstr ""
 
-#: report/templates/report/about.html:197
+#: report/templates/report/about.html:196
 msgid "Figure 4 Hazard Maps"
 msgstr ""
 
-#: report/templates/report/about.html:200
+#: report/templates/report/about.html:199
 #: report/templates/report/science2.html:187
 msgid ""
 "Depth and duration of flood became an important aspect to be considered on "
@@ -436,35 +456,35 @@ msgid ""
 "depth and duration like table below."
 msgstr ""
 
-#: report/templates/report/about.html:203
+#: report/templates/report/about.html:202
 msgid "Table 1 JakSAFE Hazard Categorization"
 msgstr ""
 
-#: report/templates/report/about.html:205
-#: report/templates/report/about.html:208
+#: report/templates/report/about.html:204
+#: report/templates/report/about.html:207
 #: report/templates/report/science2.html:192
 #: report/templates/report/science2.html:195
 msgid "Class"
 msgstr ""
 
-#: report/templates/report/about.html:206
-#: report/templates/report/about.html:209
+#: report/templates/report/about.html:205
+#: report/templates/report/about.html:208
 #: report/templates/report/science2.html:193
 #: report/templates/report/science2.html:196
 msgid "Depth (cm)"
 msgstr ""
 
-#: report/templates/report/about.html:207
-#: report/templates/report/about.html:210
+#: report/templates/report/about.html:206
+#: report/templates/report/about.html:209
 #: report/templates/report/science2.html:194
 #: report/templates/report/science2.html:197
 msgid "Duration (days(s))"
 msgstr ""
 
-#: report/templates/report/about.html:238
-#: report/templates/report/about.html:241
-#: report/templates/report/about.html:270
-#: report/templates/report/about.html:273
+#: report/templates/report/about.html:237
+#: report/templates/report/about.html:240
+#: report/templates/report/about.html:269
+#: report/templates/report/about.html:272
 #: report/templates/report/science2.html:225
 #: report/templates/report/science2.html:228
 #: report/templates/report/science2.html:257
@@ -472,7 +492,7 @@ msgstr ""
 msgid "Affected"
 msgstr ""
 
-#: report/templates/report/about.html:278
+#: report/templates/report/about.html:277
 #: report/templates/report/science2.html:265
 msgid ""
 "For calculating the loss, the affected area also being an important aspect "
@@ -481,11 +501,11 @@ msgid ""
 "the images below:"
 msgstr ""
 
-#: report/templates/report/about.html:282
+#: report/templates/report/about.html:281
 msgid "Figure 5 Affected Area Algorithm"
 msgstr ""
 
-#: report/templates/report/about.html:285
+#: report/templates/report/about.html:284
 msgid ""
 "After we have information about inundated RW from DIMS, we detailing the "
 "information by contour delineation localization method, using RW boundary as "
@@ -496,16 +516,16 @@ msgid ""
 "result. The result of the method was shown by map below:"
 msgstr ""
 
-#: report/templates/report/about.html:289
+#: report/templates/report/about.html:288
 msgid "Figure 6 Contour Delineation"
 msgstr ""
 
-#: report/templates/report/about.html:294
-#: report/templates/report/about.html:572
+#: report/templates/report/about.html:293
+#: report/templates/report/about.html:571
 msgid "5.1.2 Exposure Data"
 msgstr ""
 
-#: report/templates/report/about.html:295
+#: report/templates/report/about.html:294
 msgid ""
 "As described before, exposure data was combined from P4T, Base Map, and "
 "other sources data using GIS (Geographic Information System) Software into "
@@ -516,148 +536,148 @@ msgid ""
 "categorization was shown by table and map below:"
 msgstr ""
 
-#: report/templates/report/about.html:298
+#: report/templates/report/about.html:297
 msgid "Table 2 Count of Building Exposure"
 msgstr ""
 
-#: report/templates/report/about.html:301
+#: report/templates/report/about.html:300
 msgid "Count of Villages"
 msgstr ""
 
-#: report/templates/report/about.html:302
+#: report/templates/report/about.html:301
 msgid "Total Unit Asset"
 msgstr ""
 
-#: report/templates/report/about.html:305
+#: report/templates/report/about.html:304
 msgid "Land Parcel"
 msgstr ""
 
-#: report/templates/report/about.html:310
+#: report/templates/report/about.html:309
 msgid "Building Footprint"
 msgstr ""
 
-#: report/templates/report/about.html:315
+#: report/templates/report/about.html:314
 msgid "Other sources"
 msgstr ""
 
-#: report/templates/report/about.html:316
+#: report/templates/report/about.html:315
 msgid "spread"
 msgstr ""
 
-#: report/templates/report/about.html:320
+#: report/templates/report/about.html:319
 msgid "Total"
 msgstr ""
 
-#: report/templates/report/about.html:328
+#: report/templates/report/about.html:327
 msgid "Figure 7 Land Parcel and Building Footprints Map"
 msgstr ""
 
-#: report/templates/report/about.html:333
+#: report/templates/report/about.html:332
 msgid "Figure 8  Difference of Land Parcel and Building Footprints"
 msgstr ""
 
-#: report/templates/report/about.html:337
+#: report/templates/report/about.html:336
 msgid "Table 3 Asset Categorization"
 msgstr ""
 
-#: report/templates/report/about.html:339
+#: report/templates/report/about.html:338
 msgid "SECTOR"
 msgstr ""
 
-#: report/templates/report/about.html:340
+#: report/templates/report/about.html:339
 msgid "SUBSECTOR"
 msgstr ""
 
-#: report/templates/report/about.html:341
+#: report/templates/report/about.html:340
 msgid "COUNT OF ASSET"
 msgstr ""
 
-#: report/templates/report/about.html:344
+#: report/templates/report/about.html:343
 msgid "INFRASTRUKTUR"
 msgstr ""
 
-#: report/templates/report/about.html:345
+#: report/templates/report/about.html:344
 msgid "AIR BERSIH DAN SANITASI"
 msgstr ""
 
-#: report/templates/report/about.html:350
+#: report/templates/report/about.html:349
 msgid "ENERGI"
 msgstr ""
 
-#: report/templates/report/about.html:355
+#: report/templates/report/about.html:354
 msgid "TELEKOMUNIKASI"
 msgstr ""
 
-#: report/templates/report/about.html:360
+#: report/templates/report/about.html:359
 msgid "TRANSPORTASI"
 msgstr ""
 
-#: report/templates/report/about.html:364
+#: report/templates/report/about.html:363
 msgid "LINTAS SEKTOR"
 msgstr ""
 
-#: report/templates/report/about.html:365
+#: report/templates/report/about.html:364
 msgid "AGAMA"
 msgstr ""
 
-#: report/templates/report/about.html:370
+#: report/templates/report/about.html:369
 msgid "FINANSIAL"
 msgstr ""
 
-#: report/templates/report/about.html:375
+#: report/templates/report/about.html:374
 msgid "LINGKUNGAN"
 msgstr ""
 
-#: report/templates/report/about.html:380
+#: report/templates/report/about.html:379
 msgid "PEMERINTAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:384
+#: report/templates/report/about.html:383
 msgid "PRODUKTIF"
 msgstr ""
 
-#: report/templates/report/about.html:385
+#: report/templates/report/about.html:384
 msgid "BISNIS"
 msgstr ""
 
-#: report/templates/report/about.html:390
+#: report/templates/report/about.html:389
 msgid "INDUSTRI"
 msgstr ""
 
-#: report/templates/report/about.html:395
+#: report/templates/report/about.html:394
 msgid "PARIWISATA"
 msgstr ""
 
-#: report/templates/report/about.html:400
+#: report/templates/report/about.html:399
 msgid "PERDAGANGAN"
 msgstr ""
 
-#: report/templates/report/about.html:405
+#: report/templates/report/about.html:404
 msgid "PERTANIAN"
 msgstr ""
 
-#: report/templates/report/about.html:410
-#: report/templates/report/about.html:430
+#: report/templates/report/about.html:409
+#: report/templates/report/about.html:429
 msgid "PERUMAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:414
+#: report/templates/report/about.html:413
 msgid "SOSIAL DAN PERUMAHAN"
 msgstr ""
 
-#: report/templates/report/about.html:415
+#: report/templates/report/about.html:414
 msgid "KESEHATAN"
 msgstr ""
 
-#: report/templates/report/about.html:420
+#: report/templates/report/about.html:419
 msgid "PELAYANAN KOMUNITAS"
 msgstr ""
 
-#: report/templates/report/about.html:425
+#: report/templates/report/about.html:424
 msgid "PENDIDIKAN"
 msgstr ""
 
-#: report/templates/report/about.html:435
+#: report/templates/report/about.html:434
 msgid ""
 "As for road data, we combine the tabular vehicle information and spatial "
 "road data using GIS Software (QGIS) and Database Software (PostGIS and "
@@ -665,22 +685,22 @@ msgid ""
 "volume information like shown in maps below:"
 msgstr ""
 
-#: report/templates/report/about.html:439
+#: report/templates/report/about.html:438
 msgid "Figure 9 Road Exposure Map"
 msgstr ""
 
-#: report/templates/report/about.html:442
+#: report/templates/report/about.html:441
 msgid ""
 "While for aggregate exposure calculated using specific algorithm that allow "
 "the data to be randomized per every RW boundary. The process was done using "
 "database software (PostgreSQL)."
 msgstr ""
 
-#: report/templates/report/about.html:446
+#: report/templates/report/about.html:445
 msgid "5.1.3 Damage &amp; Loss Matrix"
 msgstr ""
 
-#: report/templates/report/about.html:447
+#: report/templates/report/about.html:446
 #, python-format
 msgid ""
 "The lack of historical data and research of damage and losses due to "
@@ -689,51 +709,51 @@ msgid ""
 "valuation, like described in chart below:"
 msgstr ""
 
-#: report/templates/report/about.html:451
+#: report/templates/report/about.html:450
 msgid "Figure 10 Percentage of Valuation Methods Usage"
 msgstr ""
 
-#: report/templates/report/about.html:454
+#: report/templates/report/about.html:453
 msgid ""
 "Below are the example of damage and loss matrix estimation form, that "
 "conversed into damage and loss matrix in rupiahs later on:"
 msgstr ""
 
-#: report/templates/report/about.html:458
+#: report/templates/report/about.html:457
 msgid "Figure 11 Damage and Loss Estimation Form"
 msgstr ""
 
-#: report/templates/report/about.html:463
+#: report/templates/report/about.html:462
 msgid "Figure 12 Damage and Loss Matrix"
 msgstr ""
 
-#: report/templates/report/about.html:468
-#: report/templates/report/about.html:576
+#: report/templates/report/about.html:467
+#: report/templates/report/about.html:575
 msgid "5.2 Calculation"
 msgstr ""
 
-#: report/templates/report/about.html:469
+#: report/templates/report/about.html:468
 msgid ""
 "In general, the process of damage and loss estimation from back until shown "
 "into JakSAFE user interface is described by the image below:"
 msgstr ""
 
-#: report/templates/report/about.html:473
+#: report/templates/report/about.html:472
 msgid "Figure 13 JakSAFE Workflow"
 msgstr ""
 
-#: report/templates/report/about.html:476
+#: report/templates/report/about.html:475
 msgid ""
 "Before damage and loss calculation begin, data need to be processed before "
 "to acquire impacted assets data. The process of pre calculation is described "
 "as follow:"
 msgstr ""
 
-#: report/templates/report/about.html:480
+#: report/templates/report/about.html:479
 msgid "Figure 14 Damage and Loss Calculation Workflow"
 msgstr ""
 
-#: report/templates/report/about.html:483
+#: report/templates/report/about.html:482
 msgid ""
 "The process of intersection of exposure and hazard data required GIS "
 "processing which is done using GIS Software like QGIS, then the result of "
@@ -741,21 +761,21 @@ msgid ""
 "database and stored in PostgreSQL to improve the web performance."
 msgstr ""
 
-#: report/templates/report/about.html:487
+#: report/templates/report/about.html:486
 msgid "Figure 15 Asset and Hazard Intersection"
 msgstr ""
 
-#: report/templates/report/about.html:490
+#: report/templates/report/about.html:489
 msgid ""
 "The impacted assets then calculated using damage and loss matrix. There are "
 "three kind of calculation method to estimate DaLA of each asset, they are:"
 msgstr ""
 
-#: report/templates/report/about.html:493
+#: report/templates/report/about.html:492
 msgid "DaLA calculation per unit asset"
 msgstr ""
 
-#: report/templates/report/about.html:494
+#: report/templates/report/about.html:493
 msgid ""
 "This type of calculation is for building and aggregate data which asset can "
 "be counted as unit number, those type of asset usually have physical "
@@ -764,11 +784,11 @@ msgid ""
 "by RW boundary, and then multiplying the result to damage and loss matrix."
 msgstr ""
 
-#: report/templates/report/about.html:496
+#: report/templates/report/about.html:495
 msgid "DaLA calculation based on the area of asset"
 msgstr ""
 
-#: report/templates/report/about.html:497
+#: report/templates/report/about.html:496
 msgid ""
 "This type of calculation is for building and aggregate data which asset "
 "counted as area, those type of asset usually consume large area so it did "
@@ -777,11 +797,11 @@ msgid ""
 "boundary, and then multiplying the result to damage and loss matrix."
 msgstr ""
 
-#: report/templates/report/about.html:499
+#: report/templates/report/about.html:498
 msgid "DaLA calculation based on the length of asset"
 msgstr ""
 
-#: report/templates/report/about.html:500
+#: report/templates/report/about.html:499
 msgid ""
 "This type of calculation is usually for road which counted as length due to "
 "dataset characteristic (polyline shapefile) like road. For road dataset, the "
@@ -791,91 +811,91 @@ msgid ""
 "multiplying the result to damage and loss matrix."
 msgstr ""
 
-#: report/templates/report/about.html:506
+#: report/templates/report/about.html:505
 msgid "Figure 16 DaLA Method Calculation Distribution"
 msgstr ""
 
-#: report/templates/report/about.html:511
-#: report/templates/report/about.html:579
+#: report/templates/report/about.html:510
+#: report/templates/report/about.html:578
 msgid "6. Result Example"
 msgstr ""
 
-#: report/templates/report/about.html:512
+#: report/templates/report/about.html:511
 msgid ""
 "The result of Damage and Loss calculation in JakSAFE website is broken down "
 "into two type, they are:"
 msgstr ""
 
-#: report/templates/report/about.html:515
+#: report/templates/report/about.html:514
 msgid "Automatic Calculation"
 msgstr ""
 
-#: report/templates/report/about.html:516
+#: report/templates/report/about.html:515
 msgid ""
 "Automatic Calculation is presented on Automatic Report page in JakSAFE, "
 "where system will calculating the damage and loss value every 6 hours"
 msgstr ""
 
-#: report/templates/report/about.html:518
+#: report/templates/report/about.html:517
 msgid "Ad-Hoc Calculation"
 msgstr ""
 
-#: report/templates/report/about.html:519
+#: report/templates/report/about.html:518
 msgid ""
 "While Ad-Hoc Calculation is presented on Ad Hoc page in Jaksafe, where user "
 "can generate their own report with desired time event"
 msgstr ""
 
-#: report/templates/report/about.html:523
+#: report/templates/report/about.html:522
 msgid ""
 "The result of every calcution generating three type of tables and graphs, "
 "they are:"
 msgstr ""
 
-#: report/templates/report/about.html:526
+#: report/templates/report/about.html:525
 msgid "Damage and Loss by Sector"
 msgstr ""
 
-#: report/templates/report/about.html:527
+#: report/templates/report/about.html:526
 msgid "Damage by Subsector and City"
 msgstr ""
 
-#: report/templates/report/about.html:528
+#: report/templates/report/about.html:527
 msgid "Loss by Subsector and City"
 msgstr ""
 
-#: report/templates/report/about.html:531
+#: report/templates/report/about.html:530
 msgid ""
 "User can also filtering the result of calculation in by administrative "
 "boundary (City, Subdistrict, District, and Blocks)"
 msgstr ""
 
-#: report/templates/report/about.html:535
+#: report/templates/report/about.html:534
 msgid ""
 "Figure 17 JakSAFE Function (Filtering Damage and Loss Result by boundary)"
 msgstr ""
 
-#: report/templates/report/about.html:538
+#: report/templates/report/about.html:537
 msgid ""
 "For more detailed result or further analysis, user can download the "
 "calculation result data and hazard data (in shapefile format)."
 msgstr ""
 
-#: report/templates/report/about.html:542
+#: report/templates/report/about.html:541
 msgid "Figure 18 JakSAFE Function (Downloading detail of Calculation)"
 msgstr ""
 
-#: report/templates/report/about.html:552
+#: report/templates/report/about.html:551
 #: report/templates/report/data.html:173
 #: report/templates/report/science2.html:744
 msgid "Contents"
 msgstr ""
 
-#: report/templates/report/about.html:564
+#: report/templates/report/about.html:563
 msgid "4.3 Damage &amp; loss Matrix"
 msgstr ""
 
-#: report/templates/report/about.html:573
+#: report/templates/report/about.html:572
 msgid "5.1.3 Damage &amp; loss Matrix"
 msgstr ""
 
