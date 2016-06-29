@@ -261,3 +261,5 @@ MAX_UPLOAD_SIZE = 1048576
 PYTHON_EXEC = os.path.join(PROJECT_ROOT, "../../bin/python")
 
 RECORDS_PER_PAGE = 50
+
+LOGIN_URL = '/report/login/'
