@@ -71,8 +71,9 @@ class AutoResult(models.Model):
     kecamatan = models.CharField(max_length=50)
     kota = models.CharField(max_length=50)
     kelas = models.CharField(max_length=50)
-    damage = models.DecimalField(max_digits=17, decimal_places=2)
-    loss = models.DecimalField(max_digits=17, decimal_places=2)
+    damage = models.DecimalField(max_digits=17, decimal_places=2, default=0.00)
+    loss = models.DecimalField(max_digits=17, decimal_places=2, default=0.00)
+    total = models.DecimalField(max_digits=17, decimal_places=2, default=0.00)
 
     class Meta:
         db_table = 'auto_dala_result'

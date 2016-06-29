@@ -13,6 +13,7 @@ from report.forms import ImpactClassForm, AggregateForm, AssumptionsDamageForm, 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
 from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Sum, Avg
@@ -132,115 +133,61 @@ def home(request, template='report/home.html'):
     zipped = zip(list_kel, list_rw)
     context_dict["flooded_rw"] = zipped
     
-    #Plot Top 5 Losses by Subsector
-    subsectorpivotdatapoolloss = PivotDataPool(
+    #Plot Top 5 Damages & Losses by Subsector
+    subsectorpivotdatapool = PivotDataPool(
         series=[
            {'options':{
                'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
                'categories':'subsector'},
             'terms':{
-               'sub-sector_loss':Sum('loss')}}],
-            top_n_term = 'sub-sector_loss',
+               'total_damages_&_losses_by_sub-sector':Sum('total')}}],
+            top_n_term = 'total_damages_&_losses_by_sub-sector',
             top_n = 5
         )
     
-    subsectorpivotchrtloss = PivotChart(
-        datasource =subsectorpivotdatapoolloss,
+    subsectorpivotchrt = PivotChart(
+        datasource =subsectorpivotdatapool,
         series_options = [
             {'options':{
                'type':'column',
                'stacking':True,
                'xAxis':0,
                'yAxis':0},
-             'terms':['sub-sector_loss']}],
+             'terms':['total_damages_&_losses_by_sub-sector']}],
         chart_options = {
            'title': {
-               'text': 'Top 5 Losses by Sub-Sector'},
-                'colors': ['#FFB800']
+               'text': 'Top 5 Damages & Losses by Sub-Sector'},
+               'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
             })
     
-    #Plot Top 5 Damages by Subsector
-    subsectorpivotdatapooldamage = PivotDataPool(
-        series=[
-           {'options':{
-               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
-               'categories':'subsector'},
-            'terms':{
-               'sub-sector_damage':Sum('damage')}}],
-            top_n_term = 'sub-sector_damage',
-            top_n = 5
-        )
-    
-    subsectorpivotchrtdamage = PivotChart(
-        datasource =subsectorpivotdatapooldamage,
-        series_options = [
-            {'options':{
-               'type':'column',
-               'stacking':True,
-               'xAxis':0,
-               'yAxis':0},
-             'terms':['sub-sector_damage']}],
-        chart_options = {
-           'title': {
-               'text': 'Top 5 Damages by Sub-Sector'},
-               'colors': ['#FF8900']
-            })
-    
-    #Plot Top 5 Losses by Village    
-    villagepivotdatapoolloss = PivotDataPool(
+    #Plot Top 5 Damages & Losses by Village    
+    villagepivotdatapool = PivotDataPool(
         series=[
            {'options':{
                'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
                'categories':'kelurahan'},
             'terms':{
-               'village_loss':Sum('loss')}}],
-            top_n_term = 'village_loss',
+               'total_damages_&_losses_by_village':Sum('total')}}],
+            top_n_term = 'total_damages_&_losses_by_village',
             top_n = 5
         )
     
-    villagepivotchrtloss = PivotChart(
-        datasource =villagepivotdatapoolloss,
+    villagepivotchrt = PivotChart(
+        datasource =villagepivotdatapool,
         series_options = [
             {'options':{
                'type':'column',
                'stacking':True,
                'xAxis':0,
                'yAxis':0},
-             'terms':['village_loss']}],
+             'terms':['total_damages_&_losses_by_village']}],
         chart_options = {
            'title': {
-               'text': 'Top 5 Losses by Village'},
-                'colors': ['#FFB800']
+               'text': 'Top 5 Damages & Losses by Village'},
+               'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
             })
     
-    #Plot Top 5 Damages by Village
-    villagepivotdatapooldamage = PivotDataPool(
-        series=[
-           {'options':{
-               'source':AutoResult.objects.using('pgdala').filter(id_event=int(id_event),loss__isnull=False),
-               'categories':'kelurahan'},
-            'terms':{
-               'village_damage':Sum('damage')}}],
-            top_n_term = 'village_damage',
-            top_n = 5
-        )
-    
-    villagepivotchrtdamage = PivotChart(
-        datasource =villagepivotdatapooldamage,
-        series_options = [
-            {'options':{
-               'type':'column',
-               'stacking':True,
-               'xAxis':0,
-               'yAxis':0},
-             'terms':['village_damage']}],
-        chart_options = {
-           'title': {
-               'text': 'Top 5 Damages by Village'},
-                'colors': ['#FF8900']
-            })
-    
-    context_dict["charts"] = [subsectorpivotchrtloss, subsectorpivotchrtdamage, villagepivotchrtloss, villagepivotchrtdamage]
+    context_dict["charts"] = [subsectorpivotchrt, villagepivotchrt]
     
     return render_to_response(template, RequestContext(request, context_dict))
 
@@ -573,11 +520,14 @@ def report_auto(request, template='report/report_auto.html'):
         
     return render_to_response(template, RequestContext(request, context_dict))
 
+@login_required
 def report_adhoc(request, template='report/report_adhoc.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Ad Hoc DaLA Report'
     context_dict["errors"] = []
     context_dict["successes"] = []
+    
+    id_user_login = request.user.id
     
     records_per_page = settings.RECORDS_PER_PAGE
     
@@ -597,7 +547,10 @@ def report_adhoc(request, template='report/report_adhoc.html'):
             print "DEBUG t0 = %s, t1 = %s" % (date_range['t0'], date_range['t1'])
             print "DEBUG s = %s, e = %s" % (date_range['s'], date_range['e'])
             
-            cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on ( id_user = auth_user.id ) WHERE t0 >= '%s' AND t1 <= '%s' ORDER BY adhoc_calc.id DESC" % (date_range['t0'], date_range['t1']))
+            if not request.user.is_superuser:
+                cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on (id_user = auth_user.id) WHERE adhoc_calc.id_user=%s AND t0 >= '%s' AND t1 <= '%s' ORDER BY adhoc_calc.id DESC" % (id_user_login, date_range['t0'], date_range['t1']))
+            else:
+                cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on ( id_user = auth_user.id ) WHERE t0 >= '%s' AND t1 <= '%s' ORDER BY adhoc_calc.id DESC" % (date_range['t0'], date_range['t1']))
             
             context_dict["jakservice_adhoc_output_report_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
             context_dict["jakservice_adhoc_output_log_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
@@ -674,7 +627,7 @@ def report_adhoc(request, template='report/report_adhoc.html'):
             messages.add_message(request, messages.ERROR, "Please input a valid date period.")
             
             return HttpResponseRedirect(reverse('report_adhoc'))
-    else:
+    else:      
         cursor.execute("SELECT count(id) FROM adhoc_calc")
         row = cursor.fetchone()
         
@@ -702,11 +655,15 @@ def report_adhoc(request, template='report/report_adhoc.html'):
         print 'DEBUG offset = %s' % offset
         print 'DEBUG records_left = %s' % records_left
         print 'DEBUG records_per_page = %s' % records_per_page
+        print 'DEBUG id_user_login = %s' % id_user_login
         
         
         #?? query and return adhoc_calc context
-        cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on (id_user = auth_user.id) ORDER BY adhoc_calc.id DESC LIMIT %s, %s" % (offset, records_per_page))
-        
+        if not request.user.is_superuser:
+            cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on (id_user = auth_user.id) WHERE adhoc_calc.id_user=%s ORDER BY adhoc_calc.id DESC LIMIT %s, %s" % (id_user_login, offset, records_per_page))
+        else:
+            cursor.execute("SELECT adhoc_calc.id, t0, t1, damage, loss, id_event, id_user, id_user_group, username FROM adhoc_calc left join auth_user on (id_user = auth_user.id) ORDER BY adhoc_calc.id DESC LIMIT %s, %s" % (offset, records_per_page))
+            
         resultset = dictfetchall(cursor)
         
         context_dict["page"] = page
@@ -2349,6 +2306,7 @@ def auto_report_json(request, event_date):
 
 	
 @login_required
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def report_impact_config(request, template='report/report_impact_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Impact Class Config'
@@ -2421,6 +2379,7 @@ def handle_impact_config_upload(file_upload):
         return True
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def report_assumptions_config(request, template='report/report_assumptions_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Assumptions Config'
@@ -2652,6 +2611,7 @@ def handle_assumptions_config_upload(file_upload, type):
         return True
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def report_aggregate_config(request, template='report/report_aggregate_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Aggregate Config'
@@ -2724,6 +2684,7 @@ def handle_aggregate_config_upload(file_upload):
         return True
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def report_boundary_config(request, template='report/report_boundary_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Boundary Config'
@@ -2805,6 +2766,7 @@ def handle_boundary_config_upload(file_upload, upload_path):
         return True
 
 @login_required
+@user_passes_test(lambda u: u.is_superuser)
 def report_exposure_config(request, template='report/report_exposure_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Exposure Config'

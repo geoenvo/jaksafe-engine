@@ -47,6 +47,7 @@
                     
                     <!-- {% url "report_flood" as report_flood_url %}<li {% if report_flood_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_flood" %}">{% trans "Flood Reports" %}</a></li> -->
                     {% if user.is_authenticated %}
+                    {% if request.user.is_superuser %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "Settings" %} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
@@ -58,6 +59,7 @@
                             <!--{% url "report_exposure_config" as report_exposure_config_url %}<li {% if request.get_full_path == report_exposure_config_url %}class="active"{% endif %}><a href="{% url "report_exposure_config" %}">{% trans "Exposure" %}</a></li>-->
                         </ul>
                     </li>
+                    {% endif %}
                     {% endif %}
                     {% get_flatpages as flatpages %}
                     {% if flatpages %}

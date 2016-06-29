@@ -360,3 +360,8 @@ def inserting_table_dala_result_auto(last_id_auto_event,psql_db_con,input_sql_fo
     cur = psql_db_con.cursor()
     cur.execute(sql_query_final)
     psql_db_con.commit()
+    
+    # update total at table auto_dala_result PostgreSQL
+    sql_dump = "UPDATE auto_dala_result SET total = damage+loss WHERE id_event=%s"%(last_id_auto_event)
+    cur.execute(sql_dump)
+    psql_db_con.commit()

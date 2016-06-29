@@ -8,7 +8,7 @@
 <script src="{{ STATIC_URL }}js/jquery.min.js"></script>
 <script src="{{ STATIC_URL }}js/highcharts-custom.js"></script>
     {% load chartit %}
-    {{ charts|load_charts:"chart-subsector-loss-container, chart-subsector-damage-container, chart-village-loss-container, chart-village-damage-container" }}
+    {{ charts|load_charts:"chart-subsector-container, chart-village-container" }}
 {% endblock %}
 
 {% block content %}
@@ -76,7 +76,7 @@
         <iframe style="border: none;" height="433" width="100%" src="http://193.183.98.127/maps/report_auto_summary/"></iframe>
         
         <br>
-        <br>
+        <br>        
         <table class="table1">
             <caption style='font-size: 18px'>{% trans "Flooded RW's" %}</caption>
             <thead>
@@ -114,13 +114,9 @@
             <b>Rp {{total_total|intcomma}}</b>
             <br>
             <br>
-            <div id='chart-subsector-loss-container'> Chart subsector will be rendered here </div>
+            <div id='chart-subsector-container'> Chart subsector will be rendered here </div>
             <br>
-            <div id='chart-subsector-damage-container'> Chart subsector will be rendered here </div>
-            <br>
-            <div id='chart-village-loss-container'> Chart village will be rendered here </div>
-            <br>
-            <div id='chart-village-damage-container'> Chart village will be rendered here </div>
+            <div id='chart-village-container'> Chart village will be rendered here </div>
         </h4>
     </div>
 </div>
