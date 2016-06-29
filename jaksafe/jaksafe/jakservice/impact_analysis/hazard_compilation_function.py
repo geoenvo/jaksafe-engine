@@ -362,6 +362,14 @@ def inserting_table_dala_result_auto(last_id_auto_event,psql_db_con,input_sql_fo
     psql_db_con.commit()
     
     # update total at table auto_dala_result PostgreSQL
-    sql_dump = "UPDATE auto_dala_result SET total = damage+loss WHERE id_event=%s"%(last_id_auto_event)
-    cur.execute(sql_dump)
+    sql_dump_total = "UPDATE auto_dala_result SET total = damage+loss WHERE id_event=%s"%(last_id_auto_event)
+    cur.execute(sql_dump_total)
+    psql_db_con.commit()
+    
+    sql_dump_damage = "UPDATE auto_dala_result SET total = damage WHERE asset='KENDARAAN' AND loss is null AND id_event=%s"%(last_id_auto_event)
+    cur.execute(sql_dump_damage)
+    psql_db_con.commit()
+    
+    sql_dump_loss = "UPDATE auto_dala_result SET total = loss WHERE asset='KENDARAAN' AND damage is null AND id_event=%s"%(last_id_auto_event)
+    cur.execute(sql_dump_loss)
     psql_db_con.commit()
