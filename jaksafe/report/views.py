@@ -2379,7 +2379,7 @@ def handle_impact_config_upload(file_upload):
         return True
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def report_assumptions_config(request, template='report/report_assumptions_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Assumptions Config'
@@ -2611,7 +2611,7 @@ def handle_assumptions_config_upload(file_upload, type):
         return True
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def report_aggregate_config(request, template='report/report_aggregate_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Aggregate Config'
@@ -2684,7 +2684,7 @@ def handle_aggregate_config_upload(file_upload):
         return True
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def report_boundary_config(request, template='report/report_boundary_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Boundary Config'
@@ -2766,7 +2766,7 @@ def handle_boundary_config_upload(file_upload, upload_path):
         return True
 
 @login_required
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser, login_url='/')
 def report_exposure_config(request, template='report/report_exposure_config.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Exposure Config'
