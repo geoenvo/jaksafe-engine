@@ -263,3 +263,5 @@ PYTHON_EXEC = os.path.join(PROJECT_ROOT, "../../bin/python")
 RECORDS_PER_PAGE = 50
 
 LOGIN_URL = '/report/login/'
+
+SESSION_COOKIE_NAME = 'jaksafecookie'
