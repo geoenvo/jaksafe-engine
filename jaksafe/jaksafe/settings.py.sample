@@ -57,6 +57,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
 )
 
+# Custom middleware for errors in debug mode
+MIDDLEWARE_CLASSES += (
+    'report.middleware.AdminOnly404Middleware',
+    'report.middleware.AdminOnly500Middleware',
+    'report.middleware.AdminOnly403Middleware',
+)
+
 ROOT_URLCONF = 'jaksafe.urls'
 
 WSGI_APPLICATION = 'jaksafe.wsgi.application'
