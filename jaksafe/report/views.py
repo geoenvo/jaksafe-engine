@@ -9,12 +9,12 @@ import os
 import csv
 import sys
 import subprocess
-from report.forms import ImpactClassForm, AggregateForm, AssumptionsDamageForm, AssumptionsLossForm, AssumptionsAggregateForm, AssumptionsInsuranceForm, AssumptionsInsurancePenetrationForm, BoundaryForm, BuildingExposureForm, RoadExposureForm, GlobalConfigForm
+from report.forms import ImpactClassForm, AggregateForm, AssumptionsDamageForm, AssumptionsLossForm, AssumptionsAggregateForm, AssumptionsInsuranceForm, AssumptionsInsurancePenetrationForm, BoundaryForm, BuildingExposureForm, RoadExposureForm, GlobalConfigForm, PredefAdhocForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily
+from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily, AdHocPredefCalc, AdhocPredefResult
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Sum, Avg
 from django.core import serializers
@@ -521,6 +521,916 @@ def report_auto(request, template='report/report_auto.html'):
     return render_to_response(template, RequestContext(request, context_dict))
 
 @login_required
+#kez
+def report_adhoc_predef(request, template='report/report_adhoc_predef.html'):	
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Ad Hoc DaLA Report'
+    context_dict["page_sub_title"] = 'Using Predefined Flood'
+	
+    if request.method == "POST":
+        # handle form submit
+        form = PredefAdhocForm(request.POST, request.FILES)
+        
+        # check if valid file type and size limit
+        if form.is_valid():
+            print 'DEBUG valid form'
+            print request.FILES['predef_file']
+            print request.POST['event_name']
+            event_name = request.POST['event_name']
+            id_user = request.user.id
+            id_group = None
+            # write uploaded file to impact class config dir
+            print settings.JAKSERVICE_ADHOC_PREDEF_IN_FILEPATH
+            temp_filename = str(id_user) + '_predef_temp.csv'
+            temp_tblname = 'adhoc_predef_temp_' + str(id_user)
+            filepath = os.path.join(settings.JAKSERVICE_ADHOC_PREDEF_IN_FILEPATH, temp_filename)
+            print filepath
+            file_uploaded = handle_predef_upload(request.FILES['predef_file'], filepath)
+            
+            if (file_uploaded == True):
+                #SAVE TO PGSQL TABLE
+                cursor_pg = connections['pgdala'].cursor()
+				#create table temp, file dicopy ke temp, setelah selesai proses, drop table
+                cursor_pg.execute("DROP TABLE IF EXISTS public.%s;CREATE TABLE IF NOT EXISTS public.%s(kota character varying,kecamatan character varying,kelurahan character varying,rw character varying,rt character varying,kelas character varying)" % (temp_tblname, temp_tblname))
+                f = open(filepath, 'r')
+                cursor_pg.copy_from(f, str(temp_tblname), sep=',')
+                f.close()
+                jakservice_script_dir = os.path.join(settings.PROJECT_ROOT, 'jakservice/')
+                
+                print jakservice_script_dir
+                
+                ## run_dalla_auto_script = jakservice_script_dir + 'run_dalla_auto.py'
+                run_dalla_adhoc_script = jakservice_script_dir + 'run_dalla_adhoc_predef.py'
+                
+                process = subprocess.Popen([settings.PYTHON_EXEC, run_dalla_adhoc_script, '-n', str(event_name), '-u', str(id_user), '-g', str(id_group), '-t', str(temp_tblname)])
+                # set flash message
+                #messages.add_message(request, messages.SUCCESS, 'Upload successful.')
+                messages.add_message(request, messages.SUCCESS, 'Adhoc calculation started. This may take a moment.')
+            else:
+                messages.add_message(request, messages.ERROR, 'Upload failed.')
+            
+            return HttpResponseRedirect(reverse('report_adhoc_predef'))
+        else:
+            print 'DEBUG invalid form'
+            
+            messages.add_message(request, messages.ERROR, 'Upload failed.')
+            
+            return HttpResponseRedirect(reverse('report_adhoc_predef'))
+    else:
+        form = PredefAdhocForm()
+        context_dict["form"] = form
+        
+    print 'DEBUG %s' % settings.JAKSERVICE_ADHOC_PREDEF_IN_FILEPATH
+	
+	# read and output sample predefine csv file content
+    if (os.path.isfile(settings.JAKSERVICE_ADHOC_PREDEF_CSV_FILEPATH) == True):
+        context_dict["predef_sample_download_url"] = settings.JAKSERVICE_ADHOC_PREDEF_SAMPLE_URL + settings.JAKSERVICE_ADHOC_PREDEF_CSV_FILENAME
+        
+        csvlist = []
+        try:
+            delimiter = get_delimiter(settings.JAKSERVICE_ADHOC_PREDEF_CSV_FILEPATH)
+            
+            with open(settings.JAKSERVICE_ADHOC_PREDEF_CSV_FILEPATH, 'rb') as csvfile:
+                csvreader = csv.DictReader(csvfile, delimiter=delimiter)
+                for row in csvreader:
+                    csvlist.append(row)
+            
+            context_dict["csvlist"] = csvlist
+        except IOError:
+            print 'DEBUG IO exception when reading sample predefine csv file'
+    
+    #get adhoc predef calc
+    records_per_page = settings.RECORDS_PER_PAGE
+    
+    cursor = connection.cursor()
+    cursor.execute("SELECT count(id_event) FROM adhoc_predef_calc")
+    row = cursor.fetchone()
+    records_total = row[0]
+    id_user_login = request.user.id        
+    page = 0
+    offset = 0
+    page_total = 0
+    records_left = 0
+        
+    p = request.GET.get('page', False)
+        
+    if p != False and p.isdigit():
+        print 'DEBUG p = %s' % p
+        page = int(p)
+        offset = records_per_page * (page)
+        
+        records_left = records_total - (records_per_page * (page + 1))
+        page_total = records_total / records_per_page
+        
+        if records_total % records_per_page == 0:
+            page_total = page_total - 1
+        
+    print 'DEBUG total records = %s' % records_total
+    print 'DEBUG page = %s' % page
+    print 'DEBUG page_total = %s' % page_total
+    print 'DEBUG offset = %s' % offset
+    print 'DEBUG records_left = %s' % records_left
+    print 'DEBUG records_per_page = %s' % records_per_page
+    print 'DEBUG id_user_login = %s' % id_user_login
+        
+        
+    #?? query and return adhoc_calc context
+    if not request.user.is_superuser:
+        cursor.execute("SELECT id_event, event_name, damage, loss, id_user, id_user_group, username FROM adhoc_predef_calc left join auth_user on (id_user = auth_user.id) WHERE adhoc_predef_calc.id_user=%s ORDER BY id_event.id DESC LIMIT %s, %s" % (id_user_login, offset, records_per_page))
+    else:
+        cursor.execute("SELECT id_event, event_name, damage, loss, id_user, id_user_group, username FROM adhoc_predef_calc left join auth_user on (id_user = auth_user.id) ORDER BY id_event DESC LIMIT %s, %s" % (offset, records_per_page))
+    
+    resultset = dictfetchall(cursor)
+        
+    context_dict["page"] = page
+    context_dict["page_total"] = page_total
+    context_dict["offset"] = offset
+    context_dict["records_total"] = records_total
+    context_dict["records_left"] = records_left
+    context_dict["records_per_page"] = records_per_page
+        
+    #context_dict["jakservice_adhoc_output_report_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
+    #context_dict["jakservice_adhoc_output_log_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
+    context_dict["adhoc_calc"] = resultset
+    #return render_to_response(template, RequestContext(request, context_dict))
+    return render_to_response(template, RequestContext(request, context_dict))
+
+#kez
+def report_adhoc_predef_web(request, id_event, template='report/report_adhoc_predef_web.html'):
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Predefined Ad Hoc DaLA Report'
+    context_dict["errors"] = []
+    context_dict["successes"] = []
+    context_dict["id_event"] = id_event
+    records_per_page = settings.RECORDS_PER_PAGE
+    context_dict["list_kota"] = ['JAKARTA UTARA', 'JAKARTA BARAT', 'JAKARTA PUSAT', 'JAKARTA TIMUR', 'JAKARTA SELATAN']
+    #context_dict["f_kota"] = 'JAKARTA TIMUR'
+
+    cursor = connection.cursor()
+    cursor_pg = connections['pgdala'].cursor()
+	
+    try:
+        event = AdHocPredefCalc.objects.using('default').get(id_event=int(id_event))
+    except AdHocCalc.DoesNotExist:
+        raise Http404("Event does not exist")
+    context_dict["event_name"] = event.event_name
+	
+    if request.method == "POST" and "filter" in request.POST and "kelurahan" in request.POST and request.POST.get('rw') != '' and request.POST.get('kelurahan') != '' :
+        f_kelurahan = request.POST.get('kelurahan')
+        f_kelurahan = f_kelurahan.upper()
+        f_kecamatan = request.POST.get('kecamatan')
+        f_kecamatan = f_kecamatan.upper()
+        f_kota = request.POST.get('kota')
+        context_dict["f_kota"] = f_kota
+        context_dict["f_kecamatan"] = f_kecamatan
+        context_dict["f_kelurahan"] = f_kelurahan       
+        f_rw = request.POST.get('rw')
+        context_dict["f_rw"] = f_rw
+        context_dict["is_filter"] = 'rw'
+        cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s and rw=%s group by sector order by sector',[id_event, f_kelurahan, f_rw])
+        sector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s and rw=%s group by sector, subsector order by sector, subsector',[id_event, f_kelurahan, f_rw])
+        subsector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, asset, kota, kecamatan, kelurahan, rw, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s and rw=%s group by sector, subsector, asset, kota, kecamatan, kelurahan, rw order by kota,kecamatan, kelurahan, rw, sector, subsector, asset',[id_event, f_kelurahan, f_rw])
+        asset_dala = dictfetchall(cursor_pg)
+        print asset_dala
+        context_dict["asset_dala_rw"] = asset_dala
+        context_dict["sector_dala"] = sector_dala
+        context_dict["subsector_dala"] = subsector_dala
+        total_damage = 0
+        total_loss = 0
+        for sdal in sector_dala:
+            #print sdal
+            if sdal['damage']!=None:
+                total_damage = total_damage + sdal['damage']
+            if sdal['loss']!=None:
+		        total_loss = total_loss + sdal['loss']
+        total_total = total_damage + total_loss
+        context_dict["total_loss"] = total_loss
+        context_dict["total_damage"]= total_damage
+        context_dict["total_total"]= total_total
+ #baru sampe sini
+        cursor_pg.execute('SELECT rw, sector, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s and rw=%s group by rw, sector order by rw, sector',[id_event, f_kelurahan, f_rw])
+        list_rw_sector = dictfetchall(cursor_pg)
+
+        context_dict["list_rw_sector"]= list_rw_sector
+
+        sectorpivotdatapool = PivotDataPool(
+            series=[
+		       {'options':{
+		           'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw),
+                   'categories':['sector']},
+                #  'legend_by':['sector']},
+                'terms':{
+                   'sector_loss':Sum('loss'),
+                   'sector_damage':Sum('damage')}}])
+        subsectorpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw),
+                   'categories':['subsector']},
+                'terms':{
+                   'subsector_loss':Sum('loss'),
+                   'subsector_damage':Sum('damage')}}])
+        dalpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw),
+                    'categories':['subsector'],
+                    'legend_by':['sector']},
+                'terms':{
+                    'dal_loss':Sum('loss'),
+                    'dal_damage':Sum('damage')}}])
+        dkotapvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw),
+				    'categories':['kelurahan','rw']},
+                'terms':{
+                    'kota_damage':Sum('damage'),
+                    'kota_loss':Sum('loss')}}])
+        infpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw).filter(sector="INFRASTRUKTUR"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        linspvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw).filter(sector="LINTAS SEKTOR"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])				
+        prodpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw).filter(sector="PRODUKTIF"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        sosppvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan, rw=f_rw).filter(sector="SOSIAL DAN PERUMAHAN"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+    elif request.method == "POST" and "filter" in request.POST and "kelurahan" in request.POST and request.POST.get('kelurahan') != '' :
+        f_kelurahan = request.POST.get('kelurahan')
+        f_kelurahan = f_kelurahan.upper()
+        f_kecamatan = request.POST.get('kecamatan')
+        f_kecamatan = f_kecamatan.upper()
+        f_kota = request.POST.get('kota')
+        context_dict["f_kota"] = f_kota
+        context_dict["f_kecamatan"] = f_kecamatan
+        context_dict["f_kelurahan"] = f_kelurahan
+        context_dict["is_filter"] = 'kelurahan'
+        cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s group by sector order by sector',[id_event, f_kelurahan])
+        sector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s group by sector, subsector order by sector, subsector',[id_event, f_kelurahan])
+        subsector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, asset, kota, kecamatan, kelurahan, rw, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s group by sector, subsector, asset, kota, kecamatan, kelurahan, rw order by kota,kecamatan, kelurahan, rw, sector, subsector, asset',[id_event, f_kelurahan])
+        asset_dala = dictfetchall(cursor_pg)
+        context_dict["asset_dala_kelurahan"] = asset_dala
+        context_dict["sector_dala"] = sector_dala
+        context_dict["subsector_dala"] = subsector_dala
+        total_damage = 0
+        total_loss = 0
+        for sdal in sector_dala:
+            #print sdal
+            if sdal['damage']!=None:
+                total_damage = total_damage + sdal['damage']
+            if sdal['loss']!=None:
+		        total_loss = total_loss + sdal['loss']
+        total_total = total_damage + total_loss
+        context_dict["total_loss"] = total_loss
+        context_dict["total_damage"]= total_damage
+        context_dict["total_total"]= total_total
+ 
+        cursor_pg.execute('SELECT rw, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s group by rw order by rw',[id_event, f_kelurahan])
+        list_rw = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT rw, sector, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kelurahan=%s group by rw, sector order by rw, sector',[id_event, f_kelurahan])
+        list_rw_sector = dictfetchall(cursor_pg)
+
+        context_dict["list_rw"] = list_rw
+        context_dict["list_rw_sector"]= list_rw_sector
+
+        sectorpivotdatapool = PivotDataPool(
+            series=[
+		       {'options':{
+		           'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan),
+                   'categories':['sector']},
+                #  'legend_by':['sector']},
+                'terms':{
+                   'sector_loss':Sum('loss'),
+                   'sector_damage':Sum('damage')}}])
+        subsectorpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan),
+                   'categories':['subsector']},
+                'terms':{
+                   'subsector_loss':Sum('loss'),
+                   'subsector_damage':Sum('damage')}}])
+        dalpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan),
+                    'categories':['subsector'],
+                    'legend_by':['sector']},
+                'terms':{
+                    'dal_loss':Sum('loss'),
+                    'dal_damage':Sum('damage')}}])
+        dkotapvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan),
+				    'categories':['kelurahan','rw']},
+                'terms':{
+                    'kota_damage':Sum('damage'),
+                    'kota_loss':Sum('loss')}}])
+        infpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan).filter(sector="INFRASTRUKTUR"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        linspvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan).filter(sector="LINTAS SEKTOR"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])				
+        prodpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan).filter(sector="PRODUKTIF"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        sosppvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kelurahan=f_kelurahan).filter(sector="SOSIAL DAN PERUMAHAN"),
+                    'categories':['kelurahan','rw'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+    elif request.method == "POST" and "filter" in request.POST and "kecamatan" in request.POST and request.POST.get('kecamatan') != '':
+        f_kecamatan = request.POST.get('kecamatan')
+        f_kecamatan = f_kecamatan.upper()
+        f_kota = request.POST.get('kota')
+        context_dict["f_kota"] = f_kota
+        context_dict["f_kecamatan"] = f_kecamatan
+        context_dict["is_filter"] = 'kecamatan'
+        cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kecamatan=%s group by sector order by sector',[id_event, f_kecamatan])
+        sector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kecamatan=%s group by sector, subsector order by sector, subsector',[id_event, f_kecamatan])
+        subsector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, asset, kota, kecamatan, kelurahan, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kecamatan=%s group by sector, subsector, asset, kota, kecamatan, kelurahan order by kota,kecamatan,kelurahan, sector, subsector, asset',[id_event, f_kecamatan])
+        asset_dala = dictfetchall(cursor_pg)
+        context_dict["asset_dala_kecamatan"] = asset_dala
+        context_dict["sector_dala"] = sector_dala
+        context_dict["subsector_dala"] = subsector_dala
+        total_damage = 0
+        total_loss = 0
+        for sdal in sector_dala:
+            #print sdal
+            if sdal['damage']!=None:
+                total_damage = total_damage + sdal['damage']
+            if sdal['loss']!=None:
+		        total_loss = total_loss + sdal['loss']
+        total_total = total_damage + total_loss
+        context_dict["total_loss"] = total_loss
+        context_dict["total_damage"]= total_damage
+        context_dict["total_total"]= total_total
+        cursor_pg.execute('SELECT kelurahan, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kecamatan=%s group by kelurahan order by kelurahan',[id_event, f_kecamatan])
+        list_kecamatan = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT kelurahan, sector, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kecamatan=%s group by kelurahan, sector order by kelurahan, sector',[id_event, f_kecamatan])
+        list_kecamatan_sector = dictfetchall(cursor_pg)
+        context_dict["list_rw"] = list_kecamatan
+        context_dict["list_rw_sector"]= list_kecamatan_sector
+        sectorpivotdatapool = PivotDataPool(
+            series=[
+		       {'options':{
+		           'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan),
+                   'categories':['sector']},
+                #  'legend_by':['sector']},
+                'terms':{
+                   'sector_loss':Sum('loss'),
+                   'sector_damage':Sum('damage')}}])
+        subsectorpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan),
+                   'categories':['subsector']},
+                'terms':{
+                   'subsector_loss':Sum('loss'),
+                   'subsector_damage':Sum('damage')}}])
+        dalpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan),
+                    'categories':['subsector'],
+                    'legend_by':['sector']},
+                'terms':{
+                    'dal_loss':Sum('loss'),
+                    'dal_damage':Sum('damage')}}])
+        dkotapvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan),
+				    'categories':['kecamatan','kelurahan']},
+                'terms':{
+                    'kota_damage':Sum('damage'),
+                    'kota_loss':Sum('loss')}}])
+        infpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan).filter(sector="INFRASTRUKTUR"),
+                    'categories':['kecamatan','kelurahan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        linspvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan).filter(sector="LINTAS SEKTOR"),
+                    'categories':['kecamatan','kelurahan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])				
+        prodpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan).filter(sector="PRODUKTIF"),
+                    'categories':['kecamatan','kelurahan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        sosppvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kecamatan=f_kecamatan).filter(sector="SOSIAL DAN PERUMAHAN"),
+                    'categories':['kecamatan','kelurahan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])	      	
+    elif request.method == "POST" and "filter" in request.POST and "kota" in request.POST: #filter kota
+        # handle form submit
+        f_kota = request.POST.get('kota')
+        context_dict["f_kota"] = f_kota
+        context_dict["is_filter"] = 'kota'
+        cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kota=%s group by sector order by sector',[id_event, f_kota])
+        sector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s and kota=%s group by sector, subsector order by sector, subsector',[id_event, f_kota])
+        subsector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, asset, kota, kecamatan, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kota=%s group by sector, subsector, asset, kota, kecamatan order by kota,kecamatan, sector, subsector, asset',[id_event, f_kota])
+        asset_dala = dictfetchall(cursor_pg)
+        context_dict["asset_dala_kota"] = asset_dala
+        context_dict["sector_dala"] = sector_dala
+        context_dict["subsector_dala"] = subsector_dala
+        total_damage = 0
+        total_loss = 0
+        for sdal in sector_dala:
+            #print sdal
+            if sdal['damage']!=None:
+                total_damage = total_damage + sdal['damage']
+            if sdal['loss']!=None:
+		        total_loss = total_loss + sdal['loss']
+        total_total = total_damage + total_loss
+        context_dict["total_loss"] = total_loss
+        context_dict["total_damage"]= total_damage
+        context_dict["total_total"]= total_total
+        cursor_pg.execute('SELECT kecamatan, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kota=%s group by kecamatan order by kecamatan',[id_event, f_kota])
+        list_kecamatan = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT kecamatan, sector, coalesce(sum(damage),0) damage, coalesce(sum(loss),0) loss, (coalesce(sum(damage),0)+coalesce(sum(loss),0)) total from adhoc_predef_dala_result where id_event=%s and kota=%s group by kecamatan, sector order by kecamatan, sector',[id_event, f_kota])
+        list_kecamatan_sector = dictfetchall(cursor_pg)
+        context_dict["list_rw"] = list_kecamatan
+        context_dict["list_rw_sector"]= list_kecamatan_sector
+        sectorpivotdatapool = PivotDataPool(
+            series=[
+		       {'options':{
+		           'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota),
+                   'categories':['sector']},
+                #  'legend_by':['sector']},
+                'terms':{
+                   'sector_loss':Sum('loss'),
+                   'sector_damage':Sum('damage')}}])
+        subsectorpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota),
+                   'categories':['subsector']},
+                'terms':{
+                   'subsector_loss':Sum('loss'),
+                   'subsector_damage':Sum('damage')}}])
+        dalpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota),
+                    'categories':['subsector'],
+                    'legend_by':['sector']},
+                'terms':{
+                    'dal_loss':Sum('loss'),
+                    'dal_damage':Sum('damage')}}])
+        dkotapvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota),
+				    'categories':['kota','kecamatan']},
+                'terms':{
+                    'kota_damage':Sum('damage'),
+                    'kota_loss':Sum('loss')}}])
+        infpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota).filter(sector="INFRASTRUKTUR"),
+                    'categories':['kota','kecamatan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        linspvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota).filter(sector="LINTAS SEKTOR"),
+                    'categories':['kota','kecamatan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])				
+        prodpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota).filter(sector="PRODUKTIF"),
+                    'categories':['kota','kecamatan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        sosppvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event), kota=f_kota).filter(sector="SOSIAL DAN PERUMAHAN"),
+                    'categories':['kota','kecamatan'],
+                    'legend_by':['asset']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])					
+    else:	#default	
+        cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s group by sector order by sector',[id_event])
+        sector_dala = dictfetchall(cursor_pg)
+        cursor_pg.execute('SELECT sector, subsector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from adhoc_predef_dala_result where id_event=%s group by sector, subsector order by sector, subsector',[id_event])
+        subsector_dala = dictfetchall(cursor_pg)
+
+        cursor_pg.execute('select sector, subsector, asset, sum(CASE WHEN kota=\'JAKARTA UTARA\' THEN damage ELSE 0 END )/1000000 as jakarta_utara, sum(CASE WHEN kota=\'JAKARTA BARAT\' THEN damage ELSE 0 END /1000000) as jakarta_barat, sum(CASE WHEN kota=\'JAKARTA PUSAT\' THEN damage ELSE 0 END )/1000000 as jakarta_pusat, sum(CASE WHEN kota=\'JAKARTA TIMUR\' THEN damage ELSE 0 END )/1000000 as jakarta_timur, sum(CASE WHEN kota=\'JAKARTA SELATAN\' THEN damage ELSE 0 END )/1000000 as jakarta_selatan, sum(damage)/1000000 as total from adhoc_predef_dala_result where id_event = %s group by sector, subsector, asset order by sector, subsector, asset',[id_event])
+        kota_d = dictfetchall(cursor_pg)
+
+        cursor_pg.execute('select sector, subsector, asset, sum(CASE WHEN kota=\'JAKARTA UTARA\' THEN loss ELSE 0 END )/1000000 as jakarta_utara, sum(CASE WHEN kota=\'JAKARTA BARAT\' THEN loss ELSE 0 END /1000000) as jakarta_barat, sum(CASE WHEN kota=\'JAKARTA PUSAT\' THEN loss ELSE 0 END )/1000000 as jakarta_pusat, sum(CASE WHEN kota=\'JAKARTA TIMUR\' THEN loss ELSE 0 END )/1000000 as jakarta_timur, sum(CASE WHEN kota=\'JAKARTA SELATAN\' THEN loss ELSE 0 END )/1000000 as jakarta_selatan, sum(loss)/1000000 as total from adhoc_predef_dala_result where id_event = %s group by sector, subsector, asset order by sector, subsector, asset',[id_event])
+        kota_l = dictfetchall(cursor_pg)
+	
+        context_dict["sector_dala"] = sector_dala
+        context_dict["subsector_dala"] = subsector_dala
+        context_dict["kota_d"] = kota_d
+        context_dict["kota_l"] = kota_l
+	
+        total_damage = 0
+        total_loss = 0
+        for sdal in sector_dala:
+            #print sdal
+            if sdal['damage']!=None:
+                total_damage = total_damage + sdal['damage']
+            if sdal['loss']!=None:
+		        total_loss = total_loss + sdal['loss']
+        total_total = total_damage + total_loss	
+        total_d_jakut =0
+        total_d_jakbar =0
+        total_d_jakpus =0
+        total_d_jaktim =0
+        total_d_jaksel =0
+        for kd in kota_d:
+            #print sdal
+            if kd['jakarta_utara']!=None:
+                total_d_jakut = total_d_jakut + kd['jakarta_utara']
+            if kd['jakarta_barat']!=None:
+		        total_d_jakbar = total_d_jakbar + kd['jakarta_barat']
+            if kd['jakarta_pusat']!=None:
+                total_d_jakpus = total_d_jakpus + kd['jakarta_pusat']
+            if kd['jakarta_timur']!=None:
+		        total_d_jaktim = total_d_jaktim + kd['jakarta_timur']
+            if kd['jakarta_selatan']!=None:
+		        total_d_jaksel = total_d_jaksel + kd['jakarta_selatan']
+        total_d_jakarta = total_d_jakut+total_d_jakbar+total_d_jakpus+total_d_jaktim+total_d_jaksel
+	
+        total_l_jakut =0
+        total_l_jakbar =0
+        total_l_jakpus =0
+        total_l_jaktim =0
+        total_l_jaksel =0
+        for kl in kota_l:
+            #print sdal
+            if kl['jakarta_utara']!=None:
+                total_l_jakut = total_l_jakut + kl['jakarta_utara']
+            if kl['jakarta_barat']!=None:
+		        total_l_jakbar = total_l_jakbar + kl['jakarta_barat']
+            if kl['jakarta_pusat']!=None:
+                total_l_jakpus = total_l_jakpus + kl['jakarta_pusat']
+            if kl['jakarta_timur']!=None:
+		        total_l_jaktim = total_l_jaktim + kl['jakarta_timur']
+            if kl['jakarta_selatan']!=None:
+		        total_l_jaksel = total_l_jaksel + kl['jakarta_selatan']
+        total_l_jakarta = total_l_jakut+total_l_jakbar+total_l_jakpus+total_l_jaktim+total_l_jaksel
+	
+        context_dict["total_loss"] = total_loss
+        context_dict["total_damage"]= total_damage
+        context_dict["total_total"]= total_total
+        context_dict["total_d_jakut"]= total_d_jakut
+        context_dict["total_d_jakbar"]= total_d_jakbar
+        context_dict["total_d_jakpus"]= total_d_jakpus
+        context_dict["total_d_jaktim"]= total_d_jaktim
+        context_dict["total_d_jaksel"]= total_d_jaksel
+        context_dict["total_d_jakarta"]= total_d_jakarta
+        context_dict["total_l_jakut"]= total_l_jakut
+        context_dict["total_l_jakbar"]= total_l_jakbar
+        context_dict["total_l_jakpus"]= total_l_jakpus
+        context_dict["total_l_jaktim"]= total_l_jaktim
+        context_dict["total_l_jaksel"]= total_l_jaksel
+        context_dict["total_l_jakarta"]= total_l_jakarta
+    
+        sectorpivotdatapool = PivotDataPool(
+           series=[
+		       {'options':{
+		           'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)),
+                   'categories':['sector']},
+                #  'legend_by':['sector']},
+                'terms':{
+                   'sector_loss':Sum('loss'),
+                   'sector_damage':Sum('damage')}}])
+        subsectorpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)),
+                   'categories':['subsector']},
+                'terms':{
+                   'subsector_loss':Sum('loss'),
+                   'subsector_damage':Sum('damage')}}])
+        dalpivotdatapool = PivotDataPool(
+            series=[
+               {'options':{
+                   'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)),
+                   'categories':['subsector'],
+                   'legend_by':['sector']},
+                'terms':{
+                   'dal_loss':Sum('loss'),
+                   'dal_damage':Sum('damage')}}])
+        dkotapvtdtpool = PivotDataPool(
+            series=[
+                {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)),
+				    'categories':['kota']},
+                'terms':{
+                    'kota_damage':Sum('damage'),
+                    'kota_loss':Sum('loss')}}])				   
+        infpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)).filter(sector="INFRASTRUKTUR"),
+                    'categories':['kota'],
+                    'legend_by':['subsector']},
+                'terms':{
+                   'asset_damage':Sum('damage'),
+				   'asset_loss':Sum('loss')}}])
+        linspvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)).filter(sector="LINTAS SEKTOR"),
+                    'categories':['kota'],
+                    'legend_by':['subsector']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])				
+        prodpvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)).filter(sector="PRODUKTIF"),
+                    'categories':['kota'],
+                    'legend_by':['subsector']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+        sosppvtdtpool = PivotDataPool(
+            series=[
+               {'options':{
+                    'source':AdhocPredefResult.objects.using('pgdala').filter(id_event=int(id_event)).filter(sector="SOSIAL DAN PERUMAHAN"),
+                    'categories':['kota'],
+                    'legend_by':['subsector']},
+                'terms':{
+                    'asset_damage':Sum('damage'),
+				    'asset_loss':Sum('loss')}}])
+    			   
+    sectorpivotchrt = PivotChart(
+        datasource = sectorpivotdatapool,
+        series_options = [
+		   {'options':{
+            'type':'column',
+            'stacking':True,
+            'xAxis':0,
+            'yAxis':0},
+           'terms':['sector_loss', 'sector_damage']}],
+		chart_options = {
+           'title': {
+               'text': 'Kerusakan dan Kerugian per Sektor'},
+           'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
+		})			
+    
+    subsectorpivotchrt = PivotChart(
+        datasource =subsectorpivotdatapool,
+        series_options = [
+            {'options':{
+               'type':'column',
+               'stacking':True,
+               'xAxis':0,
+               'yAxis':0},
+             'terms':['subsector_loss', 'subsector_damage']}],
+		chart_options = {
+           'title': {
+               'text': 'Kerusakan dan Kerugian per Subsektor'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
+        })	
+			
+    damagepiechart = PivotChart(
+        datasource = dalpivotdatapool,
+        series_options = [
+           {'options':{
+                'type': 'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['dal_damage']}],
+        chart_options = {
+           'title':{'text': 'Kerusakan per Subsektor'},
+           'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    losspiechart = PivotChart(
+        datasource = dalpivotdatapool,
+        series_options = [
+           {'options':{
+                'type': 'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['dal_loss']}],
+        chart_options = {
+           'title':{'text': 'Kerugian per Subsektor'},
+           'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+          
+    dkotapvtchrt = 	PivotChart(
+        datasource = dkotapvtdtpool,
+        series_options =[
+            {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['kota_damage','kota_loss']}],
+        chart_options ={
+            'title': {
+                'text': 'Kerusakan dan Kerugian per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']
+        })			
+				
+    infdmgassetchrt = PivotChart(
+        datasource = infpvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_damage']}],
+        chart_options = {
+            'title':{'text': 'Kerusakan Sektor Infrastruktur per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    inflossassetchrt = PivotChart(
+        datasource = infpvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_loss']}],
+        chart_options = {
+            'title':{'text': 'Kerugian Sektor Infrastruktur per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    linsdmgassetchrt = PivotChart(
+        datasource = linspvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_damage']}],
+        chart_options = {
+            'title':{'text': 'Kerusakan Sektor Lintas Sektor per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    linslossassetchrt = PivotChart(
+        datasource = linspvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_loss']}],
+        chart_options = {
+            'title':{'text': 'Kerugian Sektor Lintas Sektor per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    proddmgassetchrt = PivotChart(
+        datasource = prodpvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_damage']}],
+        chart_options = {
+            'title':{'text': 'Kerusakan Sektor Produktif per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    prodlossassetchrt = PivotChart(
+        datasource = prodpvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_loss']}],
+        chart_options = {
+            'title':{'text': 'Kerugian Sektor Produktif per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    sospdmgassetchrt = PivotChart(
+        datasource = sosppvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_damage']}],
+        chart_options = {
+            'title':{'text': 'Kerusakan Sektor Sosial dan Perumahan per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+
+    sosplossassetchrt = PivotChart(
+        datasource = sosppvtdtpool,
+        series_options = [
+           {'options':{
+                'type':'column',
+                'stacking':True,
+                'xAxis':0,
+                'yAxis':0},
+            'terms':['asset_loss']}],
+        chart_options = {
+            'title':{'text': 'Kerugian Sektor Sosial dan Perumahan per Wilayah'},
+            'colors': ['#FF8900', '#FFB800', '#6C6968', '#02334B', '#FFA339', '#FFC52D', '#999594', '#044260', '#C56A00', '#F4B100', '#363433', '#012231', '#9B5300', '#8D8900', '#161211', '#001018', '#FFB&63', '#FFD25C', '#CAC5C4', '#125373']})
+			
+    context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt, damagepiechart, losspiechart, dkotapvtchrt,infdmgassetchrt, inflossassetchrt,linsdmgassetchrt, linslossassetchrt,proddmgassetchrt, prodlossassetchrt,sospdmgassetchrt, sosplossassetchrt]
+    return render_to_response(template, RequestContext(request, context_dict))
+		
+@login_required
 def report_adhoc(request, template='report/report_adhoc.html'):
     context_dict = {}
     context_dict["page_title"] = 'JakSAFE Ad Hoc DaLA Report'
@@ -609,9 +1519,8 @@ def report_adhoc(request, template='report/report_adhoc.html'):
                 
                 #?? execute subproc adhoc_dala_script(t0, t1)
                 ## subprocess.Popen(['/home/user/.virtualenvs/jakservice/bin/python', '/home/user/.virtualenvs/jakservice/src1/save_fl_flood_dev.py', '>>', '/home/user/.virtualenvs/jakservice/src1/output/save_fl_flood_dev.log'])
-                
+                print settings.PYTHON_EXEC
                 process = subprocess.Popen([settings.PYTHON_EXEC, run_dalla_adhoc_script, '-s', date_range['s'], '-e', date_range['e'], '-u', str(id_user), '-g', str(id_group)])
-				
 				#jika tidak bisa return, maka alternatifnya adalah mengirimkan id_user ketika akan submit run_dala_adhoc.py'
                 messages.add_message(request, messages.SUCCESS, 'Adhoc calculation started for date period [%s - %s]. This may take a moment.' % (date_range['t0'], date_range['t1']))
             
@@ -2370,6 +3279,19 @@ def handle_impact_config_upload(file_upload):
     # overwrite existing impact class csv file
     try:
         with open(settings.JAKSERVICE_IMPACT_CLASS_FILEPATH, 'wb+') as destination:
+            for chunk in file_upload.chunks():
+                destination.write(chunk)
+    except IOError:
+        print 'DEBUG IO exception when writing file upload'
+        return False
+    else:
+        return True
+
+def handle_predef_upload(file_upload, filepath):
+    # overwrite existing impact class csv file
+    #print file_upload
+    try:
+        with open(filepath, 'wb+') as destination:
             for chunk in file_upload.chunks():
                 destination.write(chunk)
     except IOError:

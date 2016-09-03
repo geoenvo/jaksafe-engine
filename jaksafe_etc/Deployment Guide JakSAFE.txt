@@ -231,3 +231,13 @@ Add sql script to MySQL database for trigger
     # Definition: <copy the "auto_calc trigger.sql" code from ../jaksafe-engine/jaksafe_etc/auto_calc trigger.sql to here>
     # Definer: jaksafe@localhost
 > Click Go
+
+
+===========================================================================
+KEZ
+Predefine HAZARD
+===========================================================================
+- create new postgres table 
+  run sql script in /jaksafe_etc/predef_pgsql.sql 
+- create new mysql table
+  run sql script in /jaksafe_etc/predef_mysql.sql

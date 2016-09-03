@@ -155,6 +155,17 @@ def dump_to_csv_table_adhoc_dala_result(id_adhoc_event,psql_db_con,base_folder_o
     df_adhoc_dala_result = psql.read_sql(sql_query,psql_db_con)
     df_adhoc_dala_result.to_csv(adhoc_dala_result_filename,index=False)
 
+def dump_to_csv_table_adhoc_predef_dala_result(id_adhoc_event,psql_db_con,base_folder_output,id_user):
+
+    output_directory = base_folder_output + '/report/' + str(id_user) + '_' + str(id_adhoc_event)
+    this_filename = str(id_user) + '_' + str(id_adhoc_event) + '_' + 'adhoc_predef_dala_result.csv'    
+    if not os.path.exists(output_directory):
+        os.makedirs(output_directory)
+    adhoc_dala_result_filename = output_directory + '/' + this_filename
+    
+    sql_query = "SELECT * FROM adhoc_predef_dala_result WHERE id_event = %s order by sector,subsector,asset"%(id_adhoc_event)
+    df_adhoc_dala_result = psql.read_sql(sql_query,psql_db_con)
+    df_adhoc_dala_result.to_csv(adhoc_dala_result_filename,index=False)
 
 def mapping_compiled_data_to_hazard_class(df_compiled,hazard_class_file):
     df_config_hazard = pd.read_csv(hazard_class_file)
@@ -372,4 +383,19 @@ def inserting_table_dala_result_auto(last_id_auto_event,psql_db_con,input_sql_fo
     
     sql_dump_loss = "UPDATE auto_dala_result SET total = loss WHERE asset='KENDARAAN' AND damage is null AND id_event=%s"%(last_id_auto_event)
     cur.execute(sql_dump_loss)
+    psql_db_con.commit()
+
+def inserting_table_dala_predef_result(id_event,psql_db_con,input_sql_folder):
+    sql_file = input_sql_folder + '/' + 'sql_query_dala_aset_adhoc_predef.txt'
+    #sql_query = open(sql_file, 'r').read().replace('\n',' ')
+    sql_query = open(sql_file, 'r').read()
+
+    list_data = []
+    for i in range(57):
+        list_data.append(id_event)    
+    data = tuple(list_data)
+
+    sql_query_final = sql_query%data
+    cur = psql_db_con.cursor()
+    cur.execute(sql_query_final)
     psql_db_con.commit()

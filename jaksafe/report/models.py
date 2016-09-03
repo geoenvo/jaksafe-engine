@@ -33,6 +33,17 @@ class AdHocCalc(models.Model):
     
     class Meta:
         db_table = 'adhoc_calc' 
+
+class AdHocPredefCalc(models.Model):
+    id_event = UnsignedAutoField(primary_key=True)
+    id_user = models.IntegerField(null=True)
+    id_user_group = models.IntegerField(null=True)
+    event_name = models.CharField(max_length=100)
+    damage = models.DecimalField(max_digits=17, decimal_places=2, null=True)
+    loss = models.DecimalField(max_digits=17, decimal_places=2, null=True)
+    
+    class Meta:
+        db_table = 'adhoc_predef_calc'
         
 class AdhocResult(models.Model):
     id_event = models.IntegerField()
@@ -50,6 +61,22 @@ class AdhocResult(models.Model):
     class Meta:
         db_table = 'adhoc_dala_result'
 
+class AdhocPredefResult(models.Model):
+    id_event = models.IntegerField()
+    sector = models.CharField(max_length=200)
+    subsector = models.CharField(max_length=200)
+    asset = models.CharField(max_length=200)
+    rw = models.CharField(max_length=3)
+    kelurahan = models.CharField(max_length=50)
+    kecamatan = models.CharField(max_length=50)
+    kota = models.CharField(max_length=50)
+    kelas = models.CharField(max_length=50)
+    damage = models.DecimalField(max_digits=17, decimal_places=2)
+    loss = models.DecimalField(max_digits=17, decimal_places=2)
+
+    class Meta:
+        db_table = 'adhoc_predef_dala_result'
+		
 class AutoCalc(models.Model):
     id = UnsignedAutoField(primary_key=True)
     id_event = models.PositiveIntegerField(null=True)

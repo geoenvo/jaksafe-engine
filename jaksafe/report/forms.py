@@ -3,6 +3,17 @@ from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 
+class PredefAdhocForm(forms.Form):
+    predef_file = forms.FileField(
+        label="",
+        help_text="Must be a .csv file.",
+    )
+    event_name = forms.CharField(
+        label = "Event Name",
+        max_length = 100
+    )
+    
+
 class ImpactClassForm(forms.Form):
     impact_class_file = forms.FileField(
         label="",

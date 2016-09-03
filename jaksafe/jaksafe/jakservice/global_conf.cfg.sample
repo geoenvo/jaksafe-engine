@@ -8,6 +8,7 @@ table_name_event = fl_event
 table_raw_name_event = fl_event_raw
 table_name_autocalc = auto_calc
 table_name_adhoc_calc = adhoc_calc
+table_name_adhoc_predef_calc = adhoc_predef_calc
 
 [psql_database_configuration]
 ip_address = localhost

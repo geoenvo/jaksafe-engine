@@ -35,7 +35,17 @@
                     {% url "home" as home_url %}<li {% if home_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "home" %}">{% trans "Home" %}</a></li>
                     {% url "report_daily" as report_daily_url %}<li {% if report_daily_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_daily" %}">{% trans "Report" %}</a></li>
                     {% if user.is_authenticated %}
-                    {% url "report_adhoc" as report_adhoc_url %}<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc" %}</a></li>
+                    {% url "report_adhoc" as report_adhoc_url %}
+					<!--<li {% if report_adhoc_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "report_adhoc" %}">{% trans "Ad Hoc" %}</a></li>-->
+					<li class="dropdown" >
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans "AdHoc Report" %} <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                       
+                            {% url "report_adhoc" as report_adhoc_url %}<li {% if request.get_full_path == report_adhoc_url %} class="active" {% endif %}> <a href="{% url "report_adhoc" %}"> {% trans "Adhoc by Date" %}</a></li>
+							{% url "report_adhoc_predef" as report_adhoc_predef_url %}<li {% if request.get_full_path == report_adhoc_predef_url %}class="active"{% endif %}><a href="{% url "report_adhoc_predef" %}">{% trans "Adhoc by Predefine Hazard" %}</a></li>
+                            
+                        </ul>
+                    </li>
                     {% endif %}
                     {% url "about" as about_url %}<li {% if about_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "about" %}">{% trans "About" %}</a></li>
                     <!-- {% url "map" as map_url %}<li {% if map_url in request.get_full_path %}class="active"{% endif %}><a href="{% url "map" %}">{% trans "Map" %}</a></li> -->
