@@ -1,14 +1,18 @@
 from django.db import models
 from django.db.models.fields import AutoField
 from django.db.backends.mysql.creation import DatabaseCreation
+from django.db.backends.base.base import BaseDatabaseWrapper as DatabaseWrapper
+from django.contrib.gis.db import models
 
 # Create your models here.
 
 class UnsignedAutoField(AutoField):
     def get_internal_type(self):
         return 'UnsignedAutoField'
-        
-DatabaseCreation.data_types['UnsignedAutoField'] = 'integer UNSIGNED AUTO_INCREMENT'
+
+#data_type was moved to DatabaseWrapper        
+#DatabaseCreation.data_types['UnsignedAutoField'] = 'integer UNSIGNED AUTO_INCREMENT'
+DatabaseWrapper.data_types['UnsignedAutoField'] = 'integer UNSIGNED AUTO_INCREMENT'
 
 class AutoCalcDaily(models.Model):
     id = UnsignedAutoField(primary_key=True)
@@ -152,3 +156,19 @@ class FloodEventRaw(models.Model):
     
     class Meta:
         db_table = 'fl_event_raw'
+
+class AdhocPredefHazard(models.Model):
+    id = UnsignedAutoField(primary_key=True)
+    id_event = models.PositiveIntegerField()
+    id_unit = models.PositiveIntegerField()
+    kota = models.CharField(max_length=50)
+    kecamatan = models.CharField(max_length=50)
+    kelurahan = models.CharField(max_length=50)
+    rt = models.CharField(max_length=3, null=True)
+    rw = models.CharField(max_length=50)
+    kelas = models.CharField(max_length=2)
+    geom = models.MultiPolygonField()
+    damage = models.DecimalField(max_digits=17, decimal_places=2)
+    loss = models.DecimalField(max_digits=17, decimal_places=2)
+    objects = models.GeoManager()
+

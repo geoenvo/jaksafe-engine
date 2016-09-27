@@ -14,11 +14,13 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily, AdHocPredefCalc, AdhocPredefResult
+from models import AdHocCalc, AdhocResult, AutoCalc, AutoResult, AutoResultJSON, AutoCalcDaily, AdHocPredefCalc, AdhocPredefResult, AdhocPredefHazard
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from django.db.models import Sum, Avg
 from django.core import serializers
+from django.core.serializers import serialize
 import simplejson
+import requests
 import collections
 from django.utils.translation import gettext_lazy as _
 
@@ -77,13 +79,13 @@ def home(request, template='report/home.html'):
     context_dict["errors"] = []
     context_dict["successes"] = []
 
-    report_auto_daily = AutoCalcDaily.objects.all().order_by('-id')[:1]
+    report_auto_daily = AutoCalcDaily.objects.using('mysql').all().order_by('-id')[:1]
     if report_auto_daily and report_auto_daily[0]:
         id_event = report_auto_daily[0].id_event
         context_dict["start_date"] = report_auto_daily[0].from_date
         context_dict["end_date"] = report_auto_daily[0].to_date
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     cursor_pg = connections['pgdala'].cursor()
         
     cursor_pg.execute('SELECT sector, sum(damage) damage, sum(loss) loss, (sum(loss)+sum(damage)) total from auto_dala_result where id_event=%s group by sector order by sector',[id_event])
@@ -283,7 +285,7 @@ def report_flood(request, template='report/report_flood.html'):
     
     records_per_page = settings.RECORDS_PER_PAGE
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     
     if request.method == "POST":
         # handle form submit
@@ -360,7 +362,7 @@ def report_daily(request, template='report/report_daily.html'):
     
     records_per_page = settings.RECORDS_PER_PAGE
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     
     if request.method == "POST":
         # handle form submit
@@ -435,7 +437,7 @@ def report_daily(request, template='report/report_daily.html'):
     return render_to_response(template, RequestContext(request, context_dict))
 
 def redirect_report_auto_web(request,id):
-    autocalcdaily = AutoCalcDaily.objects.get(id=id)
+    autocalcdaily = AutoCalcDaily.objects.using('mysql').get(id=id)
     return HttpResponseRedirect(reverse('report_auto_web', kwargs={'id_event': autocalcdaily.id_event}))
     
 def report_auto(request, template='report/report_auto.html'):
@@ -446,7 +448,7 @@ def report_auto(request, template='report/report_auto.html'):
     
     records_per_page = settings.RECORDS_PER_PAGE
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     
     if request.method == "POST":
         # handle form submit
@@ -555,17 +557,48 @@ def report_adhoc_predef(request, template='report/report_adhoc_predef.html'):
                 f = open(filepath, 'r')
                 cursor_pg.copy_from(f, str(temp_tblname), sep=',')
                 f.close()
-                jakservice_script_dir = os.path.join(settings.PROJECT_ROOT, 'jakservice/')
-                
-                print jakservice_script_dir
-                
-                ## run_dalla_auto_script = jakservice_script_dir + 'run_dalla_auto.py'
-                run_dalla_adhoc_script = jakservice_script_dir + 'run_dalla_adhoc_predef.py'
-                
-                process = subprocess.Popen([settings.PYTHON_EXEC, run_dalla_adhoc_script, '-n', str(event_name), '-u', str(id_user), '-g', str(id_group), '-t', str(temp_tblname)])
-                # set flash message
-                #messages.add_message(request, messages.SUCCESS, 'Upload successful.')
-                messages.add_message(request, messages.SUCCESS, 'Adhoc calculation started. This may take a moment.')
+                context_dict["event_name"] = event_name
+                context_dict["id_user"] = id_user
+                #show uploaded data
+                records_per_page = settings.RECORDS_PER_PAGE
+                id_user_login = request.user.id 
+                cursor = connections['pgdala'].cursor()
+                cursor.execute("SELECT count(a.kota) FROM "+temp_tblname+" a join boundary b on (a.kota=b.kota and a.kecamatan=b.kecamatan and a.kelurahan=b.kelurahan and a.rw=b.rw)")
+   
+                row = cursor.fetchone()
+                records_total = row[0]
+                print 'DEBUG p = %s' % records_total      
+                page = 0
+                offset = 0
+                page_total = 0
+                records_left = 0
+        
+                p = request.GET.get('page', False)
+        
+                if p != False and p.isdigit():
+                    print 'DEBUG p = %s' % p
+                    page = int(p)
+                    offset = records_per_page * (page)
+        
+                    records_left = records_total - (records_per_page * (page + 1))
+                    page_total = records_total / records_per_page
+        
+                    if records_total % records_per_page == 0:
+                        page_total = page_total - 1
+        
+                cursor.execute("SELECT a.* FROM "+temp_tblname+" a join boundary b on (a.kota=b.kota and a.kecamatan=b.kecamatan and a.kelurahan=b.kelurahan and a.rw=b.rw) ORDER BY id LIMIT %s OFFSET %s" % (records_per_page, offset))
+                resultset = dictfetchall(cursor)
+                print resultset  
+                context_dict["page"] = page
+                context_dict["page_total"] = page_total
+                context_dict["offset"] = offset
+                context_dict["records_total"] = records_total
+                context_dict["records_left"] = records_left
+                context_dict["records_per_page"] = records_per_page
+                context_dict["id_user"] = id_user        
+                context_dict["adhoc_calc"] = resultset
+                return render_to_response('report/report_adhoc_predef_confirm.html', RequestContext(request, context_dict))
+				
             else:
                 messages.add_message(request, messages.ERROR, 'Upload failed.')
             
@@ -602,7 +635,7 @@ def report_adhoc_predef(request, template='report/report_adhoc_predef.html'):
     #get adhoc predef calc
     records_per_page = settings.RECORDS_PER_PAGE
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     cursor.execute("SELECT count(id_event) FROM adhoc_predef_calc")
     row = cursor.fetchone()
     records_total = row[0]
@@ -625,14 +658,6 @@ def report_adhoc_predef(request, template='report/report_adhoc_predef.html'):
         if records_total % records_per_page == 0:
             page_total = page_total - 1
         
-    print 'DEBUG total records = %s' % records_total
-    print 'DEBUG page = %s' % page
-    print 'DEBUG page_total = %s' % page_total
-    print 'DEBUG offset = %s' % offset
-    print 'DEBUG records_left = %s' % records_left
-    print 'DEBUG records_per_page = %s' % records_per_page
-    print 'DEBUG id_user_login = %s' % id_user_login
-        
         
     #?? query and return adhoc_calc context
     if not request.user.is_superuser:
@@ -649,11 +674,39 @@ def report_adhoc_predef(request, template='report/report_adhoc_predef.html'):
     context_dict["records_left"] = records_left
     context_dict["records_per_page"] = records_per_page
         
-    #context_dict["jakservice_adhoc_output_report_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_REPORT_DIR
-    #context_dict["jakservice_adhoc_output_log_url"] = settings.JAKSERVICE_ADHOC_OUTPUT_URL + settings.JAKSERVICE_LOG_DIR
     context_dict["adhoc_calc"] = resultset
-    #return render_to_response(template, RequestContext(request, context_dict))
     return render_to_response(template, RequestContext(request, context_dict))
+
+#kez
+def report_adhoc_predef_confirm(request, template='report/report_adhoc_predef_confirm.html'):	
+    context_dict = {}
+    context_dict["page_title"] = 'JakSAFE Ad Hoc DaLA Report'
+    context_dict["page_sub_title"] = 'Using Predefined Flood'
+    
+    id_user = request.user.id
+    id_group = None
+    temp_tblname = 'adhoc_predef_temp_' + str(id_user)
+
+    if request.method == "POST":
+        if "continue" in request.POST:
+            #continue calc
+            event_name = request.POST['event_name']
+
+            jakservice_script_dir = os.path.join(settings.PROJECT_ROOT, 'jakservice/')
+            print jakservice_script_dir
+            run_dalla_adhoc_script = jakservice_script_dir + 'run_dalla_adhoc_predef.py'
+                
+            process = subprocess.Popen([settings.PYTHON_EXEC, run_dalla_adhoc_script, '-n', str(event_name), '-u', str(id_user), '-g', str(id_group), '-t', str(temp_tblname)])
+            # set flash message
+            messages.add_message(request, messages.SUCCESS, 'Adhoc calculation started. This may take a moment.')
+            return HttpResponseRedirect(reverse('report_adhoc_predef'))
+        else:
+            messages.add_message(request, messages.ERROR, 'Calculate DaLA using predefined hazard is cancelled')
+            return HttpResponseRedirect(reverse('report_adhoc_predef'))
+	
+ 
+    #return render_to_response(template, RequestContext(request, context_dict))
+
 
 #kez
 def report_adhoc_predef_web(request, id_event, template='report/report_adhoc_predef_web.html'):
@@ -666,11 +719,11 @@ def report_adhoc_predef_web(request, id_event, template='report/report_adhoc_pre
     context_dict["list_kota"] = ['JAKARTA UTARA', 'JAKARTA BARAT', 'JAKARTA PUSAT', 'JAKARTA TIMUR', 'JAKARTA SELATAN']
     #context_dict["f_kota"] = 'JAKARTA TIMUR'
 
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     cursor_pg = connections['pgdala'].cursor()
 	
     try:
-        event = AdHocPredefCalc.objects.using('default').get(id_event=int(id_event))
+        event = AdHocPredefCalc.objects.using('mysql').get(id_event=int(id_event))
     except AdHocCalc.DoesNotExist:
         raise Http404("Event does not exist")
     context_dict["event_name"] = event.event_name
@@ -1441,7 +1494,7 @@ def report_adhoc(request, template='report/report_adhoc.html'):
     
     records_per_page = settings.RECORDS_PER_PAGE
     
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     
     # adhoc calc date range posted
     if request.method == "POST" and "filter" in request.POST:
@@ -1598,11 +1651,11 @@ def report_adhoc_web(request, id_event, template='report/report_adhoc_web.html')
     context_dict["list_kota"] = ['JAKARTA UTARA', 'JAKARTA BARAT', 'JAKARTA PUSAT', 'JAKARTA TIMUR', 'JAKARTA SELATAN']
     #context_dict["f_kota"] = 'JAKARTA TIMUR'
 
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     cursor_pg = connections['pgdala'].cursor()
 	
     try:
-        event = AdHocCalc.objects.using('default').get(id_event=int(id_event))
+        event = AdHocCalc.objects.using('mysql').get(id_event=int(id_event))
     except AdHocCalc.DoesNotExist:
         raise Http404("Event does not exist")
     context_dict["start_date"] = event.t0
@@ -2372,11 +2425,11 @@ def report_auto_web(request, id_event, template='report/report_auto_web.html'):
     records_per_page = settings.RECORDS_PER_PAGE
     context_dict["list_kota"] = ['JAKARTA UTARA', 'JAKARTA BARAT', 'JAKARTA PUSAT', 'JAKARTA TIMUR', 'JAKARTA SELATAN']
 
-    cursor = connection.cursor()
+    cursor = connections['mysql'].cursor()
     cursor_pg = connections['pgdala'].cursor()
 	
     try:
-        event = AutoCalc.objects.using('default').get(id_event=int(id_event))
+        event = AutoCalc.objects.using('mysql').get(id_event=int(id_event))
     except AutoCalc.DoesNotExist:
         raise Http404("Event does not exist")
     context_dict["start_date"] = event.t0
@@ -3136,6 +3189,18 @@ def report_auto_web(request, id_event, template='report/report_auto_web.html'):
 			
     context_dict["charts"] = [sectorpivotchrt, subsectorpivotchrt, damagepiechart, losspiechart, dkotapvtchrt,infdmgassetchrt, inflossassetchrt,linsdmgassetchrt, linslossassetchrt,proddmgassetchrt, prodlossassetchrt,sospdmgassetchrt, sosplossassetchrt]
     return render_to_response(template, RequestContext(request, context_dict))
+
+#kez
+def report_adhoc_predef_map_result(request, id_event, template='report/report_adhoc_predef_map.html'):
+    context_dict = {}
+    context_dict["id_event"] = id_event
+    return render_to_response(template, RequestContext(request, context_dict))
+
+#kez
+def report_adhoc_predef_map_hazard(request, id_user, template='report/report_adhoc_predef_hmap.html'):
+    context_dict = {}
+    context_dict["id_user"] = id_user
+    return render_to_response(template, RequestContext(request, context_dict))
 	
 def report_adhoc_xml(request, id_event):
     try:
@@ -3166,7 +3231,7 @@ def auto_report_json(request, event_date):
     t23  = yyyy + "-" + mm + "-" + dd + " 23:59:59"
     #get id event
     try:
-        id_event = AutoCalc.objects.raw("SELECT id, id_event, t1 FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' and id_event is not null order by t1 desc limit 1")
+        id_event = AutoCalc.objects.using('mysql').raw("SELECT id, id_event, t1 FROM auto_calc where t1 is not null and t1 between '" + t00 +"' and '" + t23 + "' and id_event is not null order by t1 desc limit 1")
         
     except AdHocCalc.DoesNotExist:
         report_json = simplejson.dumps([{'message':'Tidak ada kejadian banjir'}])
@@ -3212,6 +3277,40 @@ def auto_report_json(request, event_date):
     
     report_json = simplejson.dumps(list_kel)	
     return HttpResponse(report_json, content_type="application/json")
+
+#kez
+#ubah srid jadi 4326
+def adhoc_predef_result_gjson(request, id_event):
+
+    try:
+        predefhazard = AdhocPredefHazard.objects.using('pgdala').raw("select a.id, a.id_unit, a.kota, a.kecamatan, a.kelurahan, a.rw, a.rt, a.kelas, geom, sum(loss) loss, sum(damage) damage from adhoc_predef_hazard_summary a join boundary_rw b on (cast(id_unit as varchar) = id_rw) join adhoc_predef_dala_result c on (a.id_event = c.id_event and a.kota = c.kota and a.kecamatan = c.kecamatan and a.kelurahan = c.kelurahan and a.rw = c.rw ) where a.id_event = " + id_event + " group by a.id, a.id_unit, a.kota, a.kecamatan, a.kelurahan, a.rw, a.rt, a.kelas, geom")  
+        
+    except AdhocPredefHazard.DoesNotExist:
+        report_json = simplejson.dumps([{}])
+        return HttpResponse(report_json, content_type="application/json")
+ 
+    geojson = serialize('geojson', predefhazard,
+            geometry_field='geom',srid=4326,
+            fields=('geom','rw','kelurahan','kecamatan','kota','kelas','damage','loss'))
+
+    return HttpResponse(geojson, content_type="application/json")
+
+#kez
+#ubah srid jadi 4326
+def adhoc_predef_hazard_gjson(request, id_user):
+    temp_table = 'adhoc_predef_temp_'+ str(id_user)
+    try:
+        predefhazard = AdhocPredefHazard.objects.using('pgdala').raw("select id, a.kota, a.kecamatan, a.kelurahan, a.rw, a.rt, a.kelas, geom from " + temp_table +" a join boundary_rw b on (a.kota = b.kota and a.kecamatan = b.kecamatan and a.kelurahan = b.kelurahan and a.rw = b.rw)")  
+        
+    except AdhocPredefHazard.DoesNotExist:
+        report_json = simplejson.dumps([{}])
+        return HttpResponse(report_json, content_type="application/json")
+ 
+    geojson = serialize('geojson', predefhazard,
+            geometry_field='geom',srid=4326,
+            fields=('geom','rw','kelurahan','kecamatan','kota','kelas',))
+
+    return HttpResponse(geojson, content_type="application/json")
 
 	
 @login_required

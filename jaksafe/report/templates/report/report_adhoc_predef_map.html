@@ -1,0 +1,72 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+<style type="text/css">
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    #mapid {
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+</head>
+<body>
+
+<div id="mapid"></div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+var id_event = {{ id_event }}
+var mymap = L.map('mapid').setView([-6.1753924,106.8271528], 10);
+L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+					maxZoom: 19,
+					attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+					}).addTo(mymap);
+
+var result_layer = L.geoJson( null,{
+    style: function(feature) {
+        switch (feature.properties.kelas) {
+            case 'A1':   return {color: "#009a00"};
+            case 'B1':   return {color: "#008000"};
+            case 'C1':   return {color: "#006700"};
+            case 'D1':   return {color: "#004d00"};
+			case 'A2':   return {color: "#ffff00"};
+            case 'B2':   return {color: "#e6e600"};
+            case 'C2':   return {color: "#cccc00"};
+            case 'D2':   return {color: "#b3b300"};
+			case 'A3':   return {color: "#ff0000"};
+            case 'B3':   return {color: "#e60000"};
+            case 'C3':   return {color: "#cc0000"};
+            case 'D3':   return {color: "#b30000"};
+			case 'A4':   return {color: "#4d4dff"};
+            case 'B4':   return {color: "#1a1aff"};
+            case 'C4':   return {color: "#0000e6"};
+            case 'D4':   return {color: "#0000b3"};
+        }
+    },
+	onEachFeature: onEachFeature
+}).addTo(mymap);
+
+//ganti hazard jadi data, update url
+var layer = $.getJSON("/report/adhoc_predef_result_gjson/"+id_event+"/", function(data) {
+          result_layer.addData(data.features);
+});
+
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.kelas) {
+	    var popup = "<p>Kota : " + feature.properties.kota + "</p>" + "<p>Kecamatan : " + feature.properties.kecamatan + "</p>" + "<p>Kelurahan : " + feature.properties.kelurahan + "</p>" + "<p>RW : " + feature.properties.rw + "</p>" + "<p>Kelas : " + feature.properties.kelas + "</p>" + "<p>Kerusakan : " + feature.properties.damage + "</p>" + "<p>Kerugian : " + feature.properties.loss + "</p>";
+        layer.bindPopup(popup);
+    }
+}
+
+})
+</script>
+</body>
+</html>

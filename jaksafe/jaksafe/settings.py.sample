@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'django.contrib.sites',
     'django.contrib.flatpages',
+    'django.contrib.gis',
     'ckeditor',
     #'extended_flatpages',
     'chartit',
@@ -68,12 +69,14 @@ ROOT_URLCONF = 'jaksafe.urls'
 
 WSGI_APPLICATION = 'jaksafe.wsgi.application'
 
-
+SERIALIZATION_MODULES = {
+    "geojson": "django.contrib.gis.serializers.geojson", 
+}
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'mysql': {
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.mysql', 
@@ -90,9 +93,20 @@ DATABASES = {
         'HOST' : 'localhost',
         'PORT' : '5432',
         'PASSWORD': 'password',
+    },
+    'default': {
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', 
+        'NAME': 'jaksafe_hazard',
+        'USER': 'jaksafe',
+        'HOST' : 'localhost',
+        'PORT' : '5432',
+        'PASSWORD': 'password',
     }
 }
 
+DATABASE_ROUTERS = ['jaksafe.routers.AuthRouter']
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -115,6 +129,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+GEOS_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\geos_c.dll'
+GDAL_LIBRARY_PATH = 'C:\\OSGeo4W\\bin\\gdal111.dll'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
