@@ -1,4 +1,4 @@
-DROP TABLE `adhoc_predef_calc`;
+DROP TABLE IF EXISTS `adhoc_predef_calc` ;
 
 CREATE TABLE `adhoc_predef_calc` (
   `id_event` int(10) unsigned NOT NULL AUTO_INCREMENT,
